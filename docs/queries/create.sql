@@ -134,22 +134,22 @@ CREATE TABLE user_wishlist_item (
 );
 
 CREATE TABLE order_status (
-	ordes_status_id SERIAL PRIMARY KEY,
+	order_status_id SERIAL PRIMARY KEY,
 	name VARCHAR (30) NOT NULL
 );
 
 CREATE TABLE "order" (
   	order_id SERIAL PRIMARY KEY,
 	user_id INT NOT NULL,
-  	ordes_status_id INT DEFAULT 1 NOT NULL,
+  	order_status_id INT DEFAULT 1 NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   	CONSTRAINT fk_user
   		FOREIGN KEY (user_id)
     		REFERENCES "user" (user_id)
 			ON DELETE CASCADE,
   	CONSTRAINT fk_order_status
-  		FOREIGN KEY (ordes_status_id)
-      		REFERENCES order_status (ordes_status_id)
+  		FOREIGN KEY (order_status_id)
+      		REFERENCES order_status (order_status_id)
 			ON DELETE CASCADE
 );
 

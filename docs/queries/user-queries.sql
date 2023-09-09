@@ -44,6 +44,47 @@ INNER JOIN product as p
 	ON uci.product_id = p.product_id
 WHERE u.user_id = 1;
 
+-- Find User's orders
+SELECT 
+	u.user_id, o.order_id, o.order_status_id, o.created_at, os.name as order_status_message
+FROM "user" as u
+INNER JOIN "order" as o 
+	ON u.user_id = o.user_id
+INNER JOIN order_status as os 
+	ON o.order_status_id = os.order_status_id
+WHERE u.user_id = 1;
+
+-- Add Product to wishlist
+SELECT * FROM user_wishlist_item;
+INSERT INTO user_wishlist_item (user_id, product_id)
+VALUES
+	(1, 3)
+	
+-- Delete Product from wishlist
+DELETE FROM user_wishlist_item as uwi
+WHERE uwi.product_id = 1;
+
+-- Add Product to cart
+INSERT INTO user_cart_item (user_id, product_id, size, quantity)
+VALUES
+	(1, 1, 43, 4);
+	
+-- Increment Product's quantity in cart
+UPDATE user_cart_item as uci
+SET 
+	quantity = quantity + 1
+WHERE uci.user_cart_item_id = 1;
+
+-- Decrement Product's quantity in cart
+UPDATE user_cart_item as uci
+SET 
+	quantity = quantity - 1
+WHERE uci.user_cart_item_id = 1;
+	
+-- Delete Product to cart
+DELETE FROM user_cart_item as uci
+WHERE uci.user_cart_item_id = 1;
+
 -- Update User's profile
 UPDATE "user" as u
 SET 

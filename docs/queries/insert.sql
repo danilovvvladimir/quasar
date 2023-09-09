@@ -73,13 +73,15 @@ SELECT * FROM user_cart_item;
 INSERT INTO user_cart_item (user_id, product_id, size, quantity)
 VALUES
 	(1, 1, 43, 4),
+	(1, 1, 41, 6),
 	(2, 2, 42, 1);
 	
 -- user_wishlist_item ---
 SELECT * FROM user_wishlist_item;
 INSERT INTO user_wishlist_item (user_id, product_id)
 VALUES
-	(1, 1),
+	(1, 3),
+	(1, 2),
 	(2, 2);
 	
 -- review ---
@@ -87,6 +89,7 @@ SELECT * FROM review;
 INSERT INTO review (user_id, product_id, rating, "text")
 VALUES
 	(1, 1, 5, 'Very cool!'),
+	(1, 2, 3, 'So so!'),
 	(2, 2, 4, 'Good, but not enough');
 
 -- order_status ---
@@ -102,6 +105,7 @@ SELECT * FROM "order";
 INSERT INTO "order" (user_id)
 VALUES
 	(1),
+	(1),
 	(2);	
 	
 -- order_item  ---
@@ -109,6 +113,8 @@ SELECT * FROM order_item;
 INSERT INTO order_item (order_id, product_id, size, quantity, total_price)
 VALUES
 	(1, 2, 42, 2, 14999),
-	(2, 3, 41, 1, 3999);
+	(1, 1, 41, 1, 4999),
+	(2, 3, 40, 2, 8999),
+	(3, 3, 41, 1, 3999);
 
 
