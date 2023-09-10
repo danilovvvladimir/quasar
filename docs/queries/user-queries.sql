@@ -11,8 +11,7 @@ WHERE user_id = 1;
 
 -- Find User's roles
 SELECT
-    u.email,
-    string_agg(r.name, ', ') AS user_roles
+    *
 FROM "user" as u
 INNER JOIN user_role as ur
     ON ur.user_id = u.user_id

@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-09-09T13:02:27.327Z" agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36" etag="A1sSHvI0jN-MFtt-PPG7" version="21.7.4" type="device">
+<mxfile host="app.diagrams.net" modified="2023-09-10T06:36:29.915Z" agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36" etag="hD21LJ9BlnB5gGz5eTfk" version="21.7.4" type="device">
   <diagram id="Y-lHsGfzWvklkj2IUued" name="Страница — 1">
-    <mxGraphModel dx="2049" dy="2260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="798" dy="1527" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -54,7 +54,7 @@
             <mxRectangle width="30" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SCgPNRUuOLUokb8Qyws3-13" value="firstname: NVARCHAR(50)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;whiteSpace=wrap;html=1;" parent="SCgPNRUuOLUokb8Qyws3-11" vertex="1">
+        <mxCell id="SCgPNRUuOLUokb8Qyws3-13" value="username: NVARCHAR(50)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;whiteSpace=wrap;html=1;" parent="SCgPNRUuOLUokb8Qyws3-11" vertex="1">
           <mxGeometry x="30" width="170" height="30" as="geometry">
             <mxRectangle width="170" height="30" as="alternateBounds" />
           </mxGeometry>
