@@ -19,7 +19,7 @@ export class UserService {
 
   async findAll() {
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getAllUsersQuery(),
+      this.userQueryCreatorService.getAllQuery(),
     );
 
     return response.rows;
@@ -27,7 +27,7 @@ export class UserService {
 
   async findById(id: number) {
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getUserByIdQuery(id),
+      this.userQueryCreatorService.getByIdQuery(id),
     );
 
     if (!response.rowCount) {
@@ -39,7 +39,7 @@ export class UserService {
 
   async findByEmail(email: string) {
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getUserByEmailQuery(email),
+      this.userQueryCreatorService.getByEmailQuery(email),
     );
 
     if (!response.rowCount) {
@@ -53,7 +53,7 @@ export class UserService {
     const user = await this.findById(userId);
 
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getUserOrdersQuery(userId),
+      this.userQueryCreatorService.getOrdersQuery(userId),
     );
 
     return response.rows;
@@ -63,7 +63,7 @@ export class UserService {
     const user = await this.findById(userId);
 
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getUserWishlistItemsQuery(userId),
+      this.userQueryCreatorService.getWishlistItemsQuery(userId),
     );
 
     return response.rows;
@@ -73,7 +73,7 @@ export class UserService {
     const user = await this.findById(userId);
 
     const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getUserCartItemsQuery(userId),
+      this.userQueryCreatorService.getCartItemsQuery(userId),
     );
 
     return response.rows;
@@ -81,7 +81,7 @@ export class UserService {
 
   async create(email: string, username: string, passwordHash: string) {
     await this.connectionService.query(
-      this.userQueryCreatorService.getUserCreateQuery(
+      this.userQueryCreatorService.getCreateQuery(
         email,
         username,
         passwordHash,

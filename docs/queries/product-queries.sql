@@ -47,7 +47,7 @@ VALUES
 UPDATE product as p
 SET 
 	"name" = 'new_product_name',
-	"name" = 'new_product_slug',
+	slug = 'new_product_slug',
 	description = 'new_product_description',
 	price = 1000,
 	discount_percentage = 10

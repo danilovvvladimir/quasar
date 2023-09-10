@@ -2,19 +2,19 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UserQueryCreatorService {
-  getAllUsersQuery() {
-    return `${this.getInnerRoles()};`;
+  getAllQuery() {
+    return `${this.getWithRoles()};`;
   }
 
-  getUserByIdQuery(id: number) {
-    return `${this.getInnerRoles(`WHERE u.user_id = ${id}`)};`;
+  getByIdQuery(id: number) {
+    return `${this.getWithRoles(`WHERE u.user_id = ${id}`)};`;
   }
 
-  getUserByEmailQuery(email: string) {
-    return `${this.getInnerRoles(`WHERE u.email = '${email}'`)};`;
+  getByEmailQuery(email: string) {
+    return `${this.getWithRoles(`WHERE u.email = '${email}'`)};`;
   }
 
-  getUserOrdersQuery(id: number) {
+  getOrdersQuery(id: number) {
     return `SELECT u.user_id, o.order_id, o.created_at, os.name as order_status_message
     FROM "user" as u
     INNER JOIN "order" as o 
@@ -24,7 +24,7 @@ export class UserQueryCreatorService {
     WHERE u.user_id = ${id}; `;
   }
 
-  getUserWishlistItemsQuery(id: number) {
+  getWishlistItemsQuery(id: number) {
     return `SELECT 
     u.user_id, p.product_id, p.name as product_name, p.slug as product_slug, 
     p.price as product_price, p.discount_percentage as product_discount 
@@ -36,7 +36,7 @@ export class UserQueryCreatorService {
     WHERE u.user_id = ${id};`;
   }
 
-  getUserCartItemsQuery(id: number) {
+  getCartItemsQuery(id: number) {
     return `SELECT 
     u.user_id, p.product_id, p.name as product_name, p.slug as product_slug, 
     p.price as product_price, p.discount_percentage as product_discount,
@@ -49,13 +49,13 @@ export class UserQueryCreatorService {
     WHERE u.user_id = ${id};`;
   }
 
-  getUserCreateQuery(email: string, username: string, passwordHash: string) {
+  getCreateQuery(email: string, username: string, passwordHash: string) {
     return `INSERT INTO "user" (email, username, "password")
     VALUES
       ('${email}', '${username}', '${passwordHash}');`;
   }
 
-  private getInnerRoles(whereStatement = "") {
+  private getWithRoles(whereStatement = "") {
     return `SELECT u.user_id, u.email, u.username, u.created_at, u.updated_at, u.password, string_agg(r.name, ', ') AS roles 
     FROM "user" as u
     INNER JOIN user_role as ur 
