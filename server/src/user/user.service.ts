@@ -1,7 +1,11 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { hash } from "argon2";
 import { Pool, QueryResult } from "pg";
-import { USER_NOT_FOUND_MESSAGE } from "src/constants/user";
+import { AuthRegisterDTO } from "src/auth/auth.dto";
+import {
+  USER_CREATE_MESSAGE,
+  USER_NOT_FOUND_MESSAGE,
+} from "src/constants/user";
 import { PG_CONNECTION } from "src/database/database.module";
 import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
 import { User } from "src/types/user";
@@ -73,5 +77,17 @@ export class UserService {
     );
 
     return response.rows;
+  }
+
+  async create(email: string, username: string, passwordHash: string) {
+    await this.connectionService.query(
+      this.userQueryCreatorService.getUserCreateQuery(
+        email,
+        username,
+        passwordHash,
+      ),
+    );
+
+    return { message: USER_CREATE_MESSAGE };
   }
 }

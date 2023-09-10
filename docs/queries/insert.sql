@@ -8,7 +8,7 @@ VALUES
 
 -- User ---
 SELECT * FROM "user";
-INSERT INTO "user" (email, firstname, "password")
+INSERT INTO "user" (email, username, "password")
 VALUES
 	('user1@gmail.com', 'user1', 'user1p'),
 	('user2@gmail.com', 'user2', 'user2p'),

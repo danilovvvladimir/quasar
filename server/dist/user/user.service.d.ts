@@ -11,4 +11,7 @@ export declare class UserService {
     findOrders(userId: number): Promise<User[]>;
     findWishlistItems(userId: number): Promise<User[]>;
     findCartItems(userId: number): Promise<User[]>;
+    create(email: string, username: string, passwordHash: string): Promise<{
+        message: string;
+    }>;
 }

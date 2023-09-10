@@ -50,8 +50,13 @@ let UserQueryCreatorService = class UserQueryCreatorService {
     ON uci.product_id = p.product_id
     WHERE u.user_id = ${id};`;
     }
+    getUserCreateQuery(email, username, passwordHash) {
+        return `INSERT INTO "user" (email, username, "password")
+    VALUES
+      ('${email}', '${username}', '${passwordHash}');`;
+    }
     getInnerRoles(whereStatement = "") {
-        return `SELECT u.user_id, u.email, u.firstname, u.created_at, u.updated_at, string_agg(r.name, ', ') AS roles 
+        return `SELECT u.user_id, u.email, u.username, u.created_at, u.updated_at, u.password, string_agg(r.name, ', ') AS roles 
     FROM "user" as u
     INNER JOIN user_role as ur 
     ON ur.user_id = u.user_id 

@@ -56,6 +56,10 @@ let UserService = class UserService {
         const response = await this.connectionService.query(this.userQueryCreatorService.getUserCartItemsQuery(userId));
         return response.rows;
     }
+    async create(email, username, passwordHash) {
+        await this.connectionService.query(this.userQueryCreatorService.getUserCreateQuery(email, username, passwordHash));
+        return { message: user_1.USER_CREATE_MESSAGE };
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

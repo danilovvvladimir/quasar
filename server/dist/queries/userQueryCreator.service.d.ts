@@ -5,5 +5,6 @@ export declare class UserQueryCreatorService {
     getUserOrdersQuery(id: number): string;
     getUserWishlistItemsQuery(id: number): string;
     getUserCartItemsQuery(id: number): string;
+    getUserCreateQuery(email: string, username: string, passwordHash: string): string;
     private getInnerRoles;
 }

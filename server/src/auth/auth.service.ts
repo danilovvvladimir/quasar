@@ -7,94 +7,92 @@ import {
 import { AuthLoginDTO, AuthRefreshTokenDTO, AuthRegisterDTO } from "./auth.dto";
 import { hash, verify } from "argon2";
 import { JwtService } from "@nestjs/jwt";
+import { UserService } from "src/user/user.service";
+import {
+  ACCESS_TOKEN_EXPIRATION_TIME,
+  INVALID_PASSWORD_MESSAGE,
+  INVALID_REFRESH_TOKEN_MESSAGE,
+  REFRESH_TOKEN_EXPIRATION_TIME,
+  USER_ALREADY_EXISTS_MESSAGE,
+} from "src/constants/auth";
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+  ) {}
 
-  // async register(registerDTO: AuthRegisterDTO) {
-  //   const isUserAlreadyExist = await this.prismaService.user.findUnique({
-  //     where: { email: registerDTO.email },
-  //   });
+  async register(registerDTO: AuthRegisterDTO) {
+    try {
+      const isUserAlreadyExist = await this.userService.findByEmail(
+        registerDTO.email,
+      );
 
-  //   if (existedUser) {
-  //     throw new BadRequestException("User already exists");
-  //   }
+      if (isUserAlreadyExist) {
+        throw new BadRequestException(USER_ALREADY_EXISTS_MESSAGE);
+      }
+    } catch (error) {
+      await this.userService.create(
+        registerDTO.email,
+        registerDTO.username,
+        await hash(registerDTO.password),
+      );
 
-  //   const user = await this.prismaService.user.create({
-  //     data: {
-  //       email: registerDTO.email,
-  //       username: registerDTO.username,
-  //       password: await hash(registerDTO.password),
-  //     },
-  //   });
+      const user = await this.userService.findByEmail(registerDTO.email);
 
-  //   const tokens = await this.issueTokens(user.id);
+      const tokens = await this.issueTokens(user.user_id);
 
-  //   return { user: this.getUserFields(user), ...tokens };
-  // }
+      return { user, ...tokens };
+    }
+  }
 
-  // async login(loginDTO: AuthLoginDTO) {
-  //   const user = await this.validateUser(loginDTO);
-  //   const tokens = await this.issueTokens(user.id);
+  async login(loginDTO: AuthLoginDTO) {
+    const user = await this.validateUser(loginDTO);
+    const tokens = await this.issueTokens(user.user_id);
 
-  //   return { user: this.getUserFields(user), ...tokens };
-  // }
+    return { user: user, ...tokens };
+  }
 
-  // async getNewTokens(dto: AuthRefreshTokenDTO) {
-  //   const refreshToken = dto.refreshToken;
+  async getNewTokens(dto: AuthRefreshTokenDTO) {
+    const refreshToken = dto.refreshToken;
 
-  //   const result = await this.jwtService.verifyAsync(refreshToken);
+    const result = await this.jwtService.verifyAsync(refreshToken);
 
-  //   if (!result) {
-  //     throw new UnauthorizedException("Invalid refresh token");
-  //   }
+    if (!result) {
+      throw new UnauthorizedException(INVALID_REFRESH_TOKEN_MESSAGE);
+    }
 
-  //   const user = await this.prismaService.user.findUnique({
-  //     where: { id: result.id },
-  //   });
+    const user = await this.userService.findById(result.id);
 
-  //   const tokens = await this.issueTokens(user.id);
+    const tokens = await this.issueTokens(user.user_id);
 
-  //   return { user: this.getUserFields(user), ...tokens };
-  // }
+    return { user, ...tokens };
+  }
 
-  // private async issueTokens(userId: number) {
-  //   const data = { id: userId };
+  private async issueTokens(userId: number) {
+    const data = { id: userId };
 
-  //   const accessToken = this.jwtService.sign(data, {
-  //     expiresIn: "1h",
-  //   });
+    const accessToken = this.jwtService.sign(data, {
+      expiresIn: ACCESS_TOKEN_EXPIRATION_TIME,
+    });
 
-  //   const refreshToken = this.jwtService.sign(data, {
-  //     expiresIn: "7d",
-  //   });
+    const refreshToken = this.jwtService.sign(data, {
+      expiresIn: REFRESH_TOKEN_EXPIRATION_TIME,
+    });
 
-  //   return { accessToken, refreshToken };
-  // }
+    return { accessToken, refreshToken };
+  }
 
-  // private getUserFields(user: User) {
-  //   return {
-  //     id: user.id,
-  //     email: user.email,
-  //   };
-  // }
+  private async validateUser(loginDto: AuthLoginDTO) {
+    const user = await this.userService.findByEmail(loginDto.email);
 
-  // private async validateUser(loginDto: AuthLoginDTO) {
-  //   const user = await this.prismaService.user.findUnique({
-  //     where: { email: loginDto.email },
-  //   });
+    const isValidPassword = await verify(user.password, loginDto.password);
 
-  //   if (!user) {
-  //     throw new NotFoundException("User not found");
-  //   }
+    if (!isValidPassword) {
+      throw new NotFoundException(INVALID_PASSWORD_MESSAGE);
+    }
 
-  //   const isValidPassword = await verify(user.password, loginDto.password);
-
-  //   if (!isValidPassword) {
-  //     throw new NotFoundException("Invalid Password");
-  //   }
-
-  //   return user;
-  // }
+    return user;
+  }
 }

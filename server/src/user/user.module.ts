@@ -8,5 +8,6 @@ import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
   imports: [DatabaseModule],
   controllers: [UserController],
   providers: [UserService, UserQueryCreatorService],
+  exports: [UserService],
 })
 export class UserModule {}
