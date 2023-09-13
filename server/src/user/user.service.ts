@@ -6,50 +6,40 @@ import {
   USER_CREATE_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
 } from "src/constants/user";
-import { PG_CONNECTION } from "src/database/database.module";
-import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
+import { PrismaService } from "src/database/prisma.service";
 import { User } from "src/types/user";
 
 @Injectable()
 export class UserService {
-  constructor(
-    @Inject(PG_CONNECTION) private connectionService: Pool,
-    private readonly userQueryCreatorService: UserQueryCreatorService,
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
   async findAll() {
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getAllQuery(),
-    );
+    const users = await this.prismaService.user.findMany();
 
-    return response.rows;
+    return users;
   }
 
-  async findById(id: number) {
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getByIdQuery(id),
-    );
+  async findById(id: string) {
+    const user = this.prismaService.user.findUnique({ where: { id } });
 
-    if (!response.rowCount) {
+    if (!user) {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    return response.rows[0];
+    return user;
   }
 
   async findByEmail(email: string) {
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getByEmailQuery(email),
-    );
+    const user = this.prismaService.user.findUnique({ where: { email } });
 
-    if (!response.rowCount) {
+    if (!user) {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    return response.rows[0];
+    return user;
   }
 
-  async findOrders(userId: number) {
+  async findOrders(userId: string) {
     const user = await this.findById(userId);
 
     const response: QueryResult<User> = await this.connectionService.query(
@@ -80,14 +70,14 @@ export class UserService {
   }
 
   async create(email: string, username: string, passwordHash: string) {
-    await this.connectionService.query(
-      this.userQueryCreatorService.getCreateQuery(
+    const user = await this.prismaService.user.create({
+      data: {
         email,
         username,
-        passwordHash,
-      ),
-    );
+        password: passwordHash,
+      },
+    });
 
-    return { message: USER_CREATE_MESSAGE };
+    return user;
   }
 }
