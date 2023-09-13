@@ -30,13 +30,13 @@ let AuthService = class AuthService {
         catch (error) {
             await this.userService.create(registerDTO.email, registerDTO.username, await (0, argon2_1.hash)(registerDTO.password));
             const user = await this.userService.findByEmail(registerDTO.email);
-            const tokens = await this.issueTokens(user.user_id);
+            const tokens = await this.issueTokens(user.id);
             return Object.assign({ user }, tokens);
         }
     }
     async login(loginDTO) {
         const user = await this.validateUser(loginDTO);
-        const tokens = await this.issueTokens(user.user_id);
+        const tokens = await this.issueTokens(user.id);
         return Object.assign({ user: user }, tokens);
     }
     async getNewTokens(dto) {
@@ -46,7 +46,7 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException(auth_1.INVALID_REFRESH_TOKEN_MESSAGE);
         }
         const user = await this.userService.findById(result.id);
-        const tokens = await this.issueTokens(user.user_id);
+        const tokens = await this.issueTokens(user.id);
         return Object.assign({ user }, tokens);
     }
     async issueTokens(userId) {

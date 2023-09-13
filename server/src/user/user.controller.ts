@@ -1,15 +1,10 @@
 import {
   Controller,
   HttpCode,
-  Post,
   Get,
   UsePipes,
   ValidationPipe,
-  Body,
-  Put,
-  Patch,
   Param,
-  ParseIntPipe,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 
@@ -27,7 +22,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-id/:id")
-  async findById(@Param("id", ParseIntPipe) id: number) {
+  async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
@@ -41,21 +36,21 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/orders")
-  async findOrders(@Param("userId", ParseIntPipe) userId: number) {
+  async findOrders(@Param("userId") userId: string) {
     return this.userService.findOrders(userId);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/wishlist-items")
-  async findWishlistItems(@Param("userId", ParseIntPipe) userId: number) {
+  async findWishlistItems(@Param("userId") userId: string) {
     return this.userService.findWishlistItems(userId);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/cart-items")
-  async findCartItems(@Param("userId", ParseIntPipe) userId: number) {
+  async findCartItems(@Param("userId") userId: string) {
     return this.userService.findCartItems(userId);
   }
 }

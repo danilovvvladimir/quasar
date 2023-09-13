@@ -1,17 +1,53 @@
-import { Pool } from "pg";
-import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
-import { User } from "src/types/user";
+import { PrismaService } from "src/database/prisma.service";
 export declare class UserService {
-    private connectionService;
-    private readonly userQueryCreatorService;
-    constructor(connectionService: Pool, userQueryCreatorService: UserQueryCreatorService);
-    findAll(): Promise<User[]>;
-    findById(id: number): Promise<User>;
-    findByEmail(email: string): Promise<User>;
-    findOrders(userId: number): Promise<User[]>;
-    findWishlistItems(userId: number): Promise<User[]>;
-    findCartItems(userId: number): Promise<User[]>;
+    private prismaService;
+    constructor(prismaService: PrismaService);
+    findAll(): Promise<{
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    findById(id: string): Promise<{
+        id: string;
+        username: string;
+        password: string;
+    }>;
+    findByEmail(email: string): Promise<{
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    findOrders(userId: string): Promise<{
+        id: string;
+        orderStatus: import(".prisma/client").$Enums.OrderStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+    }[]>;
+    findWishlistItems(userId: string): Promise<{
+        id: string;
+        userId: string;
+        productId: string;
+    }[]>;
+    findCartItems(userId: string): Promise<{
+        id: string;
+        size: number;
+        quantity: number;
+        userId: string;
+        productId: string;
+    }[]>;
     create(email: string, username: string, passwordHash: string): Promise<{
-        message: string;
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
 }

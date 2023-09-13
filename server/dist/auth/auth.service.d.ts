@@ -8,17 +8,35 @@ export declare class AuthService {
     register(registerDTO: AuthRegisterDTO): Promise<{
         accessToken: string;
         refreshToken: string;
-        user: import("../types/user").User;
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     login(loginDTO: AuthLoginDTO): Promise<{
         accessToken: string;
         refreshToken: string;
-        user: import("../types/user").User;
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     getNewTokens(dto: AuthRefreshTokenDTO): Promise<{
         accessToken: string;
         refreshToken: string;
-        user: import("../types/user").User;
+        user: {
+            id: string;
+            username: string;
+            password: string;
+        };
     }>;
     private issueTokens;
     private validateUser;

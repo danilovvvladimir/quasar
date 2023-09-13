@@ -41,7 +41,7 @@ export class AuthService {
 
       const user = await this.userService.findByEmail(registerDTO.email);
 
-      const tokens = await this.issueTokens(user.user_id);
+      const tokens = await this.issueTokens(user.id);
 
       return { user, ...tokens };
     }
@@ -49,7 +49,7 @@ export class AuthService {
 
   async login(loginDTO: AuthLoginDTO) {
     const user = await this.validateUser(loginDTO);
-    const tokens = await this.issueTokens(user.user_id);
+    const tokens = await this.issueTokens(user.id);
 
     return { user: user, ...tokens };
   }
@@ -65,12 +65,12 @@ export class AuthService {
 
     const user = await this.userService.findById(result.id);
 
-    const tokens = await this.issueTokens(user.user_id);
+    const tokens = await this.issueTokens(user.id);
 
     return { user, ...tokens };
   }
 
-  private async issueTokens(userId: number) {
+  private async issueTokens(userId: string) {
     const data = { id: userId };
 
     const accessToken = this.jwtService.sign(data, {

@@ -8,64 +8,71 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
-const pg_1 = require("pg");
 const user_1 = require("../constants/user");
-const database_module_1 = require("../database/database.module");
-const userQueryCreator_service_1 = require("../queries/userQueryCreator.service");
+const prisma_service_1 = require("../database/prisma.service");
 let UserService = class UserService {
-    constructor(connectionService, userQueryCreatorService) {
-        this.connectionService = connectionService;
-        this.userQueryCreatorService = userQueryCreatorService;
+    constructor(prismaService) {
+        this.prismaService = prismaService;
     }
     async findAll() {
-        const response = await this.connectionService.query(this.userQueryCreatorService.getAllUsersQuery());
-        return response.rows;
+        const users = await this.prismaService.user.findMany();
+        return users;
     }
     async findById(id) {
-        const response = await this.connectionService.query(this.userQueryCreatorService.getUserByIdQuery(id));
-        if (!response.rowCount) {
+        const user = await this.prismaService.user.findUnique({
+            where: { id },
+            select: { username: true, password: true, id: true },
+        });
+        if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
         }
-        return response.rows[0];
+        return user;
     }
     async findByEmail(email) {
-        const response = await this.connectionService.query(this.userQueryCreatorService.getUserByEmailQuery(email));
-        if (!response.rowCount) {
+        const user = await this.prismaService.user.findUnique({ where: { email } });
+        if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
         }
-        return response.rows[0];
+        return user;
     }
     async findOrders(userId) {
-        const user = await this.findById(userId);
-        const response = await this.connectionService.query(this.userQueryCreatorService.getUserOrdersQuery(userId));
-        return response.rows;
+        await this.findById(userId);
+        const orders = await this.prismaService.order.findMany({
+            where: { userId },
+        });
+        return orders;
     }
     async findWishlistItems(userId) {
-        const user = await this.findById(userId);
-        const response = await this.connectionService.query(this.userQueryCreatorService.getUserWishlistItemsQuery(userId));
-        return response.rows;
+        await this.findById(userId);
+        const wishlistItems = await this.prismaService.wishlistItem.findMany({
+            where: { userId },
+        });
+        return wishlistItems;
     }
     async findCartItems(userId) {
-        const user = await this.findById(userId);
-        const response = await this.connectionService.query(this.userQueryCreatorService.getUserCartItemsQuery(userId));
-        return response.rows;
+        await this.findById(userId);
+        const cartItems = await this.prismaService.cartItem.findMany({
+            where: { userId },
+        });
+        return cartItems;
     }
     async create(email, username, passwordHash) {
-        await this.connectionService.query(this.userQueryCreatorService.getUserCreateQuery(email, username, passwordHash));
-        return { message: user_1.USER_CREATE_MESSAGE };
+        const user = await this.prismaService.user.create({
+            data: {
+                email,
+                username,
+                password: passwordHash,
+            },
+        });
+        return user;
     }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(database_module_1.PG_CONNECTION)),
-    __metadata("design:paramtypes", [pg_1.Pool,
-        userQueryCreator_service_1.UserQueryCreatorService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

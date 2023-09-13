@@ -51,9 +51,9 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-id/:id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findById", null);
 __decorate([
@@ -69,27 +69,27 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/orders"),
-    __param(0, (0, common_1.Param)("userId", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOrders", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/wishlist-items"),
-    __param(0, (0, common_1.Param)("userId", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findWishlistItems", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/cart-items"),
-    __param(0, (0, common_1.Param)("userId", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findCartItems", null);
 exports.UserController = UserController = __decorate([

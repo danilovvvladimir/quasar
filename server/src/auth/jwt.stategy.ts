@@ -1,17 +1,15 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
+import { User } from "@prisma/client";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { PG_CONNECTION } from "src/database/database.module";
-import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
-import { User } from "src/types/user";
+import { PrismaService } from "src/database/prisma.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
-    private readonly userQueryCreatorService: UserQueryCreatorService,
-    @Inject(PG_CONNECTION) private connectionService: any,
+    private readonly prismaService: PrismaService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,12 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ user_id }: Pick<User, "user_id">) {
-    const res = await this.connectionService.query(
-      this.userQueryCreatorService.getUserByIdQuery(user_id),
-    );
-    console.log(res.rows);
-
-    return res.rows;
+  async validate({ id }: Pick<User, "id">) {
+    return this.prismaService.user.findUnique({ where: { id } });
   }
 }

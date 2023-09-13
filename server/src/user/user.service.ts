@@ -1,13 +1,6 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { hash } from "argon2";
-import { Pool, QueryResult } from "pg";
-import { AuthRegisterDTO } from "src/auth/auth.dto";
-import {
-  USER_CREATE_MESSAGE,
-  USER_NOT_FOUND_MESSAGE,
-} from "src/constants/user";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { USER_NOT_FOUND_MESSAGE } from "src/constants/user";
 import { PrismaService } from "src/database/prisma.service";
-import { User } from "src/types/user";
 
 @Injectable()
 export class UserService {
@@ -20,7 +13,9 @@ export class UserService {
   }
 
   async findById(id: string) {
-    const user = this.prismaService.user.findUnique({ where: { id } });
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
 
     if (!user) {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
@@ -30,7 +25,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    const user = this.prismaService.user.findUnique({ where: { email } });
+    const user = await this.prismaService.user.findUnique({ where: { email } });
 
     if (!user) {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
@@ -40,33 +35,33 @@ export class UserService {
   }
 
   async findOrders(userId: string) {
-    const user = await this.findById(userId);
+    await this.findById(userId);
 
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getOrdersQuery(userId),
-    );
+    const orders = await this.prismaService.order.findMany({
+      where: { userId },
+    });
 
-    return response.rows;
+    return orders;
   }
 
-  async findWishlistItems(userId: number) {
-    const user = await this.findById(userId);
+  async findWishlistItems(userId: string) {
+    await this.findById(userId);
 
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getWishlistItemsQuery(userId),
-    );
+    const wishlistItems = await this.prismaService.wishlistItem.findMany({
+      where: { userId },
+    });
 
-    return response.rows;
+    return wishlistItems;
   }
 
-  async findCartItems(userId: number) {
-    const user = await this.findById(userId);
+  async findCartItems(userId: string) {
+    await this.findById(userId);
 
-    const response: QueryResult<User> = await this.connectionService.query(
-      this.userQueryCreatorService.getCartItemsQuery(userId),
-    );
+    const cartItems = await this.prismaService.cartItem.findMany({
+      where: { userId },
+    });
 
-    return response.rows;
+    return cartItems;
   }
 
   async create(email: string, username: string, passwordHash: string) {

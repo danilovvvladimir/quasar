@@ -1,13 +1,19 @@
 import { ConfigService } from "@nestjs/config";
+import { User } from "@prisma/client";
 import { Strategy } from "passport-jwt";
-import { UserQueryCreatorService } from "src/queries/userQueryCreator.service";
-import { User } from "src/types/user";
+import { PrismaService } from "src/database/prisma.service";
 declare const JwtStrategy_base: new (...args: any[]) => Strategy;
 export declare class JwtStrategy extends JwtStrategy_base {
     private readonly configService;
-    private readonly userQueryCreatorService;
-    private connectionService;
-    constructor(configService: ConfigService, userQueryCreatorService: UserQueryCreatorService, connectionService: any);
-    validate({ user_id }: Pick<User, "user_id">): Promise<any>;
+    private readonly prismaService;
+    constructor(configService: ConfigService, prismaService: PrismaService);
+    validate({ id }: Pick<User, "id">): Promise<{
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
 }
 export {};
