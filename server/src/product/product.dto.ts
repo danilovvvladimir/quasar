@@ -2,6 +2,7 @@ import { ProductSize } from "@prisma/client";
 import {
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsNumber,
   IsString,
   Max,
@@ -21,6 +22,9 @@ export class ProductCreateDTO {
 
   @IsNumber()
   price: number;
+
+  @IsBoolean()
+  isVisible: boolean;
 
   @IsArray()
   @ArrayMinSize(1)

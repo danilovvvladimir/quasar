@@ -1,14 +1,17 @@
 import { PrismaService } from "src/database/prisma.service";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
+import { CategoryService } from "src/category/category.service";
 export declare class ProductService {
     private readonly prismaService;
-    constructor(prismaService: PrismaService);
+    private readonly categoryService;
+    constructor(prismaService: PrismaService, categoryService: CategoryService);
     findAll(): Promise<{
         id: string;
         name: string;
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -19,6 +22,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -29,6 +33,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -39,6 +44,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -60,6 +66,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -73,6 +80,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -83,6 +91,7 @@ export declare class ProductService {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;

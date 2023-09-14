@@ -13,12 +13,16 @@ exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
 const product_1 = require("../constants/product");
 const prisma_service_1 = require("../database/prisma.service");
+const category_service_1 = require("../category/category.service");
 let ProductService = class ProductService {
-    constructor(prismaService) {
+    constructor(prismaService, categoryService) {
         this.prismaService = prismaService;
+        this.categoryService = categoryService;
     }
     async findAll() {
-        const products = await this.prismaService.product.findMany();
+        const products = await this.prismaService.product.findMany({
+            where: { isVisible: true },
+        });
         return products;
     }
     async findById(id) {
@@ -40,6 +44,7 @@ let ProductService = class ProductService {
         return product;
     }
     async findByCategoryId(categoryId) {
+        await this.categoryService.findById(categoryId);
         const products = await this.prismaService.product.findMany({
             where: {
                 categories: {
@@ -70,30 +75,36 @@ let ProductService = class ProductService {
         return images;
     }
     async create(dto) {
-        const { description, details, imagePaths, categoryIds, name, price, slug } = dto;
+        const { description, details, imagePaths, categoryIds, name, price, slug, isVisible, } = dto;
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
-                console.log("create 1");
                 const createdProduct = await prisma.product.create({
                     data: {
                         name,
                         slug,
                         description,
                         price,
+                        isVisible,
                     },
                 });
-                this.createProductDetails(createdProduct.id, {
+                const productDetails = await this.createProductDetails(createdProduct.id, {
                     details,
                 });
-                this.createProductImages(createdProduct.id, { imagePaths });
-                this.createProductCategories(createdProduct.id, { categoryIds });
+                const productImages = await this.createProductImages(createdProduct.id, {
+                    imagePaths,
+                });
+                const productCategories = await this.createProductCategories(createdProduct.id, { categoryIds });
+                await Promise.all([
+                    ...productDetails,
+                    ...productImages,
+                    ...productCategories,
+                ]);
                 return createdProduct;
             });
         }
         catch (error) {
-            const err = error;
-            throw new common_1.HttpException(err, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new common_1.HttpException(product_1.PRODUCT_CREATE_ERROR_MESSAGE, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return product;
     }
@@ -107,7 +118,6 @@ let ProductService = class ProductService {
                 quantity: detail.quantity,
             },
         }));
-        await Promise.all(detailsPromises);
         return detailsPromises;
     }
     async createProductImages(id, dto) {
@@ -119,22 +129,22 @@ let ProductService = class ProductService {
                 imagePath,
             },
         }));
-        await Promise.all(imagesPromises);
         return imagesPromises;
     }
     async createProductCategories(id, dto) {
         const { categoryIds } = dto;
+        const categories = categoryIds.map((categoryId) => this.categoryService.findById(categoryId));
+        await Promise.all(categories);
         const productCategoriesPromises = categoryIds.map((categoryId) => this.prismaService.productCategory.create({
             data: {
                 productId: id,
                 categoryId,
             },
         }));
-        await Promise.all(productCategoriesPromises);
         return productCategoriesPromises;
     }
     async update(id, dto) {
-        const { categoryIds, details, imagePaths, description, discountPercentage, name, price, slug, } = dto;
+        const { categoryIds, details, imagePaths, description, discountPercentage, name, price, slug, isVisible, } = dto;
         await this.findById(id);
         let product = undefined;
         try {
@@ -150,6 +160,7 @@ let ProductService = class ProductService {
                         description,
                         price,
                         discountPercentage,
+                        isVisible,
                     },
                 });
                 this.createProductDetails(id, { details });
@@ -204,6 +215,7 @@ let ProductService = class ProductService {
 exports.ProductService = ProductService;
 exports.ProductService = ProductService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        category_service_1.CategoryService])
 ], ProductService);
 //# sourceMappingURL=product.service.js.map

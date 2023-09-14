@@ -16,6 +16,7 @@ const user_module_1 = require("./user/user.module");
 const review_module_1 = require("./review/review.module");
 const order_module_1 = require("./order/order.module");
 const product_module_1 = require("./product/product.module");
+const category_module_1 = require("./category/category.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +29,7 @@ exports.AppModule = AppModule = __decorate([
             review_module_1.ReviewModule,
             order_module_1.OrderModule,
             product_module_1.ProductModule,
+            category_module_1.CategoryModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

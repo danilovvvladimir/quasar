@@ -19,13 +19,19 @@ import {
   ProductImagesCreateDTO,
   ProductUpdateDTO,
 } from "./product.dto";
+import { CategoryService } from "src/category/category.service";
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   async findAll() {
-    const products = await this.prismaService.product.findMany();
+    const products = await this.prismaService.product.findMany({
+      where: { isVisible: true },
+    });
 
     return products;
   }
@@ -55,7 +61,8 @@ export class ProductService {
   }
 
   async findByCategoryId(categoryId: string) {
-    // find category is exist???
+    await this.categoryService.findById(categoryId);
+
     const products = await this.prismaService.product.findMany({
       where: {
         categories: {
@@ -94,39 +101,65 @@ export class ProductService {
   }
 
   async create(dto: ProductCreateDTO) {
-    const { description, details, imagePaths, categoryIds, name, price, slug } =
-      dto;
+    const {
+      description,
+      details,
+      imagePaths,
+      categoryIds,
+      name,
+      price,
+      slug,
+      isVisible,
+    } = dto;
 
     let product: Product = undefined;
 
     try {
       // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
-        console.log("create 1");
-
         const createdProduct = await prisma.product.create({
           data: {
             name,
             slug,
             description,
             price,
+            isVisible,
           },
         });
 
-        this.createProductDetails(createdProduct.id, {
-          details,
-        });
+        const productDetails = await this.createProductDetails(
+          createdProduct.id,
+          {
+            details,
+          },
+        );
 
-        this.createProductImages(createdProduct.id, { imagePaths });
+        const productImages = await this.createProductImages(
+          createdProduct.id,
+          {
+            imagePaths,
+          },
+        );
 
-        this.createProductCategories(createdProduct.id, { categoryIds });
+        const productCategories = await this.createProductCategories(
+          createdProduct.id,
+          { categoryIds },
+        );
+
+        await Promise.all([
+          ...productDetails,
+          ...productImages,
+          ...productCategories,
+        ]);
 
         return createdProduct;
       });
     } catch (error) {
       // Обработка ошибок транзакции
-      const err = error as Error;
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        PRODUCT_CREATE_ERROR_MESSAGE,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
 
     return product;
@@ -147,8 +180,6 @@ export class ProductService {
       }),
     );
 
-    await Promise.all(detailsPromises);
-
     return detailsPromises;
   }
 
@@ -166,8 +197,6 @@ export class ProductService {
       }),
     );
 
-    await Promise.all(imagesPromises);
-
     return imagesPromises;
   }
 
@@ -178,6 +207,12 @@ export class ProductService {
     // ПРОВЕРКА НА СУЩЕСТВОВАНИЕ КАТЕГОРИИ
     const { categoryIds } = dto;
 
+    const categories = categoryIds.map((categoryId) =>
+      this.categoryService.findById(categoryId),
+    );
+
+    await Promise.all(categories);
+
     const productCategoriesPromises = categoryIds.map((categoryId) =>
       this.prismaService.productCategory.create({
         data: {
@@ -186,8 +221,6 @@ export class ProductService {
         },
       }),
     );
-
-    await Promise.all(productCategoriesPromises);
 
     return productCategoriesPromises;
   }
@@ -202,6 +235,7 @@ export class ProductService {
       name,
       price,
       slug,
+      isVisible,
     } = dto;
     await this.findById(id);
     let product: Product = undefined;
@@ -220,6 +254,7 @@ export class ProductService {
             description,
             price,
             discountPercentage,
+            isVisible,
           },
         });
 

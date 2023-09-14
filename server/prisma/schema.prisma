@@ -68,6 +68,7 @@ model Product {
   slug               String   @unique
   description        String
   price              Decimal
+  isVisible          Boolean
   discountPercentage Int      @default(0) @map("discount_percentage")
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
@@ -102,6 +103,7 @@ model Category {
   id        String   @id @default(uuid())
   name      String
   slug      String   @unique
+  isVisible Boolean
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

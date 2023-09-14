@@ -9,6 +9,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -19,6 +20,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -29,6 +31,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -39,6 +42,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -60,6 +64,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -70,6 +75,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
@@ -80,6 +86,7 @@ export declare class ProductController {
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
+        isVisible: boolean;
         discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
