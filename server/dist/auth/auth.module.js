@@ -16,6 +16,7 @@ const config_2 = require("@nestjs/config");
 const jwt_2 = require("../config/jwt");
 const user_module_1 = require("../user/user.module");
 const prisma_service_1 = require("../database/prisma.service");
+const jwt_stategy_1 = require("./jwt.stategy");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -31,7 +32,7 @@ exports.AuthModule = AuthModule = __decorate([
             user_module_1.UserModule,
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService],
+        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService, jwt_stategy_1.JwtStrategy],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

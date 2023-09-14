@@ -11,31 +11,194 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
+const product_1 = require("../constants/product");
 const prisma_service_1 = require("../database/prisma.service");
 let ProductService = class ProductService {
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
     async findAll() {
-        const users = await this.prismaService.user.findMany();
-        return users;
+        const products = await this.prismaService.product.findMany();
+        return products;
     }
     async findById(id) {
-        const user = await this.prismaService.user.findUnique({
+        const product = await this.prismaService.product.findUnique({
             where: { id },
-            select: { username: true, password: true, id: true },
         });
-        if (!user) {
-            throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
+        if (!product) {
+            throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return user;
+        return product;
     }
-    async findByEmail(email) {
-        const user = await this.prismaService.user.findUnique({ where: { email } });
-        if (!user) {
-            throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
+    async findBySlug(slug) {
+        const product = await this.prismaService.product.findUnique({
+            where: { slug },
+        });
+        if (!product) {
+            throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return user;
+        return product;
+    }
+    async findByCategoryId(categoryId) {
+        const products = await this.prismaService.product.findMany({
+            where: {
+                categories: {
+                    some: {
+                        categoryId,
+                    },
+                },
+            },
+        });
+        return products;
+    }
+    async findSizeQuantiy(id) {
+        await this.findById(id);
+        const details = await this.prismaService.productSize.findMany({
+            where: {
+                productId: id,
+            },
+        });
+        return details;
+    }
+    async findImages(id) {
+        await this.findById(id);
+        const images = await this.prismaService.productImage.findMany({
+            where: {
+                productId: id,
+            },
+        });
+        return images;
+    }
+    async create(dto) {
+        const { description, details, imagePaths, categoryIds, name, price, slug } = dto;
+        let product = undefined;
+        try {
+            product = await this.prismaService.$transaction(async (prisma) => {
+                console.log("create 1");
+                const createdProduct = await prisma.product.create({
+                    data: {
+                        name,
+                        slug,
+                        description,
+                        price,
+                    },
+                });
+                this.createProductDetails(createdProduct.id, {
+                    details,
+                });
+                this.createProductImages(createdProduct.id, { imagePaths });
+                this.createProductCategories(createdProduct.id, { categoryIds });
+                return createdProduct;
+            });
+        }
+        catch (error) {
+            const err = error;
+            throw new common_1.HttpException(err, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return product;
+    }
+    async createProductDetails(id, dto) {
+        await this.findById(id);
+        const { details } = dto;
+        const detailsPromises = details.map((detail) => this.prismaService.productSize.create({
+            data: {
+                productId: id,
+                size: detail.size,
+                quantity: detail.quantity,
+            },
+        }));
+        await Promise.all(detailsPromises);
+        return detailsPromises;
+    }
+    async createProductImages(id, dto) {
+        await this.findById(id);
+        const { imagePaths } = dto;
+        const imagesPromises = imagePaths.map((imagePath) => this.prismaService.productImage.create({
+            data: {
+                productId: id,
+                imagePath,
+            },
+        }));
+        await Promise.all(imagesPromises);
+        return imagesPromises;
+    }
+    async createProductCategories(id, dto) {
+        const { categoryIds } = dto;
+        const productCategoriesPromises = categoryIds.map((categoryId) => this.prismaService.productCategory.create({
+            data: {
+                productId: id,
+                categoryId,
+            },
+        }));
+        await Promise.all(productCategoriesPromises);
+        return productCategoriesPromises;
+    }
+    async update(id, dto) {
+        const { categoryIds, details, imagePaths, description, discountPercentage, name, price, slug, } = dto;
+        await this.findById(id);
+        let product = undefined;
+        try {
+            product = await this.prismaService.$transaction(async (prisma) => {
+                this.deleteProductCategories(id);
+                this.deleteProductImages(id);
+                this.deleteProductDetails(id);
+                const updatedProduct = await prisma.product.update({
+                    where: { id },
+                    data: {
+                        name,
+                        slug,
+                        description,
+                        price,
+                        discountPercentage,
+                    },
+                });
+                this.createProductDetails(id, { details });
+                this.createProductImages(id, { imagePaths });
+                this.createProductCategories(id, { categoryIds });
+                return updatedProduct;
+            });
+        }
+        catch (error) {
+            throw new common_1.HttpException(product_1.PRODUCT_UPDATE_ERROR_MESSAGE, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return product;
+    }
+    async delete(id) {
+        await this.findById(id);
+        let product = undefined;
+        try {
+            product = await this.prismaService.$transaction(async (prisma) => {
+                await this.deleteProductCategories(id);
+                await this.deleteProductImages(id);
+                await this.deleteProductDetails(id);
+                const deletedProduct = await prisma.product.delete({
+                    where: { id },
+                });
+                return deletedProduct;
+            });
+        }
+        catch (error) {
+            throw new common_1.HttpException(product_1.PRODUCT_DELETE_ERROR_MESSAGE, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return product;
+    }
+    async deleteProductImages(id) {
+        await this.prismaService.productImage.deleteMany({
+            where: { productId: id },
+        });
+        return { message: "success" };
+    }
+    async deleteProductDetails(id) {
+        await this.prismaService.productSize.deleteMany({
+            where: { productId: id },
+        });
+        return { message: "success" };
+    }
+    async deleteProductCategories(id) {
+        await this.prismaService.productCategory.deleteMany({
+            where: { productId: id },
+        });
+        return { message: "success" };
     }
 };
 exports.ProductService = ProductService;

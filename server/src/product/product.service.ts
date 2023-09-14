@@ -1,6 +1,24 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { PRODUCT_NOT_FOUND_MESSAGE } from "src/constants/product";
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { Product } from "@prisma/client";
+import {
+  PRODUCT_CREATE_ERROR_MESSAGE,
+  PRODUCT_DELETE_ERROR_MESSAGE,
+  PRODUCT_NOT_FOUND_MESSAGE,
+  PRODUCT_UPDATE_ERROR_MESSAGE,
+} from "src/constants/product";
 import { PrismaService } from "src/database/prisma.service";
+import {
+  ProductCategoryCreateDTO,
+  ProductCreateDTO,
+  ProductDetailsCreateDTO,
+  ProductImagesCreateDTO,
+  ProductUpdateDTO,
+} from "./product.dto";
 
 @Injectable()
 export class ProductService {
@@ -37,6 +55,7 @@ export class ProductService {
   }
 
   async findByCategoryId(categoryId: string) {
+    // find category is exist???
     const products = await this.prismaService.product.findMany({
       where: {
         categories: {
@@ -51,6 +70,8 @@ export class ProductService {
   }
 
   async findSizeQuantiy(id: string) {
+    await this.findById(id);
+
     const details = await this.prismaService.productSize.findMany({
       where: {
         productId: id,
@@ -61,6 +82,8 @@ export class ProductService {
   }
 
   async findImages(id: string) {
+    await this.findById(id);
+
     const images = await this.prismaService.productImage.findMany({
       where: {
         productId: id,
@@ -70,134 +93,204 @@ export class ProductService {
     return images;
   }
 
-  async create(name: string, slug: string, description: string, price: number) {
-    const product = await this.prismaService.product.create({
-      data: {
-        name,
-        slug,
-        description,
-        price,
-      },
-    });
+  async create(dto: ProductCreateDTO) {
+    const { description, details, imagePaths, categoryIds, name, price, slug } =
+      dto;
+
+    let product: Product = undefined;
+
+    try {
+      // Начало транзакции
+      product = await this.prismaService.$transaction(async (prisma) => {
+        console.log("create 1");
+
+        const createdProduct = await prisma.product.create({
+          data: {
+            name,
+            slug,
+            description,
+            price,
+          },
+        });
+
+        this.createProductDetails(createdProduct.id, {
+          details,
+        });
+
+        this.createProductImages(createdProduct.id, { imagePaths });
+
+        this.createProductCategories(createdProduct.id, { categoryIds });
+
+        return createdProduct;
+      });
+    } catch (error) {
+      // Обработка ошибок транзакции
+      const err = error as Error;
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     return product;
   }
 
-  async createProductDetails(id: string, size: number, quantity: number) {
+  private async createProductDetails(id: string, dto: ProductDetailsCreateDTO) {
     await this.findById(id);
 
-    const productDetails = await this.prismaService.productSize.create({
-      data: {
-        productId: id,
-        quantity,
-        size,
-      },
-    });
+    const { details } = dto;
 
-    return productDetails;
+    const detailsPromises = details.map((detail) =>
+      this.prismaService.productSize.create({
+        data: {
+          productId: id,
+          size: detail.size,
+          quantity: detail.quantity,
+        },
+      }),
+    );
+
+    await Promise.all(detailsPromises);
+
+    return detailsPromises;
   }
 
-  async createProductImage(id: string, imagePath: string) {
+  private async createProductImages(id: string, dto: ProductImagesCreateDTO) {
     await this.findById(id);
 
-    const productImage = await this.prismaService.productImage.create({
-      data: {
-        productId: id,
-        imagePath,
-      },
-    });
+    const { imagePaths } = dto;
 
-    return productImage;
+    const imagesPromises = imagePaths.map((imagePath) =>
+      this.prismaService.productImage.create({
+        data: {
+          productId: id,
+          imagePath,
+        },
+      }),
+    );
+
+    await Promise.all(imagesPromises);
+
+    return imagesPromises;
   }
 
-  async createProductCategory(id: string, categoryId: string) {
-    await this.findById(id);
-
-    const productCategory = await this.prismaService.productCategory.create({
-      data: {
-        productId: id,
-        categoryId,
-      },
-    });
-
-    return productCategory;
-  }
-
-  async update(
+  private async createProductCategories(
     id: string,
-    name: string,
-    slug: string,
-    description: string,
-    price: number,
-    discountPercentage: number,
+    dto: ProductCategoryCreateDTO,
   ) {
+    // ПРОВЕРКА НА СУЩЕСТВОВАНИЕ КАТЕГОРИИ
+    const { categoryIds } = dto;
+
+    const productCategoriesPromises = categoryIds.map((categoryId) =>
+      this.prismaService.productCategory.create({
+        data: {
+          productId: id,
+          categoryId,
+        },
+      }),
+    );
+
+    await Promise.all(productCategoriesPromises);
+
+    return productCategoriesPromises;
+  }
+
+  async update(id: string, dto: ProductUpdateDTO) {
+    const {
+      categoryIds,
+      details,
+      imagePaths,
+      description,
+      discountPercentage,
+      name,
+      price,
+      slug,
+    } = dto;
     await this.findById(id);
+    let product: Product = undefined;
+    try {
+      // Начало транзакции
+      product = await this.prismaService.$transaction(async (prisma) => {
+        this.deleteProductCategories(id);
+        this.deleteProductImages(id);
+        this.deleteProductDetails(id);
 
-    const product = await this.prismaService.product.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        slug,
-        description,
-        price,
-        discountPercentage,
-      },
-    });
+        const updatedProduct = await prisma.product.update({
+          where: { id },
+          data: {
+            name,
+            slug,
+            description,
+            price,
+            discountPercentage,
+          },
+        });
 
+        this.createProductDetails(id, { details });
+        this.createProductImages(id, { imagePaths });
+        this.createProductCategories(id, { categoryIds });
+
+        return updatedProduct;
+      });
+    } catch (error) {
+      // Обработка ошибок транзакции
+      throw new HttpException(
+        PRODUCT_UPDATE_ERROR_MESSAGE,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
     return product;
-  }
-
-  async updateDetails(
-    productDetailsId: string,
-    size: number,
-    quantity: number,
-  ) {
-    const productDetails = await this.prismaService.productSize.update({
-      where: {
-        id: productDetailsId,
-      },
-      data: {
-        size,
-        quantity,
-      },
-    });
-
-    return productDetails;
-  }
-
-  async updateImage(productImageId: string, imagePath: string) {
-    const productImage = await this.prismaService.productImage.update({
-      where: {
-        id: productImageId,
-      },
-      data: {
-        imagePath,
-      },
-    });
-
-    return productImage;
-  }
-
-  async updateCategory(productCategoryId: string, categoryId: string) {
-    const productCategory = await this.prismaService.productCategory.update({
-      where: {
-        id: productCategoryId,
-      },
-      data: {
-        categoryId,
-      },
-    });
-
-    return productCategory;
   }
 
   async delete(id: string) {
     await this.findById(id);
 
-    const product = await this.prismaService.product.delete({ where: { id } });
+    let product: Product = undefined;
+
+    try {
+      // Начало транзакции
+      product = await this.prismaService.$transaction(async (prisma) => {
+        await this.deleteProductCategories(id);
+
+        await this.deleteProductImages(id);
+
+        await this.deleteProductDetails(id);
+
+        const deletedProduct = await prisma.product.delete({
+          where: { id },
+        });
+
+        return deletedProduct;
+      });
+    } catch (error) {
+      // Обработка ошибок транзакции
+      throw new HttpException(
+        PRODUCT_DELETE_ERROR_MESSAGE,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
 
     return product;
+  }
+
+  private async deleteProductImages(id: string) {
+    await this.prismaService.productImage.deleteMany({
+      where: { productId: id },
+    });
+
+    return { message: "success" };
+  }
+
+  private async deleteProductDetails(id: string) {
+    await this.prismaService.productSize.deleteMany({
+      where: { productId: id },
+    });
+
+    return { message: "success" };
+  }
+
+  private async deleteProductCategories(id: string) {
+    await this.prismaService.productCategory.deleteMany({
+      where: { productId: id },
+    });
+
+    return { message: "success" };
   }
 }

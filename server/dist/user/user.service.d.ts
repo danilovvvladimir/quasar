@@ -14,6 +14,9 @@ export declare class UserService {
         id: string;
         username: string;
         password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     findByEmail(email: string): Promise<{
         id: string;
