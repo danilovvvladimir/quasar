@@ -10,6 +10,41 @@ export declare class UserController {
         createdAt: Date;
         updatedAt: Date;
     }[]>;
+    getProfile(id: string): Promise<{
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+        order: ({
+            orderItem: {
+                id: string;
+                quantity: number;
+                totalPrice: import("@prisma/client/runtime/library").Decimal;
+                orderId: string;
+                productId: string;
+                createdAt: Date;
+                updatedAt: Date;
+            }[];
+        } & {
+            id: string;
+            orderStatus: import(".prisma/client").$Enums.OrderStatus;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+        })[];
+    } & {
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
     findById(id: string): Promise<{
         review: {
             id: string;
@@ -72,4 +107,11 @@ export declare class UserController {
         userId: string;
         productId: string;
     }[]>;
+    updateCartItemQuantity(id: string, newQuantity: number): Promise<{
+        id: string;
+        size: number;
+        quantity: number;
+        userId: string;
+        productId: string;
+    }>;
 }

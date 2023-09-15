@@ -13,9 +13,11 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const user_1 = require("../constants/user");
 const prisma_service_1 = require("../database/prisma.service");
+const product_service_1 = require("../product/product.service");
 let UserService = class UserService {
-    constructor(prismaService) {
+    constructor(prismaService, productService) {
         this.prismaService = prismaService;
+        this.productService = productService;
     }
     async findAll() {
         const users = await this.prismaService.user.findMany();
@@ -66,6 +68,26 @@ let UserService = class UserService {
         });
         return cartItems;
     }
+    async updateCartItem(id, newQuantity) {
+        const cartItem = await this.prismaService.cartItem.findUnique({
+            where: { id },
+        });
+        if (!cartItem) {
+            throw new common_1.NotFoundException(user_1.CART_ITEM_NOT_FOUND_MESSAGE);
+        }
+        const productDetails = await this.productService.findSizeQuantiy(cartItem.productId);
+        const neededProductWithDetails = productDetails.filter((pd) => pd.size === cartItem.size)[0];
+        if (newQuantity > neededProductWithDetails.quantity) {
+            throw new common_1.ConflictException(user_1.CART_ITEM_WRONG_QUANTITY_MESSAGE);
+        }
+        const updateCartItem = await this.prismaService.cartItem.update({
+            where: { id },
+            data: {
+                quantity: newQuantity,
+            },
+        });
+        return updateCartItem;
+    }
     async create(email, username, passwordHash) {
         const user = await this.prismaService.user.create({
             data: {
@@ -80,6 +102,7 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        product_service_1.ProductService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

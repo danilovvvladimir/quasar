@@ -94,7 +94,7 @@ __decorate([
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
-    (0, common_1.Put)(":id"),
+    (0, common_1.Put)("status/:id"),
     (0, auth_1.Auth)(),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
@@ -103,7 +103,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "updateStatus", null);
 exports.OrderController = OrderController = __decorate([
-    (0, common_1.Controller)("order"),
+    (0, common_1.Controller)("orders"),
     __metadata("design:paramtypes", [order_service_1.OrderService])
 ], OrderController);
 //# sourceMappingURL=order.controller.js.map

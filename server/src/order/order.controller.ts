@@ -14,7 +14,7 @@ import { Auth } from "src/decorators/auth";
 import { OrderCreateDTO } from "./order.dto";
 import { OrderStatus } from "@prisma/client";
 
-@Controller("order")
+@Controller("orders")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
@@ -60,7 +60,7 @@ export class OrderController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put(":id")
+  @Put("status/:id")
   @Auth()
   async updateStatus(
     @Param("id") id: string,

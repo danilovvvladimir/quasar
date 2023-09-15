@@ -1,12 +1,16 @@
 import {
   Controller,
   HttpCode,
+  Put,
   Get,
   UsePipes,
   ValidationPipe,
+  Body,
   Param,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
+import { Auth } from "src/decorators/auth";
+import { CurrentUser } from "src/decorators/user";
 
 @Controller("users")
 export class UserController {
@@ -17,6 +21,14 @@ export class UserController {
   @Get()
   async findAll() {
     return this.userService.findAll();
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Get("profile")
+  @Auth()
+  async getProfile(@CurrentUser("id") id: string) {
+    return this.userService.findById(id);
   }
 
   @UsePipes(new ValidationPipe())
@@ -52,5 +64,15 @@ export class UserController {
   @Get(":userId/cart-items")
   async findCartItems(@Param("userId") userId: string) {
     return this.userService.findCartItems(userId);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Put("/cart-items/:id")
+  async updateCartItemQuantity(
+    @Param("id") id: string,
+    @Body() newQuantity: number,
+  ) {
+    return this.userService.updateCartItem(id, newQuantity);
   }
 }

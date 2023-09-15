@@ -99,6 +99,11 @@ let ReviewService = class ReviewService {
         });
         return updatedReview;
     }
+    async delete(id) {
+        await this.findById(id);
+        const review = await this.prismaService.review.delete({ where: { id } });
+        return review;
+    }
 };
 exports.ReviewService = ReviewService;
 exports.ReviewService = ReviewService = __decorate([

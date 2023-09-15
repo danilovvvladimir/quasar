@@ -12,7 +12,7 @@ import {
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
 import { UserService } from "src/user/user.service";
-import { ReviewCreateDTO } from "./review.dto";
+import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
 
 @Injectable()
 export class ReviewService {
@@ -111,7 +111,7 @@ export class ReviewService {
     return review;
   }
 
-  async update(id: string, userId: string, dto: ReviewCreateDTO) {
+  async update(id: string, userId: string, dto: ReviewUpdateDTO) {
     const { rating, text } = dto;
 
     const review = await this.findById(id);
@@ -129,5 +129,13 @@ export class ReviewService {
     });
 
     return updatedReview;
+  }
+
+  async delete(id: string) {
+    await this.findById(id);
+
+    const review = await this.prismaService.review.delete({ where: { id } });
+
+    return review;
   }
 }

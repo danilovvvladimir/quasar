@@ -15,12 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
+const auth_1 = require("../decorators/auth");
+const user_1 = require("../decorators/user");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
     async findAll() {
         return this.userService.findAll();
+    }
+    async getProfile(id) {
+        return this.userService.findById(id);
     }
     async findById(id) {
         return this.userService.findById(id);
@@ -37,6 +42,9 @@ let UserController = class UserController {
     async findCartItems(userId) {
         return this.userService.findCartItems(userId);
     }
+    async updateCartItemQuantity(id, newQuantity) {
+        return this.userService.updateCartItem(id, newQuantity);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -47,6 +55,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)("profile"),
+    (0, auth_1.Auth)(),
+    __param(0, (0, user_1.CurrentUser)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
@@ -92,6 +110,16 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findCartItems", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Put)("/cart-items/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateCartItemQuantity", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [user_service_1.UserService])

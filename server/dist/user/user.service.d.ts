@@ -1,7 +1,9 @@
 import { PrismaService } from "src/database/prisma.service";
+import { ProductService } from "src/product/product.service";
 export declare class UserService {
     private prismaService;
-    constructor(prismaService: PrismaService);
+    private readonly productService;
+    constructor(prismaService: PrismaService, productService: ProductService);
     findAll(): Promise<{
         id: string;
         username: string;
@@ -72,6 +74,13 @@ export declare class UserService {
         userId: string;
         productId: string;
     }[]>;
+    updateCartItem(id: string, newQuantity: number): Promise<{
+        id: string;
+        size: number;
+        quantity: number;
+        userId: string;
+        productId: string;
+    }>;
     create(email: string, username: string, passwordHash: string): Promise<{
         id: string;
         username: string;

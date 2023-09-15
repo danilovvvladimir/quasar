@@ -1,7 +1,7 @@
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
 import { UserService } from "src/user/user.service";
-import { ReviewCreateDTO } from "./review.dto";
+import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
 export declare class ReviewService {
     private readonly userService;
     private readonly productService;
@@ -50,7 +50,16 @@ export declare class ReviewService {
         userId: string;
         productId: string;
     }>;
-    update(id: string, userId: string, dto: ReviewCreateDTO): Promise<{
+    update(id: string, userId: string, dto: ReviewUpdateDTO): Promise<{
+        id: string;
+        text: string;
+        rating: number;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        productId: string;
+    }>;
+    delete(id: string): Promise<{
         id: string;
         text: string;
         rating: number;
