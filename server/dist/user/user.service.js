@@ -24,6 +24,14 @@ let UserService = class UserService {
     async findById(id) {
         const user = await this.prismaService.user.findUnique({
             where: { id },
+            include: {
+                review: true,
+                order: {
+                    include: {
+                        orderItem: true,
+                    },
+                },
+            },
         });
         if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);

@@ -17,7 +17,9 @@ export class OrderService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    const orders = await this.prismaService.order.findMany();
+    const orders = await this.prismaService.order.findMany({
+      include: { orderItem: true },
+    });
 
     return orders;
   }
@@ -25,6 +27,7 @@ export class OrderService {
   async findById(id: string) {
     const order = await this.prismaService.order.findUnique({
       where: { id },
+      include: { orderItem: true },
     });
 
     if (!order) {
@@ -41,6 +44,7 @@ export class OrderService {
       where: {
         userId,
       },
+      include: { orderItem: true },
     });
 
     return products;

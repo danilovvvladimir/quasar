@@ -18,12 +18,15 @@ let OrderService = class OrderService {
         this.prismaService = prismaService;
     }
     async findAll() {
-        const orders = await this.prismaService.order.findMany();
+        const orders = await this.prismaService.order.findMany({
+            include: { orderItem: true },
+        });
         return orders;
     }
     async findById(id) {
         const order = await this.prismaService.order.findUnique({
             where: { id },
+            include: { orderItem: true },
         });
         if (!order) {
             throw new common_1.NotFoundException(order_1.ORDER_NOT_FOUND_MESSAGE);
@@ -35,6 +38,7 @@ let OrderService = class OrderService {
             where: {
                 userId,
             },
+            include: { orderItem: true },
         });
         return products;
     }

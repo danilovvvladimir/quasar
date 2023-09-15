@@ -11,6 +11,33 @@ export declare class UserController {
         updatedAt: Date;
     }[]>;
     findById(id: string): Promise<{
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+        order: ({
+            orderItem: {
+                id: string;
+                quantity: number;
+                totalPrice: import("@prisma/client/runtime/library").Decimal;
+                orderId: string;
+                productId: string;
+                createdAt: Date;
+                updatedAt: Date;
+            }[];
+        } & {
+            id: string;
+            orderStatus: import(".prisma/client").$Enums.OrderStatus;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+        })[];
+    } & {
         id: string;
         username: string;
         password: string;

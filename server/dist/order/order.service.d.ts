@@ -4,27 +4,57 @@ import { OrderCreateDTO } from "./order.dto";
 export declare class OrderService {
     private readonly prismaService;
     constructor(prismaService: PrismaService);
-    findAll(): Promise<{
+    findAll(): Promise<({
+        orderItem: {
+            id: string;
+            quantity: number;
+            totalPrice: import("@prisma/client/runtime/library").Decimal;
+            orderId: string;
+            productId: string;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+    } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-    }[]>;
+    })[]>;
     findById(id: string): Promise<{
+        orderItem: {
+            id: string;
+            quantity: number;
+            totalPrice: import("@prisma/client/runtime/library").Decimal;
+            orderId: string;
+            productId: string;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+    } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
     }>;
-    findByUserId(userId: string): Promise<{
+    findByUserId(userId: string): Promise<({
+        orderItem: {
+            id: string;
+            quantity: number;
+            totalPrice: import("@prisma/client/runtime/library").Decimal;
+            orderId: string;
+            productId: string;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+    } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-    }[]>;
+    })[]>;
     findByProductId(productId: string): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

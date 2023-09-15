@@ -15,6 +15,14 @@ export class UserService {
   async findById(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id },
+      include: {
+        review: true,
+        order: {
+          include: {
+            orderItem: true,
+          },
+        },
+      },
     });
 
     if (!user) {
