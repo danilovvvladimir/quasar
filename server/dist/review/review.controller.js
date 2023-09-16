@@ -18,6 +18,9 @@ const review_service_1 = require("./review.service");
 const review_dto_1 = require("./review.dto");
 const user_1 = require("../decorators/user");
 const auth_1 = require("../decorators/auth");
+const role_1 = require("../decorators/role");
+const role_2 = require("../guard/role");
+const access_1 = require("../guard/access");
 let ReviewController = class ReviewController {
     constructor(reviewService) {
         this.reviewService = reviewService;
@@ -50,6 +53,8 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(access_1.AccessTokenGuard, role_2.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

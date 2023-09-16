@@ -9,11 +9,15 @@ import {
   Put,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from "@nestjs/common";
 import { ReviewService } from "./review.service";
 import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
 import { CurrentUser } from "src/decorators/user";
 import { Auth } from "src/decorators/auth";
+import { Roles } from "src/decorators/role";
+import { RolesGuard } from "src/guard/role";
+import { AccessTokenGuard } from "src/guard/access";
 
 @Controller("reviews")
 export class ReviewController {
@@ -23,6 +27,8 @@ export class ReviewController {
   @HttpCode(200)
   @Get()
   @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async findAll() {
     return this.reviewService.findAll();
   }
