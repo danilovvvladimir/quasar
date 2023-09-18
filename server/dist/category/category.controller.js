@@ -16,7 +16,9 @@ exports.CategoryController = void 0;
 const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
 const category_dto_1 = require("./category.dto");
-const auth_1 = require("../decorators/auth");
+const role_1 = require("../decorators/role");
+const accessToken_1 = require("../guard/accessToken");
+const roles_1 = require("../guard/roles");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -33,10 +35,10 @@ let CategoryController = class CategoryController {
     async create(dto) {
         return this.categoryService.create(dto);
     }
-    async createDetails(id, dto) {
+    async update(id, dto) {
         return this.categoryService.update(id, dto);
     }
-    async createImages(id) {
+    async delete(id) {
         return this.categoryService.delete(id);
     }
 };
@@ -71,7 +73,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)(),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [category_dto_1.CategoryCreateDTO]),
@@ -81,23 +84,25 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, category_dto_1.CategoryUpdateDTO]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "createDetails", null);
+], CategoryController.prototype, "update", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "createImages", null);
+], CategoryController.prototype, "delete", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)("categories"),
     __metadata("design:paramtypes", [category_service_1.CategoryService])

@@ -22,17 +22,14 @@ let AuthService = class AuthService {
     }
     async register(registerDTO) {
         try {
-            const isUserAlreadyExist = await this.userService.findByEmail(registerDTO.email);
-            if (isUserAlreadyExist) {
-                throw new common_1.BadRequestException(auth_1.USER_ALREADY_EXISTS_MESSAGE);
-            }
+            await this.userService.findByEmail(registerDTO.email);
         }
         catch (error) {
-            await this.userService.create(registerDTO.email, registerDTO.username, await (0, argon2_1.hash)(registerDTO.password));
-            const user = await this.userService.findByEmail(registerDTO.email);
+            const user = await this.userService.create(registerDTO.email, registerDTO.username, await (0, argon2_1.hash)(registerDTO.password));
             const tokens = await this.issueTokens(user.id);
             return Object.assign({ user }, tokens);
         }
+        throw new common_1.BadRequestException(auth_1.USER_ALREADY_EXISTS_MESSAGE);
     }
     async login(loginDTO) {
         const user = await this.validateUser(loginDTO);
@@ -41,13 +38,18 @@ let AuthService = class AuthService {
     }
     async getNewTokens(dto) {
         const refreshToken = dto.refreshToken;
-        const result = await this.jwtService.verifyAsync(refreshToken);
-        if (!result) {
+        try {
+            const result = await this.jwtService.verifyAsync(refreshToken);
+            if (!result) {
+                throw new common_1.UnauthorizedException(auth_1.INVALID_REFRESH_TOKEN_MESSAGE);
+            }
+            const user = await this.userService.findById(result.id);
+            const tokens = await this.issueTokens(user.id);
+            return tokens;
+        }
+        catch (error) {
             throw new common_1.UnauthorizedException(auth_1.INVALID_REFRESH_TOKEN_MESSAGE);
         }
-        const user = await this.userService.findById(result.id);
-        const tokens = await this.issueTokens(user.id);
-        return Object.assign({ user }, tokens);
     }
     async issueTokens(userId) {
         const data = { id: userId };

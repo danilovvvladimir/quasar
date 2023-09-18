@@ -2,6 +2,7 @@ import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
 import { UserService } from "src/user/user.service";
 import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
+import { $Enums } from "@prisma/client";
 export declare class ReviewService {
     private readonly userService;
     private readonly productService;
@@ -18,7 +19,7 @@ export declare class ReviewService {
     }[]>;
     findById(id: string): Promise<{
         id: string;
-        orderStatus: import(".prisma/client").$Enums.OrderStatus;
+        orderStatus: $Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
@@ -50,7 +51,7 @@ export declare class ReviewService {
         userId: string;
         productId: string;
     }>;
-    update(id: string, userId: string, dto: ReviewUpdateDTO): Promise<{
+    update(id: string, userId: string, userRole: string, dto: ReviewUpdateDTO): Promise<{
         id: string;
         text: string;
         rating: number;
@@ -59,13 +60,11 @@ export declare class ReviewService {
         userId: string;
         productId: string;
     }>;
-    delete(id: string): Promise<{
+    delete(id: string, userId: string, userRole: string): Promise<{
         id: string;
-        text: string;
-        rating: number;
+        orderStatus: $Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        productId: string;
     }>;
 }

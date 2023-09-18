@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const auth_1 = require("../decorators/auth");
 const user_1 = require("../decorators/user");
+const role_1 = require("../decorators/role");
+const accessToken_1 = require("../guard/accessToken");
+const roles_1 = require("../guard/roles");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -51,6 +53,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -59,7 +63,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("profile"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, user_1.CurrentUser)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -69,6 +73,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-id/:id"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -78,6 +84,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-email/:email"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("email")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -87,6 +95,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/orders"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -96,6 +106,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/wishlist-items"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -105,6 +117,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/cart-items"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

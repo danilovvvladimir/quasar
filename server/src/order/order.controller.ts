@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
@@ -13,6 +14,9 @@ import { OrderService } from "./order.service";
 import { Auth } from "src/decorators/auth";
 import { OrderCreateDTO } from "./order.dto";
 import { OrderStatus } from "@prisma/client";
+import { Roles } from "src/decorators/role";
+import { AccessTokenGuard } from "src/guard/accessToken";
+import { RolesGuard } from "src/guard/roles";
 
 @Controller("orders")
 export class OrderController {
@@ -21,7 +25,8 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get()
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async findAll() {
     return this.orderService.findAll();
   }
@@ -29,7 +34,7 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-id/:id")
-  @Auth()
+  @UseGuards(AccessTokenGuard)
   async findById(@Param("id") id: string) {
     return this.orderService.findById(id);
   }
@@ -37,7 +42,8 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-user/:userId")
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async findByUserId(@Param("userId") userId: string) {
     return this.orderService.findByUserId(userId);
   }
@@ -45,7 +51,8 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-product/:productId")
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async findByProductId(@Param("productId") productId: string) {
     return this.orderService.findByProductId(productId);
   }
@@ -53,7 +60,7 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post()
-  @Auth()
+  @UseGuards(AccessTokenGuard)
   async create(@Body() dto: OrderCreateDTO) {
     return this.orderService.create(dto);
   }
@@ -61,7 +68,8 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Put("status/:id")
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async updateStatus(
     @Param("id") id: string,
     @Body() newOrderStatus: OrderStatus,

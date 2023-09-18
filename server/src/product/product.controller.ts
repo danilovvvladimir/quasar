@@ -9,10 +9,14 @@ import {
   Post,
   ValidationPipe,
   Param,
+  UseGuards,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 import { Auth } from "src/decorators/auth";
+import { AccessTokenGuard } from "src/guard/accessToken";
+import { RolesGuard } from "src/guard/roles";
+import { Roles } from "src/decorators/role";
 
 @Controller("products")
 export class ProductController {
@@ -46,6 +50,7 @@ export class ProductController {
     return this.productService.findByCategoryId(categoryId);
   }
 
+  // Или засунуть в findByID
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":id/details")
@@ -53,6 +58,7 @@ export class ProductController {
     return this.productService.findSizeQuantiy(id);
   }
 
+  // Или засунуть в findByID
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":id/images")
@@ -63,7 +69,8 @@ export class ProductController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post()
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async create(@Body() dto: ProductCreateDTO) {
     return this.productService.create(dto);
   }
@@ -71,7 +78,8 @@ export class ProductController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Put(":id")
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async createDetails(@Param("id") id: string, @Body() dto: ProductUpdateDTO) {
     return this.productService.update(id, dto);
   }
@@ -79,7 +87,8 @@ export class ProductController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Delete(":id")
-  @Auth()
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
   async createImages(@Param("id") id: string) {
     return this.productService.delete(id);
   }

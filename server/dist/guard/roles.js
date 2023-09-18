@@ -19,12 +19,10 @@ let RolesGuard = class RolesGuard {
     }
     canActivate(context) {
         const requiredRoles = this.reflector.getAllAndOverride(role_1.ROLES_KEY, [context.getHandler(), context.getClass()]);
-        console.log("required roles", requiredRoles);
         if (!requiredRoles) {
             return true;
         }
         const request = context.switchToHttp().getRequest();
-        console.log("can activate request", request.user);
         return requiredRoles.some((role) => { var _a; return (_a = request.user.roles) === null || _a === void 0 ? void 0 : _a.includes(role); });
     }
 };
@@ -33,4 +31,4 @@ exports.RolesGuard = RolesGuard = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [core_1.Reflector])
 ], RolesGuard);
-//# sourceMappingURL=role.js.map
+//# sourceMappingURL=roles.js.map

@@ -17,10 +17,9 @@ const common_1 = require("@nestjs/common");
 const review_service_1 = require("./review.service");
 const review_dto_1 = require("./review.dto");
 const user_1 = require("../decorators/user");
-const auth_1 = require("../decorators/auth");
 const role_1 = require("../decorators/role");
-const role_2 = require("../guard/role");
-const access_1 = require("../guard/access");
+const roles_1 = require("../guard/roles");
+const accessToken_1 = require("../guard/accessToken");
 let ReviewController = class ReviewController {
     constructor(reviewService) {
         this.reviewService = reviewService;
@@ -40,11 +39,11 @@ let ReviewController = class ReviewController {
     async create(dto) {
         return this.reviewService.create(dto);
     }
-    async update(id, userId, dto) {
-        return this.reviewService.update(id, userId, dto);
+    async update(id, userId, userRole, dto) {
+        return this.reviewService.update(id, userId, userRole, dto);
     }
-    async delete(id) {
-        return this.reviewService.delete(id);
+    async delete(id, userId, userRole) {
+        return this.reviewService.delete(id, userId, userRole);
     }
 };
 exports.ReviewController = ReviewController;
@@ -52,8 +51,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
-    (0, auth_1.Auth)(),
-    (0, common_1.UseGuards)(access_1.AccessTokenGuard, role_2.RolesGuard),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
     (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -63,7 +61,6 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-id/:id"),
-    (0, auth_1.Auth)(),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -73,7 +70,6 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-product/:productId"),
-    (0, auth_1.Auth)(),
     __param(0, (0, common_1.Param)("productId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -83,7 +79,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-user/:userId"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -93,7 +89,8 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)(),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [review_dto_1.ReviewCreateDTO]),
@@ -103,22 +100,25 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(":id"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, user_1.CurrentUser)("id")),
-    __param(2, (0, common_1.Body)()),
+    __param(2, (0, user_1.CurrentUser)("role")),
+    __param(3, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, review_dto_1.ReviewUpdateDTO]),
+    __metadata("design:paramtypes", [String, String, String, review_dto_1.ReviewUpdateDTO]),
     __metadata("design:returntype", Promise)
 ], ReviewController.prototype, "update", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(":id"),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, user_1.CurrentUser)("id")),
+    __param(2, (0, user_1.CurrentUser)("role")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], ReviewController.prototype, "delete", null);
 exports.ReviewController = ReviewController = __decorate([

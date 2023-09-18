@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from "@nestjs/common";
-import { AuthLoginDTO, AuthRefreshTokenDTO, AuthRegisterDTO } from "./auth.dto";
+import { AuthLoginDTO, AuthRegisterDTO, RefreshTokenDTO } from "./auth.dto";
 import { hash, verify } from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/user/user.service";
@@ -25,26 +25,20 @@ export class AuthService {
 
   async register(registerDTO: AuthRegisterDTO) {
     try {
-      const isUserAlreadyExist = await this.userService.findByEmail(
-        registerDTO.email,
-      );
-
-      if (isUserAlreadyExist) {
-        throw new BadRequestException(USER_ALREADY_EXISTS_MESSAGE);
-      }
+      await this.userService.findByEmail(registerDTO.email);
     } catch (error) {
-      await this.userService.create(
+      const user = await this.userService.create(
         registerDTO.email,
         registerDTO.username,
         await hash(registerDTO.password),
       );
 
-      const user = await this.userService.findByEmail(registerDTO.email);
-
       const tokens = await this.issueTokens(user.id);
 
       return { user, ...tokens };
     }
+
+    throw new BadRequestException(USER_ALREADY_EXISTS_MESSAGE);
   }
 
   async login(loginDTO: AuthLoginDTO) {
@@ -54,20 +48,25 @@ export class AuthService {
     return { user: user, ...tokens };
   }
 
-  async getNewTokens(dto: AuthRefreshTokenDTO) {
+  async getNewTokens(dto: RefreshTokenDTO) {
     const refreshToken = dto.refreshToken;
 
-    const result = await this.jwtService.verifyAsync(refreshToken);
+    try {
+      const result = await this.jwtService.verifyAsync(refreshToken);
 
-    if (!result) {
+      if (!result) {
+        throw new UnauthorizedException(INVALID_REFRESH_TOKEN_MESSAGE);
+      }
+
+      const user = await this.userService.findById(result.id);
+
+      const tokens = await this.issueTokens(user.id);
+
+      // return { user, ...tokens };
+      return tokens;
+    } catch (error) {
       throw new UnauthorizedException(INVALID_REFRESH_TOKEN_MESSAGE);
     }
-
-    const user = await this.userService.findById(result.id);
-
-    const tokens = await this.issueTokens(user.id);
-
-    return { user, ...tokens };
   }
 
   private async issueTokens(userId: string) {

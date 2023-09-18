@@ -35,7 +35,7 @@ export declare class CategoryController {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    createDetails(id: string, dto: CategoryUpdateDTO): Promise<{
+    update(id: string, dto: CategoryUpdateDTO): Promise<{
         id: string;
         name: string;
         slug: string;
@@ -43,7 +43,7 @@ export declare class CategoryController {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    createImages(id: string): Promise<{
+    delete(id: string): Promise<{
         id: string;
         name: string;
         slug: string;

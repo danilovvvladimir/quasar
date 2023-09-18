@@ -9,6 +9,7 @@ export declare class UserController {
         email: string;
         createdAt: Date;
         updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
     }[]>;
     getProfile(id: string): Promise<{
         review: {
@@ -44,6 +45,7 @@ export declare class UserController {
         email: string;
         createdAt: Date;
         updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
     }>;
     findById(id: string): Promise<{
         review: {
@@ -79,6 +81,7 @@ export declare class UserController {
         email: string;
         createdAt: Date;
         updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
         id: string;
@@ -87,6 +90,7 @@ export declare class UserController {
         email: string;
         createdAt: Date;
         updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
     }>;
     findOrders(userId: string): Promise<{
         id: string;

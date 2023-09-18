@@ -16,6 +16,7 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const auth_dto_1 = require("./auth.dto");
+const refreshToken_1 = require("../guard/refreshToken");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -26,8 +27,8 @@ let AuthController = class AuthController {
     async login(dto) {
         return this.authService.login(dto);
     }
-    async getNewTokens(dto) {
-        return this.authService.getNewTokens(dto);
+    async getNewTokens(refreshToken) {
+        return this.authService.getNewTokens(refreshToken);
     }
 };
 exports.AuthController = AuthController;
@@ -53,9 +54,10 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)("access-token"),
+    (0, common_1.UseGuards)(refreshToken_1.RefreshTokenGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [auth_dto_1.AuthRefreshTokenDTO]),
+    __metadata("design:paramtypes", [auth_dto_1.RefreshTokenDTO]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getNewTokens", null);
 exports.AuthController = AuthController = __decorate([

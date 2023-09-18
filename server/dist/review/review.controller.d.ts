@@ -46,7 +46,7 @@ export declare class ReviewController {
         userId: string;
         productId: string;
     }>;
-    update(id: string, userId: string, dto: ReviewUpdateDTO): Promise<{
+    update(id: string, userId: string, userRole: string, dto: ReviewUpdateDTO): Promise<{
         id: string;
         text: string;
         rating: number;
@@ -55,13 +55,11 @@ export declare class ReviewController {
         userId: string;
         productId: string;
     }>;
-    delete(id: string): Promise<{
+    delete(id: string, userId: string, userRole: string): Promise<{
         id: string;
-        text: string;
-        rating: number;
+        orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        productId: string;
     }>;
 }

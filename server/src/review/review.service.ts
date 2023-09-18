@@ -1,6 +1,7 @@
 import {
   Injectable,
   NotFoundException,
+  ForbiddenException,
   ConflictException,
 } from "@nestjs/common";
 import {
@@ -13,6 +14,7 @@ import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
 import { UserService } from "src/user/user.service";
 import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
+import { $Enums } from "@prisma/client";
 
 @Injectable()
 export class ReviewService {
@@ -111,13 +113,22 @@ export class ReviewService {
     return review;
   }
 
-  async update(id: string, userId: string, dto: ReviewUpdateDTO) {
+  async update(
+    id: string,
+    userId: string,
+    userRole: string,
+    dto: ReviewUpdateDTO,
+  ) {
     const { rating, text } = dto;
 
     const review = await this.findById(id);
 
-    if (review.userId !== userId) {
-      throw new ConflictException(REVIEW_UPDATE_OTHER_USER_MESSAGE);
+    if (
+      review.userId !== userId &&
+      !userRole.includes($Enums.RoleName.ADMIN) &&
+      !userRole.includes($Enums.RoleName.SUPERADMIN)
+    ) {
+      throw new ForbiddenException(REVIEW_UPDATE_OTHER_USER_MESSAGE);
     }
 
     const updatedReview = await this.prismaService.review.update({
@@ -131,10 +142,18 @@ export class ReviewService {
     return updatedReview;
   }
 
-  async delete(id: string) {
-    await this.findById(id);
+  async delete(id: string, userId: string, userRole: string) {
+    const review = await this.findById(id);
 
-    const review = await this.prismaService.review.delete({ where: { id } });
+    if (
+      review.userId !== userId &&
+      !userRole.includes($Enums.RoleName.ADMIN) &&
+      !userRole.includes($Enums.RoleName.SUPERADMIN)
+    ) {
+      throw new ForbiddenException(REVIEW_UPDATE_OTHER_USER_MESSAGE);
+    }
+
+    await this.prismaService.review.delete({ where: { id } });
 
     return review;
   }

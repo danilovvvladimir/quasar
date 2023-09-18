@@ -7,6 +7,6 @@ export declare class AuthLoginDTO {
     email: string;
     password: string;
 }
-export declare class AuthRefreshTokenDTO {
+export declare class RefreshTokenDTO {
     refreshToken: string;
 }

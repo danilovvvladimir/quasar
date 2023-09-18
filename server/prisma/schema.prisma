@@ -26,20 +26,12 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  role      RoleName @default(USER)
 
   wishlistItem WishlistItem[]
-  role         Role[]
   review       Review[]
   cartItem     CartItem[]
   order        Order[]
-}
-
-model Role {
-  id      String   @id @default(uuid())
-  message RoleName @default(USER)
-
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String? @map("user_id")
 }
 
 model WishlistItem {

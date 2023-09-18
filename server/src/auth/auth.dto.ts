@@ -43,7 +43,6 @@ export class AuthLoginDTO {
   password: string;
 }
 
-export class AuthRefreshTokenDTO {
-  @IsString()
+export class RefreshTokenDTO {
   refreshToken: string;
 }

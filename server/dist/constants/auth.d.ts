@@ -4,6 +4,6 @@ export declare const REGISTER_USERNAME_MIN_MESSAGE = "Username must be at least 
 export declare const REGISTER_USERNAME_MAX_MESSAGE = "Username cannot exceed 50 characters in length";
 export declare const USER_ALREADY_EXISTS_MESSAGE = "User already exists";
 export declare const INVALID_PASSWORD_MESSAGE = "Invalid Password";
-export declare const ACCESS_TOKEN_EXPIRATION_TIME = "1h";
+export declare const ACCESS_TOKEN_EXPIRATION_TIME = "30m";
 export declare const REFRESH_TOKEN_EXPIRATION_TIME = "7d";
 export declare const INVALID_REFRESH_TOKEN_MESSAGE = "Invalid refresh token";

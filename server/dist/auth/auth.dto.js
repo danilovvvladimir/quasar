@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthRefreshTokenDTO = exports.AuthLoginDTO = exports.AuthRegisterDTO = void 0;
+exports.RefreshTokenDTO = exports.AuthLoginDTO = exports.AuthRegisterDTO = void 0;
 const class_validator_1 = require("class-validator");
 const auth_1 = require("../constants/auth");
 class AuthRegisterDTO {
@@ -56,11 +56,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], AuthLoginDTO.prototype, "password", void 0);
-class AuthRefreshTokenDTO {
+class RefreshTokenDTO {
 }
-exports.AuthRefreshTokenDTO = AuthRefreshTokenDTO;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], AuthRefreshTokenDTO.prototype, "refreshToken", void 0);
+exports.RefreshTokenDTO = RefreshTokenDTO;
 //# sourceMappingURL=auth.dto.js.map

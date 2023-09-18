@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: true,
+      ignoreExpiration: false,
       secretOrKey: configService.get("JWT_SECRET"),
     });
   }
@@ -21,7 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate({ id }: Pick<User, "id">) {
     return this.prismaService.user.findUnique({
       where: { id },
-      include: { role: true },
     });
   }
 }

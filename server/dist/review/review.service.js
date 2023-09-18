@@ -15,6 +15,7 @@ const review_1 = require("../constants/review");
 const prisma_service_1 = require("../database/prisma.service");
 const product_service_1 = require("../product/product.service");
 const user_service_1 = require("../user/user.service");
+const client_1 = require("@prisma/client");
 let ReviewService = class ReviewService {
     constructor(userService, productService, prismaService) {
         this.userService = userService;
@@ -84,11 +85,13 @@ let ReviewService = class ReviewService {
         });
         return review;
     }
-    async update(id, userId, dto) {
+    async update(id, userId, userRole, dto) {
         const { rating, text } = dto;
         const review = await this.findById(id);
-        if (review.userId !== userId) {
-            throw new common_1.ConflictException(review_1.REVIEW_UPDATE_OTHER_USER_MESSAGE);
+        if (review.userId !== userId &&
+            !userRole.includes(client_1.$Enums.RoleName.ADMIN) &&
+            !userRole.includes(client_1.$Enums.RoleName.SUPERADMIN)) {
+            throw new common_1.ForbiddenException(review_1.REVIEW_UPDATE_OTHER_USER_MESSAGE);
         }
         const updatedReview = await this.prismaService.review.update({
             where: { id },
@@ -99,9 +102,14 @@ let ReviewService = class ReviewService {
         });
         return updatedReview;
     }
-    async delete(id) {
-        await this.findById(id);
-        const review = await this.prismaService.review.delete({ where: { id } });
+    async delete(id, userId, userRole) {
+        const review = await this.findById(id);
+        if (review.userId !== userId &&
+            !userRole.includes(client_1.$Enums.RoleName.ADMIN) &&
+            !userRole.includes(client_1.$Enums.RoleName.SUPERADMIN)) {
+            throw new common_1.ForbiddenException(review_1.REVIEW_UPDATE_OTHER_USER_MESSAGE);
+        }
+        await this.prismaService.review.delete({ where: { id } });
         return review;
     }
 };

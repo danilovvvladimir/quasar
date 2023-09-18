@@ -19,7 +19,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
     constructor(configService, prismaService) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: true,
+            ignoreExpiration: false,
             secretOrKey: configService.get("JWT_SECRET"),
         });
         this.configService = configService;
@@ -28,7 +28,6 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
     async validate({ id }) {
         return this.prismaService.user.findUnique({
             where: { id },
-            include: { role: true },
         });
     }
 };
