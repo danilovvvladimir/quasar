@@ -39,6 +39,10 @@ export class ProductService {
   async findById(id: string) {
     const product = await this.prismaService.product.findUnique({
       where: { id },
+      include: {
+        productImage: true,
+        productSize: true,
+      },
     });
 
     if (!product) {
@@ -117,6 +121,7 @@ export class ProductService {
     try {
       // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
+        console.log("Зашло сюда 1");
         const createdProduct = await prisma.product.create({
           data: {
             name,
@@ -127,34 +132,22 @@ export class ProductService {
           },
         });
 
-        const productDetails = await this.createProductDetails(
-          createdProduct.id,
-          {
-            details,
-          },
-        );
+        this.createProductDetails(createdProduct.id, {
+          details,
+        });
 
-        const productImages = await this.createProductImages(
-          createdProduct.id,
-          {
-            imagePaths,
-          },
-        );
+        this.createProductImages(createdProduct.id, {
+          imagePaths,
+        });
 
-        const productCategories = await this.createProductCategories(
-          createdProduct.id,
-          { categoryIds },
-        );
-
-        await Promise.all([
-          ...productDetails,
-          ...productImages,
-          ...productCategories,
-        ]);
+        this.createProductCategories(createdProduct.id, { categoryIds });
 
         return createdProduct;
       });
     } catch (error) {
+      const err = error as Error;
+      console.log(err.message);
+
       // Обработка ошибок транзакции
       throw new HttpException(
         PRODUCT_CREATE_ERROR_MESSAGE,
@@ -180,6 +173,8 @@ export class ProductService {
       }),
     );
 
+    await Promise.all(detailsPromises);
+
     return detailsPromises;
   }
 
@@ -197,6 +192,8 @@ export class ProductService {
       }),
     );
 
+    await Promise.all(imagesPromises);
+
     return imagesPromises;
   }
 
@@ -204,14 +201,11 @@ export class ProductService {
     id: string,
     dto: ProductCategoryCreateDTO,
   ) {
-    // ПРОВЕРКА НА СУЩЕСТВОВАНИЕ КАТЕГОРИИ
     const { categoryIds } = dto;
 
     const categories = categoryIds.map((categoryId) =>
       this.categoryService.findById(categoryId),
     );
-
-    await Promise.all(categories);
 
     const productCategoriesPromises = categoryIds.map((categoryId) =>
       this.prismaService.productCategory.create({
@@ -221,6 +215,8 @@ export class ProductService {
         },
       }),
     );
+
+    await Promise.all(productCategoriesPromises);
 
     return productCategoriesPromises;
   }

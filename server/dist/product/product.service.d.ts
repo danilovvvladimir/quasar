@@ -17,6 +17,18 @@ export declare class ProductService {
         updatedAt: Date;
     }[]>;
     findById(id: string): Promise<{
+        productImage: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+        productSize: {
+            id: string;
+            size: number;
+            quantity: number;
+            productId: string;
+        }[];
+    } & {
         id: string;
         name: string;
         slug: string;

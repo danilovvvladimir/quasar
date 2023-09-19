@@ -28,6 +28,10 @@ let ProductService = class ProductService {
     async findById(id) {
         const product = await this.prismaService.product.findUnique({
             where: { id },
+            include: {
+                productImage: true,
+                productSize: true,
+            },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
@@ -79,6 +83,7 @@ let ProductService = class ProductService {
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
+                console.log("Зашло сюда 1");
                 const createdProduct = await prisma.product.create({
                     data: {
                         name,
@@ -88,22 +93,19 @@ let ProductService = class ProductService {
                         isVisible,
                     },
                 });
-                const productDetails = await this.createProductDetails(createdProduct.id, {
+                this.createProductDetails(createdProduct.id, {
                     details,
                 });
-                const productImages = await this.createProductImages(createdProduct.id, {
+                this.createProductImages(createdProduct.id, {
                     imagePaths,
                 });
-                const productCategories = await this.createProductCategories(createdProduct.id, { categoryIds });
-                await Promise.all([
-                    ...productDetails,
-                    ...productImages,
-                    ...productCategories,
-                ]);
+                this.createProductCategories(createdProduct.id, { categoryIds });
                 return createdProduct;
             });
         }
         catch (error) {
+            const err = error;
+            console.log(err.message);
             throw new common_1.HttpException(product_1.PRODUCT_CREATE_ERROR_MESSAGE, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return product;
@@ -118,6 +120,7 @@ let ProductService = class ProductService {
                 quantity: detail.quantity,
             },
         }));
+        await Promise.all(detailsPromises);
         return detailsPromises;
     }
     async createProductImages(id, dto) {
@@ -129,18 +132,19 @@ let ProductService = class ProductService {
                 imagePath,
             },
         }));
+        await Promise.all(imagesPromises);
         return imagesPromises;
     }
     async createProductCategories(id, dto) {
         const { categoryIds } = dto;
         const categories = categoryIds.map((categoryId) => this.categoryService.findById(categoryId));
-        await Promise.all(categories);
         const productCategoriesPromises = categoryIds.map((categoryId) => this.prismaService.productCategory.create({
             data: {
                 productId: id,
                 categoryId,
             },
         }));
+        await Promise.all(productCategoriesPromises);
         return productCategoriesPromises;
     }
     async update(id, dto) {

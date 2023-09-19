@@ -16,27 +16,45 @@ exports.FileController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const file_service_1 = require("./file.service");
-const auth_1 = require("../decorators/auth");
+const multer_1 = require("multer");
+const path_1 = require("path");
+const role_1 = require("../decorators/role");
+const accessToken_1 = require("../guard/accessToken");
+const roles_1 = require("../guard/roles");
+const file_1 = require("../constants/file");
 let FileController = class FileController {
     constructor(fileService) {
         this.fileService = fileService;
     }
-    async create(file, folder) {
-        return this.fileService.saveFiles([file], folder);
+    async uploadFile(file) {
+        return {
+            filename: `${file_1.DISTINATION_FOLDER_FILE}/${file.filename}`,
+            originalname: file.originalname,
+        };
     }
 };
 exports.FileController = FileController;
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.HttpCode)(200),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("image")),
-    (0, auth_1.Auth)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("file", {
+        storage: (0, multer_1.diskStorage)({
+            destination: `./${file_1.DISTINATION_FOLDER_FILE}`,
+            filename: (req, file, cb) => {
+                const randomName = Array(32)
+                    .fill(null)
+                    .map(() => Math.round(Math.random() * 16).toString(16))
+                    .join("");
+                return cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
+            },
+        }),
+    })),
     __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Query)("folder")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], FileController.prototype, "create", null);
+], FileController.prototype, "uploadFile", null);
 exports.FileController = FileController = __decorate([
     (0, common_1.Controller)("files"),
     __metadata("design:paramtypes", [file_service_1.FileService])
