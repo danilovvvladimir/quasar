@@ -8,21 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileService = void 0;
 const common_1 = require("@nestjs/common");
-const app_root_path_1 = require("app-root-path");
-const fs_extra_1 = require("fs-extra");
 let FileService = class FileService {
-    async saveFiles(files, folder = "default") {
-        const uploadFolder = `${app_root_path_1.path}/uploads/${folder}`;
-        await (0, fs_extra_1.ensureDir)(uploadFolder);
-        const res = await Promise.all(files.map(async (file) => {
-            await (0, fs_extra_1.writeFile)(`${uploadFolder}/${file.originalname}`, file.buffer);
-            return {
-                url: `uploads/${folder}/${file.originalname}`,
-                name: file.originalname,
-            };
-        }));
-        return res;
-    }
 };
 exports.FileService = FileService;
 exports.FileService = FileService = __decorate([

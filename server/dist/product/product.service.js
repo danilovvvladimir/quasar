@@ -83,7 +83,6 @@ let ProductService = class ProductService {
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
-                console.log("Зашло сюда 1");
                 const createdProduct = await prisma.product.create({
                     data: {
                         name,

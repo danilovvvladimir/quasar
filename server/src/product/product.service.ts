@@ -121,7 +121,6 @@ export class ProductService {
     try {
       // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
-        console.log("Зашло сюда 1");
         const createdProduct = await prisma.product.create({
           data: {
             name,
