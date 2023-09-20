@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+
+.auth-form {
+  margin: 0 auto;
+  width: $step * 140;
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+    margin-bottom: $step * 6;
+  }
+  &__controls {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: $step * 4;
+    &--register {
+      flex-direction: column;
+    }
+  }
+}

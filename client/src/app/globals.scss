@@ -80,4 +80,11 @@ a {
   overflow: hidden;
   padding: 0 15px;
   max-width: 1440px;
+  min-height: calc(100vh - 100px);
+}
+
+.title {
+  font-size: 32px;
+  line-height: 100%;
+  color: $text-title-color;
 }

@@ -14,3 +14,9 @@
     gap: $step * 8;
   }
 }
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: $step * 8;
+}

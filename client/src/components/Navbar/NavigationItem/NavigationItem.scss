@@ -1,0 +1,30 @@
+@import "../../../styles/variables.scss";
+
+.navigation__item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $text-title-color;
+  transition: all 0.3s ease;
+  &-text {
+    padding-top: $step;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  svg {
+    path {
+      transition: all 0.3s ease;
+    }
+  }
+
+  &:hover {
+    color: $main-blue-color;
+
+    svg {
+      path {
+        fill: $main-blue-color;
+      }
+    }
+  }
+}

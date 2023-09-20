@@ -1,0 +1,11 @@
+@import "../../../styles/variables.scss";
+
+.auth-page {
+  margin: $step * 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__title {
+    margin-bottom: $step * 8;
+  }
+}
