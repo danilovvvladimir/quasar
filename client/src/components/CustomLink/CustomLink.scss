@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+
+.link {
+  color: $main-blue-color;
+  font-size: 18px;
+  font-weight: 500;
+
+  &--button {
+    padding: $step * 2 $step * 6;
+    color: $main-white-color;
+    background-color: $main-blue-color;
+    border-radius: 5px;
+    border: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    &:hover {
+      background-color: $main-blue-hover-color;
+    }
+  }
+}
