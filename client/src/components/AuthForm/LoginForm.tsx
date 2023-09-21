@@ -1,8 +1,8 @@
 import { FC } from "react";
 import "./AuthForm.scss";
-import Button from "../Button/Button";
+import Button from "../UI/Button/Button";
 import CustomLink from "../CustomLink/CustomLink";
-import Input from "../Input/Input";
+import Input from "../UI/Input/Input";
 
 const LoginForm: FC = () => {
   return (

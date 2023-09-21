@@ -1,0 +1,25 @@
+@import "../../../styles/variables.scss";
+
+input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+  left: -9999px;
+}
+
+.rating-filter {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  &__item {
+    cursor: pointer;
+    display: flex;
+    gap: $step * 2;
+    color: $text-description-color;
+    &-text {
+      font-weight: 500;
+    }
+    &--selected {
+      color: $main-blue-color;
+    }
+  }
+}

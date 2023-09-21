@@ -1,0 +1,30 @@
+@import "../../../styles/variables.scss";
+
+.custom-toggler {
+  width: 40px;
+  height: 20px;
+  background-color: $text-description-color;
+  border-radius: 100px;
+  cursor: pointer;
+  position: relative;
+  display: block;
+
+  &__thumb {
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: $main-white-color;
+  }
+
+  &--on {
+    background-color: $main-blue-color;
+    .custom-toggler__thumb {
+      left: auto;
+      right: 2px;
+    }
+  }
+}

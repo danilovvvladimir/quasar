@@ -4,7 +4,7 @@ import { FC } from "react";
 import "./Navbar.scss";
 import Link from "next/link";
 import Image from "next/image";
-import Button from "../Button/Button";
+import Button from "../UI/Button/Button";
 import Separator from "../Separator/Separator";
 import CustomLink from "../CustomLink/CustomLink";
 import NavigationItem from "./NavigationItem/NavigationItem";

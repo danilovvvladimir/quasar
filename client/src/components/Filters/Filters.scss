@@ -1,0 +1,70 @@
+@import "../../styles/variables.scss";
+
+.filters {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: $step * 6;
+  &__item {
+    &-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: $step * 4;
+    }
+    &-inputs {
+      display: flex;
+      gap: $step * 3;
+    }
+    &--inline {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  &__item {
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: $step * 2;
+    cursor: pointer;
+  }
+}
+
+.price-slider {
+  width: 100%;
+  height: $step;
+  background-color: rgba($main-gray-color, 0.3);
+  margin-top: $step * 6;
+  margin-bottom: $step * 4;
+}
+
+.price-slider .thumb {
+  transform: translateY(-40%);
+  width: $step * 5;
+  height: $step * 5;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: $main-blue-color;
+  &:active {
+    box-shadow: 0 0 15px rgba($main-blue-color, 0.7);
+  }
+}
+
+.price-slider .track {
+  background-color: red;
+}
+
+.price-slider .thumb.active {
+  outline: none;
+}
+
+.price-slider .track-1 {
+  height: $step;
+  background-color: #b3ceff;
+}

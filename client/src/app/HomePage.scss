@@ -1,0 +1,9 @@
+@import "../styles/variables.scss";
+
+.home-page {
+  &__wrapper {
+    padding-top: $step * 13;
+    display: flex;
+    justify-content: space-between;
+  }
+}
