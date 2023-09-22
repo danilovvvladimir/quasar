@@ -1,0 +1,12 @@
+@import "../../styles/variables.scss";
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $step * 8;
+  border: 2px solid rgba($text-title-color, 0.1);
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  padding: $step * 6 0 0 $step * 6;
+}

@@ -1,0 +1,59 @@
+@import "../../../styles/variables.scss";
+
+.product-medium {
+  width: 200px;
+  // height: 366px;
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-title-color;
+    // margin-bottom: $step * 2;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+  }
+  &__price {
+    display: flex;
+    align-items: center;
+    gap: $step * 2;
+    &-current {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    &-old {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-description-color;
+      text-decoration: line-through;
+    }
+    &-discount {
+      font-size: 14px;
+      font-weight: 600;
+      color: $main-accent-color;
+    }
+  }
+  &__about {
+    display: flex;
+    gap: $step;
+  }
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: $step;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  &__reviews {
+    font-size: 14px;
+    color: $text-description-color;
+  }
+  &__link {
+    text-align: center;
+    font-weight: 500 !important;
+  }
+}

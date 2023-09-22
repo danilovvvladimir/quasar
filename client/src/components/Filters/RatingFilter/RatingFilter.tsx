@@ -11,8 +11,6 @@ const RatingFilter: FC = () => {
     setSelectedOption(event.target.value);
   };
 
-  console.log("selected", selectedOption);
-
   return (
     <div className="rating-filter">
       <label>

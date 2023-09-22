@@ -1,0 +1,22 @@
+@import "../../styles/variables.scss";
+
+.search-bar {
+  position: relative;
+  height: 40px;
+  &__input {
+    font-weight: 500;
+    font-size: 18px;
+    padding: $step * 2 $step * 3;
+    border-color: $main-blue-color;
+    width: 700px;
+  }
+  &__button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: $step * 2 $step * 8 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}

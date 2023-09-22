@@ -2,8 +2,19 @@
 
 .home-page {
   &__wrapper {
-    padding-top: $step * 13;
+    padding: $step * 13 0;
     display: flex;
+    gap: $step * 9;
+    // justify-content: space-between;
+  }
+  &__top-filters {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: $step * 6;
+    margin-bottom: $step * 6;
+  }
+  &__content {
+    max-width: 924px;
   }
 }
