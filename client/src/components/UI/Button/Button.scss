@@ -10,6 +10,16 @@
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
+  &--inverted {
+    background-color: transparent;
+    border: 1px solid $main-blue-color;
+    color: $main-blue-color;
+    &:hover {
+      color: $main-white-color;
+      background-color: $main-blue-hover-color;
+    }
+  }
+
   &:hover {
     background-color: $main-blue-hover-color;
   }
