@@ -3,10 +3,10 @@ import "../ProfilePage.scss";
 
 const ProfileReviewsPage: FC = () => {
   return (
-    <section className="p-pr">
-      {/* p-profile__submenu */}
+    <section className="product-reviews">
+      {/* product-reviewsofile__submenu */}
       {/* go-back */}
-      <div className="p-pr__wrapper">
+      <div className="product-reviews__wrapper">
         {/* single profile review */}
         {/* single profile review */}
         {/* single profile review */}

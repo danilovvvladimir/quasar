@@ -1,0 +1,28 @@
+@import "../../styles/variables.scss";
+
+.sizes {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  &__info {
+    color: $text-description-color;
+  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $step * 2;
+    &-item {
+      border-radius: 5px;
+      border: 2px solid $light-gray-color;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      &--selected {
+        border-color: $main-blue-color;
+      }
+    }
+  }
+}

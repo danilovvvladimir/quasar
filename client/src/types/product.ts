@@ -15,3 +15,9 @@ export interface ProductImage {
   imagePath: string;
   productId: string;
 }
+
+export interface ProductDetails {
+  id: string;
+  size: number;
+  quantity: number;
+}

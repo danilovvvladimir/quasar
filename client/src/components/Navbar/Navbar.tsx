@@ -21,7 +21,7 @@ const Navbar: FC = () => {
         <nav className="navigation">
           <NavigationItem href="/wishlist" iconName="heart" text="Избранное" />
           <NavigationItem href="/cart" iconName="cart" text="Корзина" />
-          <NavigationItem href="/user" iconName="user" text="Профиль" />
+          <NavigationItem href="/profile/info" iconName="user" text="Профиль" />
         </nav>
       ) : (
         <div className="header__controls">

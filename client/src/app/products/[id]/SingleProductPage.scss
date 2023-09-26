@@ -1,0 +1,51 @@
+@import "../../../styles/variables.scss";
+
+.single-product {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 12;
+  &__about {
+    display: flex;
+    align-items: flex-start;
+    gap: $step * 8;
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: $step * 8;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__gallery {
+    display: flex;
+    gap: $step * 6;
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: $step * 4;
+    }
+    &-item {
+      border-radius: 10px;
+    }
+  }
+
+  &__sizes {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+  }
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+    max-width: 530px;
+    &-text {
+      font-size: 18px;
+      line-height: 120%;
+      color: $text-description-color;
+      font-weight: 400;
+    }
+  }
+}
