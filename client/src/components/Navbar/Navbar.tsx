@@ -10,7 +10,7 @@ import CustomLink from "../CustomLink/CustomLink";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
 const Navbar: FC = () => {
-  const isAuth = false;
+  const isAuth = true;
 
   return (
     <header className="header">
