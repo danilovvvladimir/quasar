@@ -6,29 +6,35 @@ import { ProductDetails } from "@/types/product";
 
 interface SizeListProps {
   productDetails: ProductDetails[];
+  showExtraInfo?: boolean;
+  selectedDetails: ProductDetails | null;
+  handleSelectDetails: (productDetails: ProductDetails) => void;
 }
 
-const SizeList: FC<SizeListProps> = ({ productDetails }) => {
-  const [selectedDetails, setSelectedDetails] = useState<ProductDetails | null>(
-    null,
-  );
-
+const SizeList: FC<SizeListProps> = ({
+  productDetails,
+  handleSelectDetails,
+  selectedDetails,
+  showExtraInfo = true,
+}) => {
   return (
     <div className="sizes">
       <ul className="sizes__list">
-        {productDetails.map((pd) => (
+        {productDetails.map((productDetails) => (
           <li
-            onClick={() => setSelectedDetails(pd)}
-            key={pd.id}
+            onClick={() => handleSelectDetails(productDetails)}
+            key={productDetails.id}
             className={`sizes__list-item ${
-              selectedDetails?.id === pd.id ? "sizes__list-item--selected" : ""
+              productDetails.id === selectedDetails?.id
+                ? "sizes__list-item--selected"
+                : ""
             }`}
           >
-            {pd.size}
+            {productDetails.size}
           </li>
         ))}
       </ul>
-      {selectedDetails !== null && (
+      {showExtraInfo && selectedDetails !== null && (
         <div className="sizes__info">
           Осталось на складе: {selectedDetails.quantity}
         </div>

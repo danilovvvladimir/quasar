@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+
+.reviews {
+  &__wrapper {
+    display: flex;
+    gap: $step * 16;
+  }
+
+  &__title {
+    font-size: 24px;
+    margin-bottom: $step * 4;
+  }
+
+  &__list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $step * 4;
+  }
+}

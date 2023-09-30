@@ -3,9 +3,9 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
-  price: number;
+  currentPrice: number;
+  oldPrice: number;
   isVisible: boolean;
-  discountPercentage: number;
   createdAt: Date;
   updatedAt: Date;
 }

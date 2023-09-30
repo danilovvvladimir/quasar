@@ -1,0 +1,6 @@
+@import "../../styles/variables.scss";
+
+.rating {
+  display: flex;
+  gap: $step / 2;
+}

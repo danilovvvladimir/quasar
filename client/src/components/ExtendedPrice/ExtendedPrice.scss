@@ -1,0 +1,12 @@
+@import "../../styles/variables.scss";
+
+.extended-price {
+  display: flex;
+  align-items: center;
+  gap: $step * 4;
+
+  &__old-price {
+    font-size: 14px !important;
+    font-weight: 500;
+  }
+}

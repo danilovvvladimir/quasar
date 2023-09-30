@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+.discount-badge {
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: $step;
+  background-color: $main-accent-color;
+  color: $main-white-color;
+}

@@ -4,28 +4,35 @@
   display: flex;
   flex-direction: column;
   gap: $step * 12;
+  padding: $step * 8 0;
+
   &__about {
     display: flex;
     align-items: flex-start;
     gap: $step * 8;
+
     &-wrapper {
       display: flex;
       flex-direction: column;
       gap: $step * 8;
     }
   }
+
   &__wrapper {
     display: flex;
     justify-content: space-between;
   }
+
   &__gallery {
     display: flex;
     gap: $step * 6;
+
     &-list {
       display: flex;
       flex-direction: column;
       gap: $step * 4;
     }
+
     &-item {
       border-radius: 10px;
     }
@@ -36,16 +43,37 @@
     flex-direction: column;
     gap: $step * 2;
   }
+
   &__description {
     display: flex;
     flex-direction: column;
     gap: $step * 2;
     max-width: 530px;
+
     &-text {
       font-size: 18px;
       line-height: 120%;
       color: $text-description-color;
       font-weight: 400;
     }
+  }
+
+  &__process {
+    border-radius: 10px;
+    background-color: $light-gray-color;
+    padding: $step * 2;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+  }
+
+  &__cart-button {
+    padding: $step * 2 $step * 25 !important;
+  }
+
+  &__sizes-title,
+  &__description-title {
+    font-size: 24px;
   }
 }

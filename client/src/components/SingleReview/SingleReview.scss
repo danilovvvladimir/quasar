@@ -1,0 +1,37 @@
+@import "../../styles/variables.scss";
+
+.single-review {
+  max-width: 750px;
+  border-radius: 10px;
+  padding: $step * 4;
+  box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.1);
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 6;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__username {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  &__date {
+    font-weight: 500;
+    font-size: 14px;
+    color: $text-description-color;
+  }
+
+  &__details {
+    display: flex;
+    gap: $step * 2;
+    align-items: center;
+  }
+}
