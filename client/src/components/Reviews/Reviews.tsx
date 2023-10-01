@@ -5,6 +5,7 @@ import "./Reviews.scss";
 import Button from "../UI/Button/Button";
 import SingleReview from "../SingleReview/SingleReview";
 import { Review } from "@/types/review";
+import ReviewsInfo from "../ReviewsInfo/ReviewsInfo";
 
 interface ReviewsProps {
   reviews: Review[];
@@ -23,11 +24,12 @@ const Reviews: FC<ReviewsProps> = ({ reviews }) => {
         </div>
         <div className="reviews__info">
           {/* таблица */}
+          <ReviewsInfo reviews={reviews} />
           <div className="reviews__disclaimer">
             Отзывы могут оставлять только те, кто купил товар. Так мы формируем
             честный рейтинг
           </div>
-          <Button>Написать отзыв</Button>
+          <Button className="reviews__button">Написать отзыв</Button>
         </div>
       </div>
     </div>

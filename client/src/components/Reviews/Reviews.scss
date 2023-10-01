@@ -17,4 +17,15 @@
     flex-direction: column;
     gap: $step * 4;
   }
+
+  &__disclaimer {
+    color: $text-description-color;
+    padding: $step * 5 0 $step * 5 0;
+  }
+
+  &__button {
+    padding-top: $step * 3 !important;
+    padding-bottom: $step * 3 !important;
+    width: 100%;
+  }
 }

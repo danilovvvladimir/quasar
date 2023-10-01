@@ -76,6 +76,16 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
     }
   };
 
+  const handleSendToCart = () => {
+    if (selectedDetails === null) {
+      console.log("Не выбран размер");
+
+      return;
+    }
+
+    console.log("*Добавление в корзину*");
+  };
+
   return (
     <>
       <h1 className="title single-product__title">{foundProduct.name}</h1>
@@ -160,7 +170,12 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
                 <CurrentPrice currentPrice={foundProduct.currentPrice} />
               )}
             </div>
-            <Button className="single-product__cart-button">В корзину</Button>
+            <Button
+              className="single-product__cart-button"
+              onClick={handleSendToCart}
+            >
+              В корзину
+            </Button>
           </div>
         </div>
       </div>

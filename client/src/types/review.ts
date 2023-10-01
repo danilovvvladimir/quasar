@@ -9,3 +9,5 @@ export interface Review {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface RatingSummeryMap extends Map<number, number> {}
