@@ -1,0 +1,17 @@
+@import "../../styles/variables.scss";
+
+.single-product {
+  &__process {
+    border-radius: 10px;
+    background-color: $light-gray-color;
+    padding: $step * 2;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+  }
+
+  &__cart-button {
+    padding: $step * 2 $step * 25;
+  }
+}

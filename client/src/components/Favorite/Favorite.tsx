@@ -2,7 +2,8 @@
 
 import { FC } from "react";
 
-import "./Favorite.scss";
+import styles from "./Favorite.module.scss";
+import classNames from "classnames";
 
 interface FavoriteProps {
   isActivated: boolean;
@@ -10,7 +11,7 @@ interface FavoriteProps {
 }
 
 const Favorite: FC<FavoriteProps> = ({ isActivated, className }) => {
-  const finalClassName = className ? `favorite ${className}` : "favorite";
+  const finalClassName = classNames(styles["favorite"], className);
 
   return (
     <div className={finalClassName}>

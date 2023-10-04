@@ -1,5 +1,6 @@
 import { FC } from "react";
-import "./DiscountBadge.scss";
+import styles from "./DiscountBadge.module.scss";
+import classNames from "classnames";
 
 interface DiscountBadgeProps {
   discountPercent: number;
@@ -10,9 +11,7 @@ const DiscountBadge: FC<DiscountBadgeProps> = ({
   discountPercent,
   className,
 }) => {
-  const finalClassName = className
-    ? `discount-badge ${className}`
-    : "discount-badge";
+  const finalClassName = classNames(styles["discount-badge"], className);
 
   return <div className={finalClassName}>-{discountPercent}%</div>;
 };

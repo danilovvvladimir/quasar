@@ -1,8 +1,9 @@
 "use client";
 
 import { ChangeEvent, FC, useState } from "react";
-import "./RatingFilter.scss";
 import Image from "next/image";
+import styles from "./RatingFilter.module.scss";
+import classNames from "classnames";
 
 const RatingFilter: FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>("stars-1");
@@ -12,7 +13,7 @@ const RatingFilter: FC = () => {
   };
 
   return (
-    <div className="rating-filter">
+    <div className={styles["rating-filter"]}>
       <label>
         <input
           type="radio"
@@ -22,14 +23,13 @@ const RatingFilter: FC = () => {
           onChange={handleOptionChange}
         />
         <div
-          className={
-            selectedOption === "stars-4"
-              ? "rating-filter__item rating-filter__item--selected"
-              : "rating-filter__item"
-          }
+          className={classNames(styles["rating-filter__item"], {
+            [styles["rating-filter__item--selected"]]:
+              selectedOption === "stars-4",
+          })}
         >
           <Image src="/stars-4.svg" alt="start-4" width={96} height={16} />
-          <div className="rating-filter__item-text">и выше</div>
+          <div className={styles["rating-filter__item-text"]}>и выше</div>
         </div>
       </label>
       <label>
@@ -41,14 +41,13 @@ const RatingFilter: FC = () => {
           onChange={handleOptionChange}
         />
         <div
-          className={
-            selectedOption === "stars-3"
-              ? "rating-filter__item rating-filter__item--selected"
-              : "rating-filter__item"
-          }
+          className={classNames(styles["rating-filter__item"], {
+            [styles["rating-filter__item--selected"]]:
+              selectedOption === "stars-3",
+          })}
         >
           <Image src="/stars-3.svg" alt="start-3" width={96} height={16} />
-          <div className="rating-filter__item-text">и выше</div>
+          <div className={styles["rating-filter__item-text"]}>и выше</div>
         </div>
       </label>
       <label>
@@ -60,14 +59,13 @@ const RatingFilter: FC = () => {
           onChange={handleOptionChange}
         />
         <div
-          className={
-            selectedOption === "stars-2"
-              ? "rating-filter__item rating-filter__item--selected"
-              : "rating-filter__item"
-          }
+          className={classNames(styles["rating-filter__item"], {
+            [styles["rating-filter__item--selected"]]:
+              selectedOption === "stars-2",
+          })}
         >
           <Image src="/stars-2.svg" alt="start-2" width={96} height={16} />
-          <div className="rating-filter__item-text">и выше</div>
+          <div className={styles["rating-filter__item-text"]}>и выше</div>
         </div>
       </label>
       <label>
@@ -79,14 +77,13 @@ const RatingFilter: FC = () => {
           onChange={handleOptionChange}
         />
         <div
-          className={
-            selectedOption === "stars-1"
-              ? "rating-filter__item rating-filter__item--selected"
-              : "rating-filter__item"
-          }
+          className={classNames(styles["rating-filter__item"], {
+            [styles["rating-filter__item--selected"]]:
+              selectedOption === "stars-1",
+          })}
         >
           <Image src="/stars-1.svg" alt="start-1" width={96} height={16} />
-          <div className="rating-filter__item-text">и выше</div>
+          <div className={styles["rating-filter__item-text"]}>и выше</div>
         </div>
       </label>
     </div>

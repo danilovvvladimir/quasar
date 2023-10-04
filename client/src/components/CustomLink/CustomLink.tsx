@@ -1,6 +1,7 @@
 import { FC } from "react";
-import "./CustomLink.scss";
+import styles from "./CustomLink.module.scss";
 import Link, { LinkProps } from "next/link";
+import classNames from "classnames";
 
 interface CustomLinkProps extends LinkProps {
   children: React.ReactNode;
@@ -14,18 +15,20 @@ const CustomLink: FC<CustomLinkProps> = ({
   className,
   children,
 }) => {
-  const extraClassname = className ? className : "";
-
   if (isButton) {
+    const finalClassName = classNames(styles["link-button"], className);
+
     return (
-      <Link className={`link--button ${extraClassname}`} href={href}>
+      <Link className={finalClassName} href={href}>
         {children}
       </Link>
     );
   }
 
+  const finalClassName = className ? `link ${className}` : "link";
+
   return (
-    <Link className={`link ${extraClassname}`} href={href}>
+    <Link className={`link ${finalClassName}`} href={href}>
       {children}
     </Link>
   );

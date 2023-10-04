@@ -66,6 +66,12 @@ a {
   text-decoration: none;
 }
 
+input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+  left: -9999px;
+}
+
 .container {
   margin: 0 auto;
   padding: 0 15px;
@@ -87,4 +93,11 @@ a {
   font-size: 32px;
   line-height: 120%;
   color: $text-title-color;
+}
+
+.track {
+  &-1 {
+    height: $step;
+    background-color: #b3ceff;
+  }
 }

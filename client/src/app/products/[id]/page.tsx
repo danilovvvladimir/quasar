@@ -1,6 +1,6 @@
 import { FC } from "react";
 import SingleProductPageInner from "./SingleProductPageInner";
-import "./SingleProductPage.scss";
+import styles from "./SingleProductPage.module.scss";
 
 interface SingleProductPageProps {
   params: {
@@ -18,7 +18,7 @@ const SingleProductPage: FC<SingleProductPageProps> = async ({
   params: { id },
 }) => {
   return (
-    <section className="single-product">
+    <section className={styles["single-product"]}>
       <SingleProductPageInner id={id} />
     </section>
   );

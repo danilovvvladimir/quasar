@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, FC } from "react";
-import "./Button.scss";
+import styles from "./Button.module.scss";
+import classNames from "classnames";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isInverted?: boolean;
@@ -11,9 +12,13 @@ const Button: FC<ButtonProps> = ({
   isInverted = false,
   ...props
 }) => {
-  const finalClassName = className
-    ? `button ${isInverted && "button--inverted"} ${className}`
-    : `button ${isInverted && "button--inverted"}`;
+  const finalClassName = classNames(
+    styles.button,
+    {
+      [styles["button--inverted"]]: isInverted,
+    },
+    className,
+  );
 
   return (
     <button className={finalClassName} {...props}>

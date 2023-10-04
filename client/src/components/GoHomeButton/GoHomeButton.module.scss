@@ -1,0 +1,24 @@
+@import "../../styles/variables.scss";
+
+.go-back-button {
+  padding: $step;
+  line-height: 0;
+  background-color: transparent;
+  border: 2px solid $main-blue-color;
+
+  svg {
+    path {
+      transition: all 0.3s ease;
+      fill: $main-blue-color;
+    }
+  }
+
+  &:hover {
+    border-color: $main-blue-hover-color;
+    svg {
+      path {
+        fill: $main-white-color;
+      }
+    }
+  }
+}

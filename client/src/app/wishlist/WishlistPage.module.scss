@@ -1,0 +1,18 @@
+@import "../../styles/variables.scss";
+
+.wishlist {
+  padding: $step * 6 0;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $step * 3;
+    margin-bottom: $step * 4;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $step * 6;
+  }
+}

@@ -6,6 +6,12 @@
   gap: $step * 12;
   padding: $step * 8 0;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $step * 3;
+  }
+
   &__about {
     display: flex;
     align-items: flex-start;
@@ -69,7 +75,7 @@
   }
 
   &__cart-button {
-    padding: $step * 2 $step * 25 !important;
+    padding: $step * 2 $step * 25;
   }
 
   &__sizes-title,

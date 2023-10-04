@@ -1,18 +1,18 @@
 "use client";
 
 import { FC, useState } from "react";
-import "./SingleProductPage.scss";
 import Image from "next/image";
 import { Product, ProductDetails } from "@/types/product";
 import { Review } from "@/types/review";
 import Reviews from "@/components/Reviews/Reviews";
 import Button from "@/components/UI/Button/Button";
 import SizeList from "@/components/SizeList/SizeList";
-import OldPrice from "@/components/OldPrice/OldPrice";
-import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import ExtendedPrice from "@/components/ExtendedPrice/ExtendedPrice";
 import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
+import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
+import styles from "./SingleProductPage.module.scss";
+import SingleProductAside from "@/components/SingleProductAside/SingleProductAside";
 
 interface SingleProductPageInnerProps {
   id: string;
@@ -85,14 +85,19 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
 
     console.log("*Добавление в корзину*");
   };
-
+  // {styles[]}
   return (
     <>
-      <h1 className="title single-product__title">{foundProduct.name}</h1>
-      <div className="single-product__wrapper">
-        <div className="single-product__about">
-          <div className="single-product__about-wrapper">
-            <div className="single-product__gallery">
+      <div className={styles["single-product__header"]}>
+        <GoHomeButton />
+        <h1 className={`title ${styles["single-product__title"]}`}>
+          {foundProduct.name}
+        </h1>
+      </div>
+      <div className={styles["single-product__wrapper"]}>
+        <div className={styles["single-product__about"]}>
+          <div className={styles["single-product__about-wrapper"]}>
+            <div className={styles["single-product__gallery"]}>
               <div className="single-product__gallery-list">
                 <Image
                   className="single-product__gallery-item"
@@ -133,19 +138,23 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
                 />
               </div>
             </div>
-            <div className="single-product__description">
-              <h2 className="title single-product__description-title">
+            <div className={styles["single-product__description"]}>
+              <h2
+                className={`title ${styles["single-product__description-title"]}`}
+              >
                 Описание
               </h2>
-              <div className="single-product__description-text">
+              <div className={styles["single-product__description-text"]}>
                 {foundProduct.description}
               </div>
             </div>
           </div>
 
-          <div className="single-product__sizes">
-            <h2 className="title single-product__sizes-title">Размеры</h2>
-            <div className="single-product__sizes-list">
+          <div className={styles["single-product__sizes"]}>
+            <h2 className={`title ${styles["single-product__sizes-title"]}`}>
+              Размеры
+            </h2>
+            <div className={styles["single-product__sizes-list"]}>
               <SizeList
                 productDetails={productDetails}
                 handleSelectDetails={handleSelectDetails}
@@ -154,30 +163,11 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
             </div>
           </div>
         </div>
-        <div className="single-product__aside-container">
-          <div className="single-product__process">
-            <div className="single-product__price">
-              {foundProduct.oldPrice ? (
-                <ExtendedPrice
-                  currentPrice={foundProduct.currentPrice}
-                  oldPrice={foundProduct.oldPrice}
-                  discountPercent={getDiscountPercent(
-                    foundProduct.oldPrice,
-                    foundProduct.currentPrice,
-                  )}
-                />
-              ) : (
-                <CurrentPrice currentPrice={foundProduct.currentPrice} />
-              )}
-            </div>
-            <Button
-              className="single-product__cart-button"
-              onClick={handleSendToCart}
-            >
-              В корзину
-            </Button>
-          </div>
-        </div>
+        <SingleProductAside
+          currentPrice={foundProduct.currentPrice}
+          oldPrice={foundProduct.oldPrice}
+          handleSendToCart={handleSendToCart}
+        />
       </div>
 
       <Reviews reviews={reviews} />

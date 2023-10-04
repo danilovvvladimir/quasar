@@ -1,12 +1,13 @@
 "use client";
 
 import { ChangeEvent, FC, useState } from "react";
-import "./Filters.scss";
 import Slider from "react-slider";
 import Input from "../UI/Input/Input";
 import Checkbox from "../UI/Checkbox/Checkbox";
 import Toggler from "../UI/Toggler/Toggler";
 import RatingFilter from "./RatingFilter/RatingFilter";
+import styles from "./Filters.module.scss";
+import classNames from "classnames";
 
 interface FiltersProps {
   minPrice: number;
@@ -51,17 +52,23 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
   };
 
   return (
-    <div className="filters">
-      <div className="filters__item">
-        <h3 className="title filters__item-title">Цена</h3>
+    <div className={styles["filters"]}>
+      <div className={styles["filters__item"]}>
+        <h3 className={`title ${styles["filters__item-title"]}`}>Цена</h3>
         <Slider
-          className="price-slider"
+          className={styles["price-slider"]}
+          thumbClassName={classNames(styles["thumb"], styles["price-slider"])}
+          thumbActiveClassName={classNames(
+            styles["thumb-active"],
+            styles["price-slider"],
+          )}
           value={prices}
           min={minPrice}
           max={maxPrice}
           onChange={setPrices}
         />
-        <div className="filters__item-inputs">
+
+        <div className={styles["filters__item-inputs"]}>
           <Input
             type="number"
             min={minPrice}
@@ -78,24 +85,31 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
           />
         </div>
       </div>
-      <div className="filters__item">
-        <h3 className="title filters__item-title">Категории</h3>
-        <ul className="categories-list">
+      <div className={styles["filters__item"]}>
+        <h3 className={`title ${styles["filters__item-title"]}`}>Категории</h3>
+        <ul className={styles["categories-list"]}>
           {categories.map((c) => (
             <Checkbox
               key={c}
               labelText={c}
-              labelClassName="categories-list__item"
+              labelClassName={styles["categories-list__item"]}
             />
           ))}
         </ul>
       </div>
-      <div className="filters__item">
-        <h3 className="title filters__item-title">Рейтинг</h3>
+      <div className={styles["filters__item"]}>
+        <h3 className={`title ${styles["filters__item-title"]}`}>Рейтинг</h3>
         <RatingFilter />
       </div>
-      <div className="filters__item filters__item--inline">
-        <h3 className="title filters__item-title">Товары со скидкой</h3>
+      <div
+        className={classNames(
+          styles["filters__item"],
+          styles["filters__item--inline"],
+        )}
+      >
+        <h3 className={`title ${styles["filters__item-title"]}`}>
+          Товары со скидкой
+        </h3>
         <Toggler />
       </div>
     </div>

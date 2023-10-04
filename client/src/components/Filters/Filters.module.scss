@@ -40,7 +40,7 @@
   width: 100%;
   height: $step;
   background-color: rgba($main-gray-color, 0.3);
-  margin-top: $step * 6;
+  // margin-top: $step * 6;
   margin-bottom: $step * 4;
 }
 
@@ -56,15 +56,18 @@
   }
 }
 
-.price-slider .track {
-  background-color: red;
-}
-
-.price-slider .thumb.active {
+.price-slider .thumb-active {
   outline: none;
 }
 
-.price-slider .track-1 {
+.track {
   height: $step;
-  background-color: #b3ceff;
+  background-color: red;
+  &-1 {
+    background-color: #b3ceff;
+  }
+
+  // &:nth-child(1) {
+  //   background-color: #b3ceff;
+  // }
 }

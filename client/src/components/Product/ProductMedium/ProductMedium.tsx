@@ -1,18 +1,17 @@
 import { FC } from "react";
-import "./ProductMedium.scss";
 import { Product } from "@/types/product";
 import Button from "@/components/UI/Button/Button";
 import Image from "next/image";
 import Link from "next/link";
 import CustomLink from "@/components/CustomLink/CustomLink";
 import Favorite from "@/components/Favorite/Favorite";
+import styles from "./ProductMedium.module.scss";
 
 interface ProductMediumProps extends Product {}
-
 const ProductMedium: FC = () => {
   return (
-    <div className="product-medium">
-      <div className="product-medium__image">
+    <div className={styles["product-medium"]}>
+      <div className={styles["product-medium__image"]}>
         <Link href="products/1">
           <Image
             src="/product-image.jpg"
@@ -21,21 +20,24 @@ const ProductMedium: FC = () => {
             height={200}
           />
         </Link>
-        <Favorite isActivated={true} className="product-medium__favorite" />
+        <Favorite
+          isActivated={true}
+          className={styles["product-medium__favorite"]}
+        />
       </div>
-      <div className="product-medium__info">
+      <div className={styles["product-medium__info"]}>
         <Link href="products/1">
-          <h3 className="title product-medium__title">
+          <h3 className={`title ${styles["product-medium__title"]}`}>
             Nike Air Force 1 &apos;07 Nike Airffs...
           </h3>
         </Link>
-        <span className="product-medium__price">
-          <div className="product-medium__price-current">7 593 ₽</div>
-          <div className="product-medium__price-old">10 900 ₽</div>
-          <div className="product-medium__price-discount">-29%</div>
+        <span className={styles["product-medium__price"]}>
+          <div className={styles["product-medium__price-current"]}>7 593 ₽</div>
+          <div className={styles["product-medium__price-old"]}>10 900 ₽</div>
+          <div className={styles["product-medium__price-discount"]}>-29%</div>
         </span>
-        <div className="product-medium__about">
-          <div className="product-medium__rating">
+        <div className={styles["product-medium__about"]}>
+          <div className={styles["product-medium__rating"]}>
             <svg
               width="16"
               height="16"
@@ -50,11 +52,14 @@ const ProductMedium: FC = () => {
             </svg>
             4.7
           </div>
-          <div className="product-medium__reviews"> / 4893 отзыва</div>
+          <div className={styles["product-medium__reviews"]}>
+            {" "}
+            / 4893 отзыва
+          </div>
         </div>
       </div>
       <CustomLink
-        className="product-medium__link"
+        className={styles["product-medium__link"]}
         href="products/1"
         isButton={true}
       >
