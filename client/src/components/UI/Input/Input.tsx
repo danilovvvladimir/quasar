@@ -6,9 +6,9 @@ import "./Input.scss";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const Input: FC<InputProps> = ({ className, children, ...props }) => {
-  const classNames = className ? `input ${className}` : "input";
+  const finalClassName = className ? `input ${className}` : "input";
 
-  return <input {...props} className={classNames} />;
+  return <input {...props} className={finalClassName} />;
 };
 
 export default Input;

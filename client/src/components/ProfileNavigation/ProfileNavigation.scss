@@ -1,0 +1,12 @@
+@import "../../styles/variables.scss";
+
+.profile-navigation {
+  margin: 0 auto;
+  padding: $step * 4 $step * 8;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: $step * 8;
+  background-color: $light-blue-color;
+  border-radius: 10px;
+}

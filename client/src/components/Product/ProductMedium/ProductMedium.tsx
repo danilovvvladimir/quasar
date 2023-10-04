@@ -5,6 +5,7 @@ import Button from "@/components/UI/Button/Button";
 import Image from "next/image";
 import Link from "next/link";
 import CustomLink from "@/components/CustomLink/CustomLink";
+import Favorite from "@/components/Favorite/Favorite";
 
 interface ProductMediumProps extends Product {}
 
@@ -20,6 +21,7 @@ const ProductMedium: FC = () => {
             height={200}
           />
         </Link>
+        <Favorite isActivated={true} className="product-medium__favorite" />
       </div>
       <div className="product-medium__info">
         <Link href="products/1">

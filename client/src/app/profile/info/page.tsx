@@ -1,24 +1,34 @@
 import { FC } from "react";
 import "../ProfilePage.scss";
 import Button from "@/components/UI/Button/Button";
+import Input from "@/components/UI/Input/Input";
+import Image from "next/image";
+
+interface ProfileInfoPageProps {}
 
 const ProfileInfoPage: FC = () => {
   return (
-    <section className="product-info">
-      {/* p-profile__submenu */}
-      {/* go-back */}
-      <div className="product-info__wrapper">
-        <h1 className="title product-info__title">Ваши данне на QUASAR</h1>
-        {/* profile svg mock */}
-        <div className="product-info__inputs">email username password</div>
-        <div className="product-info__disclaimer">
-          Имя на QUASAR – публичное имя вашего аккаунта. Оно отображается в
-          ваших отзывах, комментариях, оценках или ответах. Если вы измените
-          его, новое имя появится не только в новом, но и в старом контенте.
-        </div>
-        <Button>Сохранить</Button>
+    <div className="profile-info">
+      <h1 className="title profile-info__title">Ваши данные на QUASAR</h1>
+      {/* profile svg mock */}
+      <Image
+        src="/profile-mock.svg"
+        alt="Profile Mock"
+        width={150}
+        height={150}
+      />
+      <div className="profile-info__inputs">
+        <Input placeholder="Username" />
+        <Input placeholder="Email" />
+        {/* <Input placeholder="Username"/> */}
       </div>
-    </section>
+      <div className="profile-info__disclaimer">
+        Имя на QUASAR – публичное имя вашего аккаунта. Оно отображается в ваших
+        отзывах, комментариях, оценках или ответах. Если вы измените его, новое
+        имя появится не только в новом, но и в старом контенте.
+      </div>
+      <Button className="profile-info__button">Сохранить</Button>
+    </div>
   );
 };
 

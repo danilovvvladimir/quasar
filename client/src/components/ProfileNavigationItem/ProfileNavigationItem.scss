@@ -1,0 +1,16 @@
+@import "../../styles/variables.scss";
+
+.profile-navigation-item {
+  position: relative;
+  &__link {
+    font-size: 18px;
+    font-weight: 500;
+    color: $text-description-color;
+    position: relative;
+
+    &--active {
+      position: relative;
+      color: $main-blue-color;
+    }
+  }
+}
