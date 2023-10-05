@@ -32,7 +32,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
     updatedAt: new Date(),
     productDetails: [
       { id: "1", quantity: 20, size: 41, productId: id },
-      { id: "2", quantity: 2, size: 42, productId: id },
+      { id: "2", quantity: 0, size: 42, productId: id },
       { id: "3", quantity: 30, size: 43, productId: id },
       { id: "4", quantity: 5, size: 44, productId: id },
       { id: "5", quantity: 20, size: 45, productId: id },
@@ -90,7 +90,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
 
     console.log("*Добавление в корзину*");
   };
-  // {styles[]}
+
   return (
     <>
       <div className={styles["single-product__header"]}>
@@ -151,6 +151,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
           </div>
         </div>
         <SingleProductAside
+          isDisabled={selectedDetails?.quantity === 0}
           currentPrice={foundProduct.currentPrice}
           oldPrice={foundProduct.oldPrice}
           handleSendToCart={handleSendToCart}

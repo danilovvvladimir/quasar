@@ -7,6 +7,8 @@ import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import CheckBoxWithLabel from "@/components/UI/CheckBoxWithLabel/CheckBoxWithLabel";
 import { Product, ProductCart } from "@/types/product";
 import CartItem from "@/components/CartItem/CartItem";
+import CartAside from "@/components/CartAside/CartAside";
+import { getTotalAndSalesCartAmount } from "@/utils/getTotalAndSalesCartAmount";
 
 const CartPageInner: FC = () => {
   const products: ProductCart[] = [
@@ -46,6 +48,7 @@ const CartPageInner: FC = () => {
     },
   ];
 
+  // Ещё при product -> ProductCart добавить количество товара в корзине.
   const [cartItems, setCartItems] = useState<ProductCart[]>(products);
 
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
@@ -82,6 +85,15 @@ const CartPageInner: FC = () => {
     setIsAllSelected((isAllSelected) => !isAllSelected);
   };
 
+  const [totalAmount, salesAmount] = getTotalAndSalesCartAmount(
+    cartItems.filter((item) => item.isSelected === true),
+  );
+
+  const handlePayment = () => {
+    // toast запустить
+    setCartItems(cartItems.filter((item) => item.isSelected === false));
+  };
+
   return (
     <>
       <div className={styles["cart__header"]}>
@@ -116,14 +128,14 @@ const CartPageInner: FC = () => {
           </div>
         </div>
 
-        <div className={styles["cart__processing"]}>
-          <div className={styles["cart__processing-info"]}>
-            <div className={styles["cart__processing-count"]}>Всего:</div>
-            <div className={styles["cart__processing-sales"]}>Скидки: </div>
-            <div className={styles["cart__processing-total"]}>Итого</div>
-          </div>
-          <Button>Оплатить</Button>
-        </div>
+        <CartAside
+          handlePayment={handlePayment}
+          cartItemsQuantity={
+            cartItems.filter((item) => item.isSelected === true).length
+          }
+          totalAmount={totalAmount}
+          salesAmount={salesAmount}
+        />
       </div>
     </>
   );

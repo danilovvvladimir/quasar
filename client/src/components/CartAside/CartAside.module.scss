@@ -1,0 +1,54 @@
+@import "../../styles/variables.scss";
+
+.cart-aside {
+  width: 280px;
+
+  &__info {
+    background-color: rgba($light-gray-color, 0.5);
+    border-radius: 10px;
+    padding: $step * 2 $step * 4;
+    margin-bottom: $step * 4;
+    position: relative;
+  }
+
+  &__count {
+    font-size: 14px;
+    color: $text-title-color;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: $step * 2 0;
+  }
+
+  &__sales {
+    font-size: 14px;
+    color: $text-title-color;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: $step * 2 0;
+  }
+
+  &__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 600;
+    padding: $step * 2 0;
+  }
+
+  &__current-price {
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  &__button {
+    // padding: 0;
+    width: 100%;
+  }
+}

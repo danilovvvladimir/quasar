@@ -25,6 +25,12 @@
   &--disabled {
     background-color: rgba($text-description-color, 0.25);
     color: $text-description-color;
+
+    cursor: default;
+    &:hover {
+      background-color: rgba($text-description-color, 0.25) !important;
+      color: $text-description-color;
+    }
   }
 
   &:hover {

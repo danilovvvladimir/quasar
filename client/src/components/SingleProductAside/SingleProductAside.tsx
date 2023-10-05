@@ -10,12 +10,14 @@ interface SingleProductAsideProps {
   oldPrice: number;
   currentPrice: number;
   handleSendToCart: () => void;
+  isDisabled: boolean;
 }
 
 const SingleProductAside: FC<SingleProductAsideProps> = ({
   currentPrice,
   oldPrice,
   handleSendToCart,
+  isDisabled,
 }) => {
   return (
     <div className={styles["single-product__aside-container"]}>
@@ -32,10 +34,11 @@ const SingleProductAside: FC<SingleProductAsideProps> = ({
           )}
         </div>
         <Button
+          disabled={isDisabled}
           className={styles["single-product__cart-button"]}
           onClick={handleSendToCart}
         >
-          В корзину
+          {isDisabled ? "Товар закончился" : "В корзину"}
         </Button>
       </div>
     </div>
