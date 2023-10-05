@@ -1,0 +1,38 @@
+@import "../../../styles/variables.scss";
+
+.stepper {
+  display: flex;
+  gap: $step * 2;
+
+  &__number {
+    border: 2px solid rgba($text-description-color, 0.75);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+  }
+
+  &__control {
+    background-color: $light-blue-color;
+    color: $main-blue-color;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 0;
+    font-size: 26px;
+    &:hover {
+      background-color: $light-blue-color;
+      color: $main-blue-color;
+    }
+
+    &--disabled {
+      background-color: rgba($text-description-color, 0.25);
+      color: $text-description-color;
+      &:hover {
+        background-color: rgba($text-description-color, 0.25);
+        color: $text-description-color;
+      }
+    }
+  }
+}

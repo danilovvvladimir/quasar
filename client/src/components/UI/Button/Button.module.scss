@@ -22,6 +22,11 @@
     }
   }
 
+  &--disabled {
+    background-color: rgba($text-description-color, 0.25);
+    color: $text-description-color;
+  }
+
   &:hover {
     background-color: $main-blue-hover-color;
   }

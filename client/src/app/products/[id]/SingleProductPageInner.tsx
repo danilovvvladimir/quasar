@@ -30,6 +30,22 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
     slug: "nike-air-force-1-07",
     createdAt: new Date(),
     updatedAt: new Date(),
+    productDetails: [
+      { id: "1", quantity: 20, size: 41, productId: id },
+      { id: "2", quantity: 2, size: 42, productId: id },
+      { id: "3", quantity: 30, size: 43, productId: id },
+      { id: "4", quantity: 5, size: 44, productId: id },
+      { id: "5", quantity: 20, size: 45, productId: id },
+      { id: "6", quantity: 2, size: 46, productId: id },
+      { id: "7", quantity: 30, size: 47, productId: id },
+      { id: "8", quantity: 5, size: 48, productId: id },
+    ],
+    productImages: [
+      { id: "1", imagePath: "/product-image.jpg", productId: id },
+      { id: "2", imagePath: "/product-image.jpg", productId: id },
+      { id: "3", imagePath: "/product-image.jpg", productId: id },
+      { id: "4", imagePath: "/product-image.jpg", productId: id },
+    ],
   };
 
   const reviews: Review[] = [
@@ -51,17 +67,6 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
       updatedAt: new Date(),
       user: { id: "2", username: "yousmellliketeens" },
     },
-  ];
-
-  const productDetails: ProductDetails[] = [
-    { id: "1", quantity: 20, size: 41 },
-    { id: "2", quantity: 2, size: 42 },
-    { id: "3", quantity: 30, size: 43 },
-    { id: "4", quantity: 5, size: 44 },
-    { id: "5", quantity: 20, size: 45 },
-    { id: "6", quantity: 2, size: 46 },
-    { id: "7", quantity: 30, size: 47 },
-    { id: "8", quantity: 5, size: 48 },
   ];
 
   const [selectedDetails, setSelectedDetails] = useState<ProductDetails | null>(
@@ -98,39 +103,21 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
         <div className={styles["single-product__about"]}>
           <div className={styles["single-product__about-wrapper"]}>
             <div className={styles["single-product__gallery"]}>
-              <div className="single-product__gallery-list">
-                <Image
-                  className="single-product__gallery-item"
-                  src="/product-image.jpg"
-                  alt="product"
-                  width={100}
-                  height={100}
-                />
-                <Image
-                  className="single-product__gallery-item"
-                  src="/product-image.jpg"
-                  alt="product"
-                  width={100}
-                  height={100}
-                />
-                <Image
-                  className="single-product__gallery-item"
-                  src="/product-image.jpg"
-                  alt="product"
-                  width={100}
-                  height={100}
-                />
-                <Image
-                  className="single-product__gallery-item"
-                  src="/product-image.jpg"
-                  alt="product"
-                  width={100}
-                  height={100}
-                />
+              <div className={styles["single-product__gallery-list"]}>
+                {foundProduct.productImages.map((productImage) => (
+                  <Image
+                    key={productImage.id}
+                    className={styles["single-product__gallery-item"]}
+                    src={productImage.imagePath}
+                    alt="product"
+                    width={100}
+                    height={100}
+                  />
+                ))}
               </div>
-              <div className="single-product__gallery-main">
+              <div className={styles["single-product__gallery-main"]}>
                 <Image
-                  className="single-product__gallery-item"
+                  className={styles["single-product__gallery-item"]}
                   src="/product-image.jpg"
                   alt="product"
                   width={400}
@@ -156,7 +143,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
             </h2>
             <div className={styles["single-product__sizes-list"]}>
               <SizeList
-                productDetails={productDetails}
+                productDetails={foundProduct.productDetails}
                 handleSelectDetails={handleSelectDetails}
                 selectedDetails={selectedDetails}
               />

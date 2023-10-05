@@ -90,6 +90,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
         <ul className={styles["categories-list"]}>
           {categories.map((c) => (
             <CheckBoxWithLabel
+              // функцию вложить на изменение глобального объекта фильтра (его ещё нет)
               key={c}
               labelText={c}
               labelClassName={styles["categories-list__item"]}

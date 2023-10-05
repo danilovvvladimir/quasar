@@ -5,13 +5,21 @@ import classNames from "classnames";
 interface DiscountBadgeProps {
   discountPercent: number;
   className?: string;
+  isInverted?: boolean;
 }
 
 const DiscountBadge: FC<DiscountBadgeProps> = ({
   discountPercent,
   className,
+  isInverted = false,
 }) => {
-  const finalClassName = classNames(styles["discount-badge"], className);
+  const finalClassName = classNames(
+    styles["discount-badge"],
+    {
+      [styles["discount-badge--inverted"]]: isInverted,
+    },
+    className,
+  );
 
   return <div className={finalClassName}>-{discountPercent}%</div>;
 };

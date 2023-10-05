@@ -3,36 +3,28 @@ import styles from "./CheckBoxWithLabel.module.scss";
 import Checkbox from "../Checkbox/Checkbox";
 
 interface CheckBoxWithLabelProps {
+  isChecked: boolean;
+  handleCheckboxChange: () => void;
   labelText: string;
   labelClassName: string;
+  onClick?: () => void;
 }
 
 const CheckBoxWithLabel: FC<CheckBoxWithLabelProps> = ({
   labelText,
   labelClassName,
+  onClick,
+  handleCheckboxChange,
+  isChecked,
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
-
-  const handleCheckboxChange = () => {
-    setChecked(!checked);
-  };
-
   return (
-    <label className={labelClassName}>
+    <label className={labelClassName} onClick={onClick && onClick}>
       <input
-        className="checkbox-input"
         type="checkbox"
-        checked={checked}
+        checked={isChecked}
         onChange={handleCheckboxChange}
       />
-      <span
-        className={
-          checked
-            ? "custom-checkbox custom-checkbox--checked"
-            : "custom-checkbox"
-        }
-      ></span>
-      <Checkbox checked={checked} />
+      <Checkbox checked={isChecked} />
       {labelText}
     </label>
   );

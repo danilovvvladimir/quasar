@@ -16,6 +16,7 @@ const Button: FC<ButtonProps> = ({
     styles.button,
     {
       [styles["button--inverted"]]: isInverted,
+      [styles["button--disabled"]]: props.disabled,
     },
     className,
   );

@@ -1,5 +1,6 @@
 import { FC } from "react";
-import "./Checkbox.module.scss";
+import styles from "./Checkbox.module.scss";
+import classNames from "classnames";
 
 interface CheckboxProps {
   checked: boolean;
@@ -8,9 +9,9 @@ interface CheckboxProps {
 const Checkbox: FC<CheckboxProps> = ({ checked }) => {
   return (
     <span
-      className={
-        checked ? "custom-checkbox custom-checkbox--checked" : "custom-checkbox"
-      }
+      className={classNames(styles["checkbox"], {
+        [styles["checkbox--checked"]]: checked,
+      })}
     ></span>
   );
 };

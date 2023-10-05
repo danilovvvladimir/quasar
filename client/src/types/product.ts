@@ -8,6 +8,8 @@ export interface Product {
   isVisible: boolean;
   createdAt: Date;
   updatedAt: Date;
+  productImages: ProductImage[];
+  productDetails: ProductDetails[];
 }
 
 export interface ProductImage {
@@ -20,4 +22,10 @@ export interface ProductDetails {
   id: string;
   size: number;
   quantity: number;
+  productId: string;
+}
+
+export interface ProductCart extends Product {
+  selectedDetails: ProductDetails;
+  isSelected: boolean;
 }

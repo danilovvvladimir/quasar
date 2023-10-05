@@ -1,12 +1,87 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import Button from "@/components/UI/Button/Button";
 import styles from "./CartPage.module.scss";
 import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import CheckBoxWithLabel from "@/components/UI/CheckBoxWithLabel/CheckBoxWithLabel";
+import { Product, ProductCart } from "@/types/product";
+import CartItem from "@/components/CartItem/CartItem";
 
 const CartPageInner: FC = () => {
+  const products: ProductCart[] = [
+    {
+      id: "1",
+      createdAt: new Date(),
+      currentPrice: 7900,
+      oldPrice: 10000,
+      description: "lorem lorem",
+      isVisible: true,
+      name: " Nike Air Force 1'07 Nike Airffs...",
+      slug: "temp-slug",
+      updatedAt: new Date(),
+      productDetails: [{ id: "1", quantity: 20, size: 43, productId: "1" }],
+      productImages: [
+        { id: "421", imagePath: "/product-image.jpg", productId: "1" },
+      ],
+      selectedDetails: { id: "1", quantity: 20, size: 43, productId: "1" },
+      isSelected: false,
+    },
+    {
+      id: "2",
+      createdAt: new Date(),
+      currentPrice: 7900,
+      oldPrice: 10000,
+      description: "lorem lorem",
+      isVisible: true,
+      name: " Nike Air Force 1'07 Nike Airffs...",
+      slug: "temp-slug",
+      updatedAt: new Date(),
+      productDetails: [{ id: "1", quantity: 20, size: 43, productId: "2" }],
+      productImages: [
+        { id: "421", imagePath: "/product-image.jpg", productId: "1" },
+      ],
+      selectedDetails: { id: "1", quantity: 20, size: 43, productId: "2" },
+      isSelected: false,
+    },
+  ];
+
+  const [cartItems, setCartItems] = useState<ProductCart[]>(products);
+
+  const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+
+  const onSelectItem = (id: string) => {
+    setCartItems(
+      cartItems.map((cartItem) => {
+        if (cartItem.id === id) {
+          const previousIsSelected = cartItem.isSelected;
+          if (previousIsSelected) {
+            setIsAllSelected(false);
+          }
+          return { ...cartItem, isSelected: !previousIsSelected };
+        }
+        return cartItem;
+      }),
+    );
+  };
+
+  const selectAll = () => {
+    setCartItems(
+      cartItems.map((cartItem) => ({ ...cartItem, isSelected: true })),
+    );
+  };
+
+  const unselectAll = () => {
+    setCartItems(
+      cartItems.map((cartItem) => ({ ...cartItem, isSelected: false })),
+    );
+    setIsAllSelected(false);
+  };
+
+  const handleCheckboxChange = () => {
+    setIsAllSelected((isAllSelected) => !isAllSelected);
+  };
+
   return (
     <>
       <div className={styles["cart__header"]}>
@@ -16,20 +91,28 @@ const CartPageInner: FC = () => {
       <div className={styles["cart__wrapper"]}>
         <div className={styles["cart__info"]}>
           <div className={styles["cart__selection"]}>
-            {/* выбрать все */}
             <CheckBoxWithLabel
+              isChecked={isAllSelected}
+              handleCheckboxChange={handleCheckboxChange}
               labelText={"Выбрать все"}
               labelClassName={styles["cart__selection-all"]}
+              onClick={selectAll}
             />
-            {/* Снять выделение */}
-            <span className={styles["cart__selection-clear"]}>
+            <span
+              className={styles["cart__selection-clear"]}
+              onClick={unselectAll}
+            >
               Снять выделение
             </span>
           </div>
           <div className={styles["cart__items"]}>
-            {/* cart item */}
-            {/* cart item */}
-            {/* cart item */}
+            {cartItems.map((productCart) => (
+              <CartItem
+                key={productCart.id + productCart.selectedDetails.id}
+                onSelectItem={onSelectItem}
+                productCart={productCart}
+              />
+            ))}
           </div>
         </div>
 

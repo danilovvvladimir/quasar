@@ -7,4 +7,9 @@
   padding: $step;
   background-color: $main-accent-color;
   color: $main-white-color;
+
+  &--inverted {
+    background: transparent;
+    color: $main-accent-color;
+  }
 }
