@@ -3,7 +3,7 @@
 import { ChangeEvent, FC, useState } from "react";
 import Slider from "react-slider";
 import Input from "../UI/Input/Input";
-import Checkbox from "../UI/Checkbox/Checkbox";
+import CheckBoxWithLabel from "../UI/CheckBoxWithLabel/CheckBoxWithLabel";
 import Toggler from "../UI/Toggler/Toggler";
 import RatingFilter from "./RatingFilter/RatingFilter";
 import styles from "./Filters.module.scss";
@@ -89,7 +89,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
         <h3 className={`title ${styles["filters__item-title"]}`}>Категории</h3>
         <ul className={styles["categories-list"]}>
           {categories.map((c) => (
-            <Checkbox
+            <CheckBoxWithLabel
               key={c}
               labelText={c}
               labelClassName={styles["categories-list__item"]}

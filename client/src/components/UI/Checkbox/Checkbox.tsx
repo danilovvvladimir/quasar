@@ -1,35 +1,17 @@
-import { FC, useState } from "react";
-import "./Checkbox.scss";
+import { FC } from "react";
+import "./Checkbox.module.scss";
 
 interface CheckboxProps {
-  labelText: string;
-  labelClassName: string;
+  checked: boolean;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ labelText, labelClassName }) => {
-  const [checked, setChecked] = useState<boolean>(false);
-
-  const handleCheckboxChange = () => {
-    setChecked(!checked);
-  };
-
+const Checkbox: FC<CheckboxProps> = ({ checked }) => {
   return (
-    <label className={labelClassName}>
-      <input
-        className="checkbox"
-        type="checkbox"
-        checked={checked}
-        onChange={handleCheckboxChange}
-      />
-      <span
-        className={
-          checked
-            ? "custom-checkbox custom-checkbox--checked"
-            : "custom-checkbox"
-        }
-      ></span>
-      {labelText}
-    </label>
+    <span
+      className={
+        checked ? "custom-checkbox custom-checkbox--checked" : "custom-checkbox"
+      }
+    ></span>
   );
 };
 

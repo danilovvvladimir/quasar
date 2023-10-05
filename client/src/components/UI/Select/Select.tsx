@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useState } from "react";
 import ReactSelect from "react-select";
 import "./Select.scss";

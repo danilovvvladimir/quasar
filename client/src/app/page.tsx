@@ -1,5 +1,3 @@
-"use client";
-
 import { FC } from "react";
 import "./HomePage.scss";
 import Navbar from "@/components/Navbar/Navbar";
@@ -7,6 +5,11 @@ import Filters from "@/components/Filters/Filters";
 import Search from "@/components/Search/Search";
 import Select from "@/components/UI/Select/Select";
 import ProductsList from "@/components/ProductsList/ProductsList";
+
+export const metadata = {
+  title: "QUASAR | Главная",
+  description: "Quasar Главная",
+};
 
 const HomePage: FC = () => {
   const MIN_PRICE = 500;
