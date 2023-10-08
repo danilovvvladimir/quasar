@@ -4,6 +4,7 @@ import { Review } from "@/types/review";
 import Button from "../UI/Button/Button";
 import Image from "next/image";
 import { Product } from "@/types/product";
+import Rating from "../Rating/Rating";
 
 interface ProfileSingleReviewProps {
   review: Review;
@@ -76,7 +77,9 @@ const ProfileSingleReview: FC<ProfileSingleReviewProps> = ({ review }) => {
             <div className={styles["profile-single-review__text"]}>{text}</div>
           </div>
         </div>
-        <div className={styles["profile-single-review__rating"]}>{rating}</div>
+        <div className={styles["profile-single-review__rating"]}>
+          <Rating value={rating} />
+        </div>
       </div>
     </div>
   );
