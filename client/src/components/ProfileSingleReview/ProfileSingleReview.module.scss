@@ -1,0 +1,56 @@
+@import "../../styles/variables.scss";
+
+.profile-single-review {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  &__title {
+  }
+  &__updated {
+  }
+  &__button-edit {
+  }
+  &__info {
+  }
+
+  &__header {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    padding: $step * 3 $step * 4;
+    background-color: $light-blue-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-info {
+      display: flex;
+      gap: $step * 4;
+    }
+  }
+
+  &__button-edit {
+    padding: $step $step * 4 !important;
+  }
+
+  &__title {
+    display: flex;
+    align-self: center;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  &__items {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: $step * 3 $step * 4;
+    display: flex;
+    align-items: center;
+    gap: $step * 4;
+  }
+
+  &__total-price {
+    font-size: 16px;
+  }
+}

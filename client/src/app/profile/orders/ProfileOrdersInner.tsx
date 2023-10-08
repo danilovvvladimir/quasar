@@ -1,9 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import styles from "../ProfilePage.module.scss";
 import ProfileSingleOrder from "@/components/ProfileSingleOrder/ProfileSingleOrder";
 import { Order, OrderItem, OrderStatus } from "@/types/order";
+import styles from "../ProfilePage.module.scss";
 
 interface ProfileOrdersInnerProps {}
 
@@ -59,7 +59,7 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
   ];
 
   return (
-    <>
+    <div className={styles["profile-orders__wrapper"]}>
       {orders.map((order) => (
         <ProfileSingleOrder
           key={order.id}
@@ -68,7 +68,7 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
           orderItems={orderItems.filter((oi) => oi.orderId === order.id)}
         />
       ))}
-    </>
+    </div>
   );
 };
 

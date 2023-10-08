@@ -38,12 +38,28 @@
   }
 
   &-orders {
-    padding: $step * 8 0;
     margin: 0 auto;
     max-width: 700px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: $step * 8;
+
+    &__wrapper {
+      padding: $step * 8 0;
+      display: flex;
+      flex-direction: column;
+      gap: $step * 8;
+    }
+  }
+
+  &-reviews {
+    margin: 0 auto;
+    max-width: 700px;
+    width: 100%;
+
+    &__wrapper {
+      padding: $step * 8 0;
+      display: flex;
+      flex-direction: column;
+      gap: $step * 8;
+    }
   }
 }
