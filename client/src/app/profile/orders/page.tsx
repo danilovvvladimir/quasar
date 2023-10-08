@@ -1,16 +1,16 @@
 import { FC } from "react";
-import "../ProfilePage.scss";
+import styles from "../ProfilePage.module.scss";
+import ProfileOrdersInner from "./ProfileOrdersInner";
+
+export const metadata = {
+  title: "QUASAR | Заказы",
+  description: "Quasar заказы",
+};
 
 const ProfileOrdersPage: FC = () => {
   return (
-    <section className="product-orders">
-      {/* p-profile__submenu */}
-      {/* go-back */}
-      <div className="product-orders__wrapper">
-        {/* single profile order */}
-        {/* single profile order */}
-        {/* single profile order */}
-      </div>
+    <section className={styles["profile-orders"]}>
+      <ProfileOrdersInner />
     </section>
   );
 };

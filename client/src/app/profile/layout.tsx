@@ -1,6 +1,6 @@
 import ProfileNavigation from "@/components/ProfileNavigation/ProfileNavigation";
 import { Metadata } from "next";
-import "./ProfilePage.scss";
+import styles from "./ProfilePage.module.scss";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +13,7 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="profile">
+    <section className={styles["profile"]}>
       <ProfileNavigation />
       {children}
     </section>

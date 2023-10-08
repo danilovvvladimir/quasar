@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+
+.order-status {
+  color: $main-white-color;
+  border-radius: 10px;
+  padding: $step $step * 4;
+
+  &--delivered {
+    background-color: $main-green-color;
+  }
+
+  &--pending {
+    background-color: $text-description-color;
+  }
+
+  &--processing {
+    background-color: $main-orange-color;
+  }
+}

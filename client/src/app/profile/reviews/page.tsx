@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "../ProfilePage.scss";
+import styles from "../ProfilePage.module.scss";
 
 const ProfileReviewsPage: FC = () => {
   return (
