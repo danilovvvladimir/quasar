@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "../AdminReviewsPage.scss";
+import styles from "../AdminPage.module.scss";
 
 const AdminReviewsPage: FC = () => {
   return (

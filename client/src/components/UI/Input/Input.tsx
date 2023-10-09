@@ -1,12 +1,13 @@
 "use client";
 
 import { InputHTMLAttributes, FC } from "react";
-import "./Input.scss";
+import styles from "./Input.module.scss";
+import classNames from "classnames";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const Input: FC<InputProps> = ({ className, children, ...props }) => {
-  const finalClassName = className ? `input ${className}` : "input";
+  const finalClassName = classNames(styles["input"], className);
 
   return <input {...props} className={finalClassName} />;
 };

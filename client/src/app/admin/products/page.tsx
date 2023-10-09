@@ -1,14 +1,15 @@
 import { FC } from "react";
-import "../AdminProductsPage.scss";
+import styles from "../AdminPage.module.scss";
+import AdminTable from "@/components/AdminTableProducts/AdminTableProducts";
 
 const AdminProductsPage: FC = () => {
   return (
-    <section className="admin-statistics">
-      {/* admin-statistics__submenu */}
-      <div className="admin-statistics__wrapper">
+    <section className="admin-products">
+      <div className="admin-products__wrapper">
         {/* search */}
         {/* create */}
         {/* table */}
+        <AdminTable />
       </div>
     </section>
   );

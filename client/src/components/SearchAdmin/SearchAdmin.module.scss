@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+
+.search-admin {
+  position: relative;
+  &__icon {
+    position: absolute;
+    left: $step * 2;
+    top: 50%;
+    transform: translateY(-50%);
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__input {
+    width: 240px !important;
+    padding-left: $step * 10 !important;
+  }
+}

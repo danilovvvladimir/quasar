@@ -1,3 +1,4 @@
+import { Order } from "./order";
 import { Product } from "./product";
 import { Review } from "./review";
 
@@ -10,4 +11,15 @@ export enum RoleName {
 export interface UserPublic {
   id: string;
   username: string;
+}
+
+export interface UserPrivate {
+  id: string;
+  username: string;
+  email: string;
+  role: RoleName;
+  ordersCount: number;
+  reviewsCount: number;
+  updatedAt: Date;
+  createdAt: Date;
 }

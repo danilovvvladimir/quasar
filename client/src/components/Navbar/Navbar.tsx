@@ -19,6 +19,11 @@ const Navbar: FC = () => {
       </Link>
       {isAuth ? (
         <nav className="navigation">
+          <NavigationItem
+            href="/admin/statistics"
+            iconName="admin"
+            text="Управление"
+          />
           <NavigationItem href="/wishlist" iconName="heart" text="Избранное" />
           <NavigationItem href="/cart" iconName="cart" text="Корзина" />
           <NavigationItem href="/profile/info" iconName="user" text="Профиль" />
