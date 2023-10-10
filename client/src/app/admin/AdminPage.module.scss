@@ -29,12 +29,19 @@
     }
   }
 
-  &-users {
+  &-users,
+  &-categories,
+  &-products {
     padding: $step * 8 0;
     &__wrapper {
       display: flex;
       flex-direction: column;
       gap: $step * 4;
+    }
+
+    &__controls {
+      display: flex;
+      justify-content: space-between;
     }
   }
 }

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "../AdminPage.module.scss";
-import AdminTableUsers from "@/components/AdminTableUsers/AdminTableUsers";
+import AdminTableUsers from "@/components/AdminTable/AdminTableUsers/AdminTableUsers";
 import { RoleName, UserPrivate } from "@/types/user";
 import Search from "@/components/Search/Search";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
@@ -31,10 +31,10 @@ const AdminUsersPage: FC = () => {
 
   return (
     <section className={styles["admin-users"]}>
-      {/* admin-statistics__submenu */}
       <div className={styles["admin-users__wrapper"]}>
-        {/* search */}
-        <SearchAdmin />
+        <div className={styles["admin-users__controls"]}>
+          <SearchAdmin />
+        </div>
         <AdminTableUsers users={users} />
       </div>
     </section>

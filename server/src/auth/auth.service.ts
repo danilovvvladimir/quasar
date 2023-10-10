@@ -35,7 +35,7 @@ export class AuthService {
 
       const tokens = await this.issueTokens(user.id);
 
-      return { user, ...tokens };
+      return { user, tokens };
     }
 
     throw new BadRequestException(USER_ALREADY_EXISTS_MESSAGE);
@@ -45,7 +45,7 @@ export class AuthService {
     const user = await this.validateUser(loginDTO);
     const tokens = await this.issueTokens(user.id);
 
-    return { user: user, ...tokens };
+    return { user: user, tokens };
   }
 
   async getNewTokens(dto: RefreshTokenDTO) {
@@ -62,8 +62,7 @@ export class AuthService {
 
       const tokens = await this.issueTokens(user.id);
 
-      // return { user, ...tokens };
-      return tokens;
+      return { user, tokens };
     } catch (error) {
       throw new UnauthorizedException(INVALID_REFRESH_TOKEN_MESSAGE);
     }

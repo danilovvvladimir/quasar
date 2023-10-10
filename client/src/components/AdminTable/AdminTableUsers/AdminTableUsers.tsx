@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, use } from "react";
-import styles from "./AdminTableUsers.module.scss";
+import styles from "../AdminTable.module.scss";
 import { UserPrivate } from "@/types/user";
 import { getShortEmail } from "@/utils/getShortEmail";
 

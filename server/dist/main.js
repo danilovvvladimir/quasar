@@ -6,7 +6,7 @@ const PORT = 4200;
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.setGlobalPrefix("api");
-    app.enableCors();
+    app.enableCors({ credentials: true, origin: process.env.CLIENT_URL });
     await app.listen(PORT);
 }
 bootstrap();

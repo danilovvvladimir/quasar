@@ -11,6 +11,7 @@ export enum RoleName {
 export interface UserPublic {
   id: string;
   username: string;
+  role: RoleName;
 }
 
 export interface UserPrivate {

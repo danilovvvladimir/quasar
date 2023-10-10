@@ -12,6 +12,15 @@ export interface Product {
   productDetails: ProductDetails[];
 }
 
+export interface AdminProduct {
+  id: string;
+  name: string;
+  slug: string;
+  rating: number;
+  ordersCount: number;
+  reviewsCount: number;
+}
+
 export interface ProductImage {
   id: string;
   imagePath: string;

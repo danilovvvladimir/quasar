@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import "./Navbar.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,9 +8,23 @@ import Button from "../UI/Button/Button";
 import Separator from "../Separator/Separator";
 import CustomLink from "../CustomLink/CustomLink";
 import NavigationItem from "./NavigationItem/NavigationItem";
+import { useSelector } from "react-redux";
+import { checkIsAuth } from "@/store/auth/auth.slice";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { checkAuth } from "@/store/auth/auth.actions";
 
 const Navbar: FC = () => {
-  const isAuth = true;
+  const isAuth = useSelector(checkIsAuth);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(checkAuth());
+    }
+    console.log("isAuth", isAuth);
+  }, []);
 
   return (
     <header className="header">

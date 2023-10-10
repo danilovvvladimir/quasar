@@ -53,7 +53,7 @@ __decorate([
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
-    (0, common_1.Post)("access-token"),
+    (0, common_1.Post)("refresh"),
     (0, common_1.UseGuards)(refreshToken_1.RefreshTokenGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

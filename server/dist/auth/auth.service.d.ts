@@ -6,8 +6,6 @@ export declare class AuthService {
     private readonly userService;
     constructor(jwtService: JwtService, userService: UserService);
     register(registerDTO: AuthRegisterDTO): Promise<{
-        accessToken: string;
-        refreshToken: string;
         user: {
             id: string;
             username: string;
@@ -16,11 +14,13 @@ export declare class AuthService {
             createdAt: Date;
             updatedAt: Date;
             role: import(".prisma/client").$Enums.RoleName;
+        };
+        tokens: {
+            accessToken: string;
+            refreshToken: string;
         };
     }>;
     login(loginDTO: AuthLoginDTO): Promise<{
-        accessToken: string;
-        refreshToken: string;
         user: {
             id: string;
             username: string;
@@ -30,10 +30,52 @@ export declare class AuthService {
             updatedAt: Date;
             role: import(".prisma/client").$Enums.RoleName;
         };
+        tokens: {
+            accessToken: string;
+            refreshToken: string;
+        };
     }>;
     getNewTokens(dto: RefreshTokenDTO): Promise<{
-        accessToken: string;
-        refreshToken: string;
+        user: {
+            review: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
+            order: ({
+                orderItem: {
+                    id: string;
+                    quantity: number;
+                    totalPrice: import("@prisma/client/runtime/library").Decimal;
+                    orderId: string;
+                    productId: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }[];
+            } & {
+                id: string;
+                orderStatus: import(".prisma/client").$Enums.OrderStatus;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+            })[];
+        } & {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: import(".prisma/client").$Enums.RoleName;
+        };
+        tokens: {
+            accessToken: string;
+            refreshToken: string;
+        };
     }>;
     private issueTokens;
     private validateUser;

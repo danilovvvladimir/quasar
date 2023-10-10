@@ -27,14 +27,14 @@ let AuthService = class AuthService {
         catch (error) {
             const user = await this.userService.create(registerDTO.email, registerDTO.username, await (0, argon2_1.hash)(registerDTO.password));
             const tokens = await this.issueTokens(user.id);
-            return Object.assign({ user }, tokens);
+            return { user, tokens };
         }
         throw new common_1.BadRequestException(auth_1.USER_ALREADY_EXISTS_MESSAGE);
     }
     async login(loginDTO) {
         const user = await this.validateUser(loginDTO);
         const tokens = await this.issueTokens(user.id);
-        return Object.assign({ user: user }, tokens);
+        return { user: user, tokens };
     }
     async getNewTokens(dto) {
         const refreshToken = dto.refreshToken;
@@ -45,7 +45,7 @@ let AuthService = class AuthService {
             }
             const user = await this.userService.findById(result.id);
             const tokens = await this.issueTokens(user.id);
-            return tokens;
+            return { user, tokens };
         }
         catch (error) {
             throw new common_1.UnauthorizedException(auth_1.INVALID_REFRESH_TOKEN_MESSAGE);

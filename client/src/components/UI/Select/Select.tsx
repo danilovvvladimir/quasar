@@ -20,6 +20,7 @@ const Select: FC<SelectProps> = ({ options }) => {
 
   return (
     <ReactSelect
+      instanceId="1"
       components={{ IndicatorSeparator: () => null }}
       isSearchable={false}
       classNamePrefix="custom-select"
