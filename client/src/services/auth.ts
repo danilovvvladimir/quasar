@@ -57,7 +57,7 @@ export const AuthService = {
   },
 
   async logout() {
-    await updatedAxios.post(`${API_URL}/auth/logout`);
+    // await updatedAxios.post(`${API_URL}/auth/logout`);
 
     removeTokensStorage();
     localStorage.removeItem("user");

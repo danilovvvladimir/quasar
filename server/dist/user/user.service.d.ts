@@ -14,12 +14,24 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }[]>;
     findById(id: string): Promise<{
+        wishlistItem: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         review: {
             id: string;
             text: string;
             rating: number;
             createdAt: Date;
             updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+        cartItem: {
+            id: string;
+            size: number;
+            quantity: number;
             userId: string;
             productId: string;
         }[];
@@ -50,6 +62,19 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        wishlistItem: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
+        cartItem: {
+            id: string;
+            size: number;
+            quantity: number;
+            userId: string;
+            productId: string;
+        }[];
+    } & {
         id: string;
         username: string;
         password: string;

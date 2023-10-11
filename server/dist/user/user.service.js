@@ -28,6 +28,8 @@ let UserService = class UserService {
             where: { id },
             include: {
                 review: true,
+                cartItem: true,
+                wishlistItem: true,
                 order: {
                     include: {
                         orderItem: true,
@@ -41,7 +43,10 @@ let UserService = class UserService {
         return user;
     }
     async findByEmail(email) {
-        const user = await this.prismaService.user.findUnique({ where: { email } });
+        const user = await this.prismaService.user.findUnique({
+            where: { email },
+            include: { cartItem: true, wishlistItem: true },
+        });
         if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
         }

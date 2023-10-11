@@ -1,0 +1,56 @@
+@import "../../styles/variables.scss";
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $step * 4 0;
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $step * 8;
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: $step * 8;
+
+  &__logout {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $text-title-color;
+    transition: all 0.3s ease;
+
+    &-text {
+      padding-top: $step;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    svg {
+      path {
+        transition: all 0.3s ease;
+      }
+    }
+
+    &:hover {
+      color: $main-blue-color;
+
+      svg {
+        path {
+          fill: $main-blue-color;
+          stroke: $main-blue-color;
+        }
+      }
+    }
+  }
+}

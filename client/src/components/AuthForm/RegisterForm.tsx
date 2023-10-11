@@ -6,13 +6,14 @@ import Button from "../UI/Button/Button";
 import CustomLink from "../CustomLink/CustomLink";
 import { IRegisterRequest } from "@/types/common";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { registerUser } from "@/store/auth/auth.actions";
+import { redirect, useRouter } from "next/navigation";
+import { checkAuth, registerUser } from "@/store/auth/auth.actions";
 import { AppDispatch } from "@/store/store";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { emailRegex } from "@/constants/regex";
+import { checkIsAuth } from "@/store/auth/auth.slice";
 
 const RegisterForm: FC = () => {
   const {
@@ -21,6 +22,8 @@ const RegisterForm: FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IRegisterRequest>({ mode: "onChange" });
+
+  const isAuth = useSelector(checkIsAuth);
 
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
@@ -50,9 +53,9 @@ const RegisterForm: FC = () => {
     }
   };
 
-  // if (isAuth) {
-  //   redirect("/");
-  // }
+  if (isAuth) {
+    redirect("/");
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
