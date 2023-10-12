@@ -17,35 +17,21 @@ import { createNotify, notifyMode } from "@/utils/createNotify";
 import Loader from "../Loader/Loader";
 
 const Navbar: FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
   const user = useSelector((state: RootState) => state.auth.user);
   const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      dispatch(checkAuth()).finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
   const handleLogout = () => {
     createNotify("Вы успешно вышли из аккаунта", notifyMode.SUCCESS);
     dispatch(logoutUser());
   };
 
-  console.log("user", user);
-
   return (
     <header className={styles["header"]}>
       <Link href="/" className="logo">
         <Image src="/logo.svg" alt="logo" width={150} height={48} />
       </Link>
-      {isLoading ? (
-        <Loader />
-      ) : isAuth ? (
+      {isAuth ? (
         <nav className={styles["navigation"]}>
           {user.role !== "USER" && (
             <NavigationItem
@@ -75,7 +61,6 @@ const Navbar: FC = () => {
           </CustomLink>
         </div>
       )}
-
       <Separator />
     </header>
   );

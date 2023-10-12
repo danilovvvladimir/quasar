@@ -1,0 +1,23 @@
+@import "@/styles/variables";
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $step * 10 0;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__title {
+    font-size: 24px;
+  }
+
+  &__button {
+    padding-left: $step * 14 !important;
+    padding-right: $step * 14 !important;
+  }
+}

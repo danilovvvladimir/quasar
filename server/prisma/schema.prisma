@@ -55,15 +55,15 @@ model CartItem {
 }
 
 model Product {
-  id                 String   @id @default(uuid())
-  name               String
-  slug               String   @unique
-  description        String
-  price              Decimal
-  isVisible          Boolean
-  discountPercentage Int      @default(0) @map("discount_percentage")
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(uuid())
+  name         String
+  slug         String   @unique
+  description  String
+  oldPrice     Decimal? @map("old_price")
+  currentPrice Decimal  @map("current_price")
+  isVisible    Boolean  @map("is_visible")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   categories   ProductCategory[]
   productImage ProductImage[]
@@ -95,7 +95,7 @@ model Category {
   id        String   @id @default(uuid())
   name      String
   slug      String   @unique
-  isVisible Boolean
+  isVisible Boolean  @map("is_visible")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

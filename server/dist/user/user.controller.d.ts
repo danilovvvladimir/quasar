@@ -17,19 +17,19 @@ export declare class UserController {
             userId: string;
             productId: string;
         }[];
+        cartItem: {
+            id: string;
+            size: number;
+            quantity: number;
+            userId: string;
+            productId: string;
+        }[];
         review: {
             id: string;
             text: string;
             rating: number;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
-        cartItem: {
-            id: string;
-            size: number;
-            quantity: number;
             userId: string;
             productId: string;
         }[];
@@ -65,19 +65,19 @@ export declare class UserController {
             userId: string;
             productId: string;
         }[];
+        cartItem: {
+            id: string;
+            size: number;
+            quantity: number;
+            userId: string;
+            productId: string;
+        }[];
         review: {
             id: string;
             text: string;
             rating: number;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
-        cartItem: {
-            id: string;
-            size: number;
-            quantity: number;
             userId: string;
             productId: string;
         }[];
