@@ -8,22 +8,22 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
     findById(id: string): Promise<{
-        productImage: {
-            id: string;
-            imagePath: string;
-            productId: string;
-        }[];
         productSize: {
             id: string;
             size: number;
             quantity: number;
+            productId: string;
+        }[];
+        productImage: {
+            id: string;
+            imagePath: string;
             productId: string;
         }[];
     } & {
@@ -31,9 +31,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -42,9 +42,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -53,9 +53,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -75,9 +75,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -86,9 +86,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -97,9 +97,9 @@ export declare class ProductController {
         name: string;
         slug: string;
         description: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
         isVisible: boolean;
-        discountPercentage: number;
         createdAt: Date;
         updatedAt: Date;
     }>;

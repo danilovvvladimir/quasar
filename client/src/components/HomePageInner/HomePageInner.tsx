@@ -11,23 +11,72 @@ import { Product } from "@/types/product";
 
 interface HomePageInnerProps {}
 
+export interface IOption {
+  value: string;
+  label: string;
+}
+
+export interface IFilters {
+  minPrice: number;
+  maxPrice: number;
+  currentMinPrice: number;
+  currentMaxPrice: number;
+  categories: string[];
+
+  selectedCategories: string[];
+  rating: number;
+  isDiscount: boolean;
+}
+
+export interface ISorting {
+  options: IOption[];
+  selectedOption: IOption;
+}
+
 const HomePageInner: FC<HomePageInnerProps> = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const MIN_PRICE = 500;
-  const MAX_PRICE = 5000;
-  const CATEGORIES = ["Футболки", "Обувь", "Худи", "Шорты", "Кофты"];
-  const options = [
-    { value: "by-rating", label: "По рейтингу -" },
-    { value: "price-asc", label: "По цене -" },
-    { value: "price-desc", label: "По цене +" },
-    { value: "date-asc", label: "По новизне -" },
-    { value: "date-desc", label: "По новизне +" },
-  ];
+  const [filters, setFilters] = useState<IFilters>({
+    currentMinPrice: 500,
+    currentMaxPrice: 5000,
+    minPrice: 500,
+    maxPrice: 5000,
+    categories: ["Футболки", "Обувь", "Худи", "Шорты", "Кофты"],
+    selectedCategories: [],
+    rating: 1,
+    isDiscount: false,
+  });
+
+  const [sorting, setSorting] = useState<ISorting>({
+    options: [
+      { value: "by-rating", label: "По рейтингу -" },
+      { value: "price-asc", label: "По цене -" },
+      { value: "price-desc", label: "По цене +" },
+      { value: "date-asc", label: "По новизне -" },
+      { value: "date-desc", label: "По новизне +" },
+    ],
+    selectedOption: { value: "by-rating", label: "По рейтингу -" },
+  });
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const setSelectedOption = (newSelectedOption: IOption | null): void => {
+    if (!newSelectedOption) {
+      return;
+    }
+
+    setSorting({ ...sorting, selectedOption: newSelectedOption });
+  };
+
+  // console.log(filters);
+  // console.log(sorting);
+  // console.log(searchTerm);
+
   const productService = new ProductService();
 
   const fetchProducts = async () => {
-    const products = await productService.getAll();
+    // const products = await productService.getAll();
+    const products = await productService.getAll(filters, sorting, searchTerm);
     setProducts(products);
   };
 
@@ -35,17 +84,19 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     fetchProducts();
   }, []);
 
+  console.log("products,", products);
+
   return (
     <div className={styles["home-page__wrapper"]}>
-      <Filters
-        minPrice={MIN_PRICE}
-        maxPrice={MAX_PRICE}
-        categories={CATEGORIES}
-      />
+      <Filters filters={filters} setFilters={setFilters} />
       <div className={styles["home-page__content"]}>
         <div className={styles["home-page__top-filters"]}>
-          <Search />
-          <Select options={options} />
+          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <Select
+            options={sorting.options}
+            selectedOption={sorting.selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
         </div>
         <ProductsList />
       </div>

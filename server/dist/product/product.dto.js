@@ -29,7 +29,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], ProductCreateDTO.prototype, "price", void 0);
+], ProductCreateDTO.prototype, "currentPrice", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
@@ -82,10 +82,4 @@ __decorate([
 class ProductUpdateDTO extends ProductCreateDTO {
 }
 exports.ProductUpdateDTO = ProductUpdateDTO;
-__decorate([
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0),
-    (0, class_validator_1.Max)(99),
-    __metadata("design:type", Number)
-], ProductUpdateDTO.prototype, "discountPercentage", void 0);
 //# sourceMappingURL=product.dto.js.map

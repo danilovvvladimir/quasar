@@ -5,11 +5,16 @@ import Image from "next/image";
 import styles from "./RatingFilter.module.scss";
 import classNames from "classnames";
 
-const RatingFilter: FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>("stars-1");
+interface RatingFilterProps {
+  selectedRating: number;
+  setRating: (rating: number) => void;
+}
+
+const RatingFilter: FC<RatingFilterProps> = ({ selectedRating, setRating }) => {
+  // const [selectedOption, setSelectedOption] = useState<string>("stars-1");
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+    setRating(parseInt(event.target.value));
   };
 
   return (
@@ -18,14 +23,13 @@ const RatingFilter: FC = () => {
         <input
           type="radio"
           name="rating"
-          value="stars-4"
-          checked={selectedOption === "stars-4"}
+          value={4}
+          checked={selectedRating === 4}
           onChange={handleOptionChange}
         />
         <div
           className={classNames(styles["rating-filter__item"], {
-            [styles["rating-filter__item--selected"]]:
-              selectedOption === "stars-4",
+            [styles["rating-filter__item--selected"]]: selectedRating === 4,
           })}
         >
           <Image src="/stars-4.svg" alt="start-4" width={96} height={16} />
@@ -36,14 +40,13 @@ const RatingFilter: FC = () => {
         <input
           type="radio"
           name="rating"
-          value="stars-3"
-          checked={selectedOption === "stars-3"}
+          value={3}
+          checked={selectedRating === 3}
           onChange={handleOptionChange}
         />
         <div
           className={classNames(styles["rating-filter__item"], {
-            [styles["rating-filter__item--selected"]]:
-              selectedOption === "stars-3",
+            [styles["rating-filter__item--selected"]]: selectedRating === 3,
           })}
         >
           <Image src="/stars-3.svg" alt="start-3" width={96} height={16} />
@@ -54,14 +57,13 @@ const RatingFilter: FC = () => {
         <input
           type="radio"
           name="rating"
-          value="stars-2"
-          checked={selectedOption === "stars-2"}
+          value={2}
+          checked={selectedRating === 2}
           onChange={handleOptionChange}
         />
         <div
           className={classNames(styles["rating-filter__item"], {
-            [styles["rating-filter__item--selected"]]:
-              selectedOption === "stars-2",
+            [styles["rating-filter__item--selected"]]: selectedRating === 2,
           })}
         >
           <Image src="/stars-2.svg" alt="start-2" width={96} height={16} />
@@ -72,14 +74,13 @@ const RatingFilter: FC = () => {
         <input
           type="radio"
           name="rating"
-          value="stars-1"
-          checked={selectedOption === "stars-1"}
+          value={1}
+          checked={selectedRating === 1}
           onChange={handleOptionChange}
         />
         <div
           className={classNames(styles["rating-filter__item"], {
-            [styles["rating-filter__item--selected"]]:
-              selectedOption === "stars-1",
+            [styles["rating-filter__item--selected"]]: selectedRating === 1,
           })}
         >
           <Image src="/stars-1.svg" alt="start-1" width={96} height={16} />

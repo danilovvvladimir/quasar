@@ -111,7 +111,7 @@ export class ProductService {
       imagePaths,
       categoryIds,
       name,
-      price,
+      currentPrice,
       slug,
       isVisible,
     } = dto;
@@ -126,7 +126,7 @@ export class ProductService {
             name,
             slug,
             description,
-            price,
+            currentPrice,
             isVisible,
           },
         });
@@ -226,9 +226,8 @@ export class ProductService {
       details,
       imagePaths,
       description,
-      discountPercentage,
       name,
-      price,
+      currentPrice,
       slug,
       isVisible,
     } = dto;
@@ -247,8 +246,7 @@ export class ProductService {
             name,
             slug,
             description,
-            price,
-            discountPercentage,
+            currentPrice,
             isVisible,
           },
         });

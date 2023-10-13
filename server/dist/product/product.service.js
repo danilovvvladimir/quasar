@@ -79,7 +79,7 @@ let ProductService = class ProductService {
         return images;
     }
     async create(dto) {
-        const { description, details, imagePaths, categoryIds, name, price, slug, isVisible, } = dto;
+        const { description, details, imagePaths, categoryIds, name, currentPrice, slug, isVisible, } = dto;
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
@@ -88,7 +88,7 @@ let ProductService = class ProductService {
                         name,
                         slug,
                         description,
-                        price,
+                        currentPrice,
                         isVisible,
                     },
                 });
@@ -147,7 +147,7 @@ let ProductService = class ProductService {
         return productCategoriesPromises;
     }
     async update(id, dto) {
-        const { categoryIds, details, imagePaths, description, discountPercentage, name, price, slug, isVisible, } = dto;
+        const { categoryIds, details, imagePaths, description, name, currentPrice, slug, isVisible, } = dto;
         await this.findById(id);
         let product = undefined;
         try {
@@ -161,8 +161,7 @@ let ProductService = class ProductService {
                         name,
                         slug,
                         description,
-                        price,
-                        discountPercentage,
+                        currentPrice,
                         isVisible,
                     },
                 });

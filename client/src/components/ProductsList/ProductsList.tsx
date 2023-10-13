@@ -4,6 +4,8 @@ import ProductMedium from "../Product/ProductMedium/ProductMedium";
 import Button from "../UI/Button/Button";
 
 const ProductsList: FC = () => {
+  console.log("products list");
+
   return (
     <>
       <div className="product-list">

@@ -3,10 +3,16 @@
 import { FC, useState } from "react";
 import "./Toggler.scss";
 
-const Toggler: FC = () => {
-  const [isTogglerOn, setIsTogglerOn] = useState<boolean>(false);
+interface TogglerProps {
+  isToggle: boolean;
+  onToggle: (toggle: boolean) => void;
+}
+
+const Toggler: FC<TogglerProps> = ({ onToggle, isToggle }) => {
+  const [isTogglerOn, setIsTogglerOn] = useState<boolean>(isToggle);
 
   const handleTogglerChange = () => {
+    onToggle(!isTogglerOn);
     setIsTogglerOn(!isTogglerOn);
   };
 

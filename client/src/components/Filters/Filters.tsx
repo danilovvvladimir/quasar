@@ -8,16 +8,61 @@ import Toggler from "../UI/Toggler/Toggler";
 import RatingFilter from "./RatingFilter/RatingFilter";
 import styles from "./Filters.module.scss";
 import classNames from "classnames";
+import { IFilters } from "../HomePageInner/HomePageInner";
 
 interface FiltersProps {
-  minPrice: number;
-  maxPrice: number;
-  categories: string[];
+  // minPrice: number;
+  // maxPrice: number;
+  // categories: string[];
+  filters: IFilters;
+  setFilters: (filters: IFilters) => void;
 }
 
-const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
-  const [prices, setPrices] = useState([minPrice, maxPrice]);
-  console.log("values:", prices);
+const Filters: FC<FiltersProps> = ({ filters, setFilters }) => {
+  const {
+    categories,
+    maxPrice,
+    minPrice,
+    isDiscount,
+    currentMaxPrice,
+    currentMinPrice,
+    selectedCategories,
+    rating,
+  } = filters;
+
+  const [prices, setPrices] = useState<number[]>([minPrice, maxPrice]);
+
+  const changeOriginalPrices = (newPrices: number[]): void => {
+    setFilters({
+      ...filters,
+      currentMinPrice: newPrices[0],
+      currentMaxPrice: newPrices[1],
+    });
+  };
+
+  const setRating = (newRating: number): void => {
+    setFilters({ ...filters, rating: newRating });
+  };
+
+  const toggleDiscount = (newIsDiscount: boolean): void => {
+    setFilters({ ...filters, isDiscount: newIsDiscount });
+  };
+
+  const selectCategory = (category: string) => {
+    if (!selectedCategories.includes(category)) {
+      setFilters({
+        ...filters,
+        selectedCategories: [...selectedCategories, category],
+      });
+    } else {
+      setFilters({
+        ...filters,
+        selectedCategories: selectedCategories.filter(
+          (item) => item !== category,
+        ),
+      });
+    }
+  };
 
   const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const newPrice = parseInt(e.target.value, 10);
@@ -30,7 +75,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
       setPrices([newPrice, prices[1]]);
     }
 
-    if (newPrice > prices[1]) {
+    if (newPrice > currentMaxPrice) {
       setPrices([prices[1], prices[1]]);
     }
   };
@@ -46,7 +91,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
       setPrices([prices[0], newPrice]);
     }
 
-    if (newPrice < prices[0]) {
+    if (newPrice < currentMinPrice) {
       setPrices([prices[0], prices[0]]);
     }
   };
@@ -62,10 +107,11 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
             styles["thumb-active"],
             styles["price-slider"],
           )}
-          value={prices}
+          value={[currentMinPrice, currentMaxPrice]}
           min={minPrice}
           max={maxPrice}
           onChange={setPrices}
+          onAfterChange={changeOriginalPrices}
         />
 
         <div className={styles["filters__item-inputs"]}>
@@ -90,7 +136,8 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
         <ul className={styles["categories-list"]}>
           {categories.map((c) => (
             <CheckBoxWithLabel
-              // функцию вложить на изменение глобального объекта фильтра (его ещё нет)
+              isChecked={!!selectedCategories.find((item) => item === c)}
+              handleCheckboxChange={() => selectCategory(c)}
               key={c}
               labelText={c}
               labelClassName={styles["categories-list__item"]}
@@ -100,7 +147,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
       </div>
       <div className={styles["filters__item"]}>
         <h3 className={`title ${styles["filters__item-title"]}`}>Рейтинг</h3>
-        <RatingFilter />
+        <RatingFilter selectedRating={rating} setRating={setRating} />
       </div>
       <div
         className={classNames(
@@ -111,7 +158,7 @@ const Filters: FC<FiltersProps> = ({ minPrice, maxPrice, categories }) => {
         <h3 className={`title ${styles["filters__item-title"]}`}>
           Товары со скидкой
         </h3>
-        <Toggler />
+        <Toggler onToggle={toggleDiscount} isToggle={isDiscount} />
       </div>
     </div>
   );

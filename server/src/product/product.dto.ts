@@ -21,7 +21,7 @@ export class ProductCreateDTO {
   description: string;
 
   @IsNumber()
-  price: number;
+  currentPrice: number;
 
   @IsBoolean()
   isVisible: boolean;
@@ -63,9 +63,4 @@ export class ProductCategoryCreateDTO {
   categoryIds: string[];
 }
 
-export class ProductUpdateDTO extends ProductCreateDTO {
-  @IsNumber()
-  @Min(0)
-  @Max(99)
-  discountPercentage: number;
-}
+export class ProductUpdateDTO extends ProductCreateDTO {}

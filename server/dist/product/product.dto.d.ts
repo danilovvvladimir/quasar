@@ -3,7 +3,7 @@ export declare class ProductCreateDTO {
     name: string;
     slug: string;
     description: string;
-    price: number;
+    currentPrice: number;
     isVisible: boolean;
     details: Omit<ProductSize, "id" | "productId">[];
     imagePaths: string[];
@@ -19,5 +19,4 @@ export declare class ProductCategoryCreateDTO {
     categoryIds: string[];
 }
 export declare class ProductUpdateDTO extends ProductCreateDTO {
-    discountPercentage: number;
 }

@@ -3,20 +3,20 @@
 import { FC, useState } from "react";
 import ReactSelect from "react-select";
 import "./Select.scss";
+import { IOption } from "@/components/HomePageInner/HomePageInner";
 
 interface SelectProps {
-  options: SelectOption[];
+  options: IOption[];
+  selectedOption: IOption;
+  setSelectedOption: (newOptions: IOption | null) => void;
 }
 
-export interface SelectOption {
-  value: string;
-  label: string;
-}
-
-const Select: FC<SelectProps> = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
-    null,
-  );
+const Select: FC<SelectProps> = ({
+  options,
+  selectedOption,
+  setSelectedOption,
+}) => {
+  // const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
 
   return (
     <ReactSelect
