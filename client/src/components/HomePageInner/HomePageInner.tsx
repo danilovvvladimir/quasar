@@ -68,10 +68,6 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     setSorting({ ...sorting, selectedOption: newSelectedOption });
   };
 
-  // console.log(filters);
-  // console.log(sorting);
-  // console.log(searchTerm);
-
   const productService = new ProductService();
 
   const fetchProducts = async () => {

@@ -2,7 +2,7 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
-  isVisible: Boolean;
+  isVisible: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

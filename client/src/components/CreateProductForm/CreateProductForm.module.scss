@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+.create-product-form {
+  position: relative;
+
+  &__title {
+    font-size: 22px;
+    margin-bottom: $step * 4;
+  }
+}

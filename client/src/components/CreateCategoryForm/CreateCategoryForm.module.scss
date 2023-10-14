@@ -1,0 +1,51 @@
+@import "../../styles/variables.scss";
+
+.create-category-form {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  position: relative;
+
+  &__header {
+    position: relative;
+    padding-bottom: $step * 3;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 6;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+
+    &-title {
+      font-size: 18px;
+    }
+  }
+
+  &__name {
+    display: flex;
+    width: 500px;
+  }
+
+  &__slug {
+    display: flex;
+    align-items: flex-end;
+    gap: $step * 2;
+  }
+
+  &__apply {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__create {
+    padding-left: $step * 20;
+    padding-right: $step * 20;
+  }
+}
