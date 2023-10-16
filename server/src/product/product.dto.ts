@@ -23,9 +23,6 @@ export class ProductCreateDTO {
   @IsNumber()
   currentPrice: number;
 
-  @IsBoolean()
-  isVisible: boolean;
-
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })

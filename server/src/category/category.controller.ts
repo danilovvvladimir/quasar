@@ -13,7 +13,6 @@ import {
 } from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { CategoryCreateDTO, CategoryUpdateDTO } from "./category.dto";
-import { Auth } from "src/decorators/auth";
 import { Roles } from "src/decorators/role";
 import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";

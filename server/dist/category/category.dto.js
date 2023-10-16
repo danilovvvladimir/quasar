@@ -22,10 +22,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CategoryCreateDTO.prototype, "slug", void 0);
-__decorate([
-    (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Boolean)
-], CategoryCreateDTO.prototype, "isVisible", void 0);
 class CategoryUpdateDTO extends CategoryCreateDTO {
 }
 exports.CategoryUpdateDTO = CategoryUpdateDTO;

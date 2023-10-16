@@ -4,7 +4,6 @@ export declare class ProductCreateDTO {
     slug: string;
     description: string;
     currentPrice: number;
-    isVisible: boolean;
     details: Omit<ProductSize, "id" | "productId">[];
     imagePaths: string[];
     categoryIds: string[];

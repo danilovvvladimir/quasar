@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "../AdminPage.module.scss";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
 import Button from "@/components/UI/Button/Button";
@@ -8,28 +8,22 @@ import AdminTableCategories from "@/components/AdminTable/AdminTableCategories/A
 import { Category } from "@/types/category";
 import Modal from "@/components/UI/Modal/Modal";
 import CreateCategoryForm from "@/components/CreateCategoryForm/CreateCategoryForm";
+import CategoryService from "@/services/category";
 
 const AdminCategoriesPage: FC = () => {
+  const categoryService = new CategoryService();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const categories: Category[] = [
-    {
-      id: "1",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isVisible: true,
-      name: "Sneakers",
-      slug: "sneakers",
-    },
-    {
-      id: "2",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isVisible: true,
-      name: "Hoodie",
-      slug: "hoodie",
-    },
-  ];
+  useEffect(() => {
+    const getData = async () => {
+      const data = await categoryService.getAll();
+
+      setCategories(data);
+    };
+
+    getData();
+  }, []);
 
   return (
     <section className={styles["admin-categories"]}>

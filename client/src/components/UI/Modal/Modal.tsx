@@ -1,9 +1,9 @@
+"use client";
+
 import { FC } from "react";
 import styles from "./Modal.module.scss";
 import classNames from "classnames";
 import getIconByName from "@/utils/getIconByName";
-
-interface ModalProps {}
 
 interface ModalProps {
   active: boolean;

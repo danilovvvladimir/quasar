@@ -7,7 +7,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -15,7 +14,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -23,7 +21,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -31,7 +28,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -39,7 +35,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -47,7 +42,6 @@ export declare class CategoryService {
         id: string;
         name: string;
         slug: string;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;

@@ -1,38 +1,56 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./CreateCategoryForm.module.scss";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import Separator from "../Separator/Separator";
 import Toggler from "../UI/Toggler/Toggler";
 import { Category } from "@/types/category";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { createNotify, notifyMode } from "@/utils/createNotify";
+import { createSlug } from "@/utils/createSlug";
+import CategoryService from "@/services/category";
+import Loader from "../Loader/Loader";
+import { useDebounce } from "@/hooks/useDebounce";
+import { slugRegex } from "@/constants/regex";
 
 interface CreateCategoryFormProps {}
 
-// interface ICreatingCategory
-//   extends Omit<Category, "id", "createdAt", "updatedAt"> {}
-
 interface ICreatingCategory
   extends Omit<Category, "id" | "createdAt" | "updatedAt"> {}
+// const [creatingProduct, setCreatingProduct] = useState<ICreatingCategory>({
+//   name: "",
+//   slug: "",
+// });
 
 const CreateCategoryForm: FC<CreateCategoryFormProps> = () => {
-  const [creatingProduct, setCreatingProduct] = useState<ICreatingCategory>({
-    isVisible: false,
-    name: "",
-    slug: "",
-  });
+  const categoryService = new CategoryService();
 
-  const toggleVisibility = () => {
-    setCreatingProduct({
-      ...creatingProduct,
-      isVisible: !creatingProduct.isVisible,
-    });
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ICreatingCategory>({ mode: "onChange" });
+
+  const onSubmit: SubmitHandler<ICreatingCategory> = async (values) => {
+    try {
+      console.log(values);
+
+      const data = await categoryService.createCategory(
+        values.name,
+        values.slug,
+      );
+
+      createNotify("Категория успешно создана", notifyMode.SUCCESS);
+      reset();
+    } catch (error) {
+      console.log(error);
+
+      createNotify("Something went wrong...", notifyMode.ERROR);
+    }
   };
-
-  useEffect(() => {
-    // return // clear form
-  });
 
   return (
     <div className={styles["create-category-form"]}>
@@ -42,7 +60,10 @@ const CreateCategoryForm: FC<CreateCategoryFormProps> = () => {
         </h2>
         <Separator />
       </div>
-      <div className={styles["create-category-form__content"]}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles["create-category-form__content"]}
+      >
         <div className={styles["create-category-form__name"]}>
           <label className={styles["create-category-form__label"]}>
             <h4
@@ -50,13 +71,16 @@ const CreateCategoryForm: FC<CreateCategoryFormProps> = () => {
             >
               Название
             </h4>
-            <Input
-              value={creatingProduct.name}
-              onChange={(e) =>
-                setCreatingProduct({ ...creatingProduct, name: e.target.value })
-              }
-              placeholder="Введите название..."
+            <input
+              className="input"
+              {...register("name", {
+                required: { value: true, message: "Name is required" },
+              })}
+              type="text"
             />
+            {errors.name && (
+              <div className="auth-form__error">{errors.name.message}</div>
+            )}
           </label>
         </div>
         <div className={styles["create-category-form__slug"]}>
@@ -66,35 +90,28 @@ const CreateCategoryForm: FC<CreateCategoryFormProps> = () => {
             >
               Slug
             </h4>
-            <Input
-              value={creatingProduct.slug}
-              onChange={(e) =>
-                setCreatingProduct({ ...creatingProduct, slug: e.target.value })
-              }
-              placeholder="Введите slug..."
+            <input
+              className="input"
+              {...register("slug", {
+                required: { value: true, message: "Slug is required" },
+                pattern: { value: slugRegex, message: "Slug is invalid!" },
+              })}
+              type="text"
             />
-          </label>
-          <Button>Сгенерировать</Button>
-        </div>
-        <div className={styles["create-category-form__visibility"]}>
-          <label className={styles["create-category-form__label"]}>
-            <h4
-              className={`title ${styles["create-category-form__label-title"]}`}
-            >
-              Видимость
-            </h4>
-            <Toggler
-              isToggle={creatingProduct.isVisible}
-              onToggle={toggleVisibility}
-            />
+            {errors.slug && (
+              <div className="auth-form__error">{errors.slug.message}</div>
+            )}
           </label>
         </div>
-      </div>
-      <div className={styles["create-category-form__apply"]}>
-        <Button className={styles["create-category-form__create"]}>
-          Создать
-        </Button>
-      </div>
+        <div className={styles["create-category-form__apply"]}>
+          <Button
+            type="submit"
+            className={styles["create-category-form__create"]}
+          >
+            Создать
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -22,7 +22,6 @@ const CartItem: FC<CartItemProps> = ({ productCart, onSelectItem }) => {
     currentPrice,
     description,
     id,
-    isVisible,
     name,
     oldPrice,
     productDetails,

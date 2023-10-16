@@ -5,7 +5,6 @@ export interface Product {
   description: string;
   currentPrice: number;
   oldPrice: number;
-  isVisible: boolean;
   createdAt: Date;
   updatedAt: Date;
   productImages: ProductImage[];

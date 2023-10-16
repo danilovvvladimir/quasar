@@ -16,9 +16,7 @@ export class CategoryService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    const categories = await this.prismaService.category.findMany({
-      where: { isVisible: true },
-    });
+    const categories = await this.prismaService.category.findMany();
 
     return categories;
   }
@@ -48,7 +46,7 @@ export class CategoryService {
   }
 
   async create(dto: CategoryCreateDTO) {
-    const { isVisible, name, slug } = dto;
+    const { name, slug } = dto;
 
     if (await this.prismaService.category.findUnique({ where: { slug } })) {
       throw new BadRequestException(CATEGORY_SLUG_DUBLICATE_MESSAGE);
@@ -56,7 +54,6 @@ export class CategoryService {
 
     const category = await this.prismaService.category.create({
       data: {
-        isVisible,
         name,
         slug,
       },
@@ -66,7 +63,7 @@ export class CategoryService {
   }
 
   async update(id: string, dto: CategoryUpdateDTO) {
-    const { isVisible, name, slug } = dto;
+    const { name, slug } = dto;
 
     const existingCategoryWithSlug =
       await this.prismaService.category.findUnique({ where: { slug } });
@@ -78,7 +75,6 @@ export class CategoryService {
     const category = await this.prismaService.category.update({
       where: { id },
       data: {
-        isVisible,
         name,
         slug,
       },

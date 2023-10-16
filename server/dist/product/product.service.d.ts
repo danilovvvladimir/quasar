@@ -12,7 +12,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -35,7 +34,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -46,7 +44,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -57,7 +54,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -79,7 +75,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -93,7 +88,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -104,7 +98,6 @@ export declare class ProductService {
         description: string;
         oldPrice: import("@prisma/client/runtime/library").Decimal;
         currentPrice: import("@prisma/client/runtime/library").Decimal;
-        isVisible: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;

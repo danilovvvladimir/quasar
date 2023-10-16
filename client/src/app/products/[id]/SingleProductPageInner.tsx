@@ -21,7 +21,6 @@ interface SingleProductPageInnerProps {
 const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
   const foundProduct: Product = {
     id: id,
-    isVisible: true,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     currentPrice: 7499,

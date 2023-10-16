@@ -20,9 +20,7 @@ let ProductService = class ProductService {
         this.categoryService = categoryService;
     }
     async findAll() {
-        const products = await this.prismaService.product.findMany({
-            where: { isVisible: true },
-        });
+        const products = await this.prismaService.product.findMany();
         return products;
     }
     async findById(id) {
@@ -79,7 +77,7 @@ let ProductService = class ProductService {
         return images;
     }
     async create(dto) {
-        const { description, details, imagePaths, categoryIds, name, currentPrice, slug, isVisible, } = dto;
+        const { description, details, imagePaths, categoryIds, name, currentPrice, slug, } = dto;
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
@@ -89,7 +87,6 @@ let ProductService = class ProductService {
                         slug,
                         description,
                         currentPrice,
-                        isVisible,
                     },
                 });
                 this.createProductDetails(createdProduct.id, {
@@ -147,7 +144,7 @@ let ProductService = class ProductService {
         return productCategoriesPromises;
     }
     async update(id, dto) {
-        const { categoryIds, details, imagePaths, description, name, currentPrice, slug, isVisible, } = dto;
+        const { categoryIds, details, imagePaths, description, name, currentPrice, slug, } = dto;
         await this.findById(id);
         let product = undefined;
         try {
@@ -162,7 +159,6 @@ let ProductService = class ProductService {
                         slug,
                         description,
                         currentPrice,
-                        isVisible,
                     },
                 });
                 this.createProductDetails(id, { details });

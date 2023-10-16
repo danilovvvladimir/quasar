@@ -61,7 +61,6 @@ model Product {
   description  String
   oldPrice     Decimal? @map("old_price")
   currentPrice Decimal  @map("current_price")
-  isVisible    Boolean  @map("is_visible")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
@@ -95,7 +94,6 @@ model Category {
   id        String   @id @default(uuid())
   name      String
   slug      String   @unique
-  isVisible Boolean  @map("is_visible")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

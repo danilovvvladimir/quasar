@@ -1,4 +1,4 @@
-import { IsString, IsBoolean } from "class-validator";
+import { IsString } from "class-validator";
 
 export class CategoryCreateDTO {
   @IsString()
@@ -6,9 +6,6 @@ export class CategoryCreateDTO {
 
   @IsString()
   slug: string;
-
-  @IsBoolean()
-  isVisible: boolean;
 }
 
 export class CategoryUpdateDTO extends CategoryCreateDTO {}

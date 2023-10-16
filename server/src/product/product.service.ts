@@ -29,9 +29,7 @@ export class ProductService {
   ) {}
 
   async findAll() {
-    const products = await this.prismaService.product.findMany({
-      where: { isVisible: true },
-    });
+    const products = await this.prismaService.product.findMany();
 
     return products;
   }
@@ -113,7 +111,6 @@ export class ProductService {
       name,
       currentPrice,
       slug,
-      isVisible,
     } = dto;
 
     let product: Product = undefined;
@@ -127,7 +124,6 @@ export class ProductService {
             slug,
             description,
             currentPrice,
-            isVisible,
           },
         });
 
@@ -229,7 +225,6 @@ export class ProductService {
       name,
       currentPrice,
       slug,
-      isVisible,
     } = dto;
     await this.findById(id);
     let product: Product = undefined;
@@ -247,7 +242,6 @@ export class ProductService {
             slug,
             description,
             currentPrice,
-            isVisible,
           },
         });
 
