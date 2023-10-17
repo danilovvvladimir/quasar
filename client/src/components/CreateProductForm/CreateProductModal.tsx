@@ -5,12 +5,15 @@ import styles from "./CreateProductModal.module.scss";
 import Separator from "../Separator/Separator";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
+import { Controller, useFormContext } from "react-hook-form";
 import Toggler from "../UI/Toggler/Toggler";
 import { Product } from "@/types/product";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { slugRegex } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
+import DropZone from "../UI/DropZone/DropZone";
+import DropZoneField from "../DropZoneField/DropZoneField";
 
 interface CreateProductModalProps {}
 
@@ -22,6 +25,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
     register,
     reset,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<ICreatingProduct>({ mode: "onChange" });
 
@@ -29,13 +33,8 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
     try {
       console.log(values);
 
-      // const data = await categoryService.createCategory(
-      //   values.name,
-      //   values.slug,
-      // );
-
       createNotify("Товар успешно создан", notifyMode.SUCCESS);
-      reset();
+      // reset();
     } catch (error) {
       console.log(error);
 
@@ -49,6 +48,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
         <h2 className={`title ${styles["create-product-modal__title"]}`}>
           Создание продукта
         </h2>
+        <Separator />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -110,7 +110,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                       message: "CurrentPrice is required",
                     },
                   })}
-                  type="text"
+                  type="number"
                 />
 
                 {errors.currentPrice && (
@@ -124,7 +124,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                 <input
                   className="input"
                   {...register("oldPrice")}
-                  type="text"
+                  type="number"
                 />
 
                 {errors.oldPrice && (
@@ -135,7 +135,14 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
           </div>
           <div className={styles["create-product-modal__content-right"]}>
             <div className={styles["create-product-modal__content-image"]}>
-              images
+              <div className={styles["create-product-modal__label"]}>
+                <span>Изображения</span>
+                {/* <DropZone /> */}
+                <DropZoneField name="productImages" control={control} />
+                {errors.productImages && (
+                  <ErrorValidationText text={errors.productImages.message!} />
+                )}
+              </div>
             </div>
             <div className={styles["create-product-modal__content-sizes"]}>
               size

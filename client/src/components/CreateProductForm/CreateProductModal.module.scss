@@ -6,6 +6,10 @@
   gap: $step * 2;
   position: relative;
 
+  &__header {
+    position: relative;
+  }
+
   &__content {
     display: flex;
     // justify-content: space-between;
@@ -42,6 +46,5 @@
 
   &__apply {
     display: flex;
-    justify-content: center;
   }
 }
