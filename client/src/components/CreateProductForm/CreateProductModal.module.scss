@@ -1,0 +1,47 @@
+@import "../../styles/variables.scss";
+
+.create-product-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $step * 2;
+  position: relative;
+
+  &__content {
+    display: flex;
+    // justify-content: space-between;
+    gap: $step * 5;
+    margin-bottom: $step * 4;
+  }
+
+  &__content-left {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 4;
+    // max-width: 50%;
+    flex: 1;
+  }
+
+  &__content-right {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 4;
+    // max-width: 50%;
+    flex: 1;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: $step;
+  }
+
+  &__title {
+    font-size: 22px;
+    margin-bottom: $step * 4;
+  }
+
+  &__apply {
+    display: flex;
+    justify-content: center;
+  }
+}

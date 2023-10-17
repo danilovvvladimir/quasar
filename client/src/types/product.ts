@@ -1,3 +1,6 @@
+import { Order } from "./order";
+import { Review } from "./review";
+
 export interface Product {
   id: string;
   name: string;
@@ -11,10 +14,7 @@ export interface Product {
   productDetails: ProductDetails[];
 }
 
-export interface AdminProduct {
-  id: string;
-  name: string;
-  slug: string;
+export interface AdminProduct extends Product {
   rating: number;
   ordersCount: number;
   reviewsCount: number;

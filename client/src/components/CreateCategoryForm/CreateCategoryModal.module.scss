@@ -1,6 +1,6 @@
 @import "../../styles/variables.scss";
 
-.create-category-form {
+.create-category-modal {
   display: flex;
   flex-direction: column;
   gap: $step * 2;
@@ -13,11 +13,12 @@
 
   &__content {
     display: flex;
-    flex-direction: column;
-    gap: $step * 6;
+    gap: $step * 4;
+    margin-bottom: $step * 4;
   }
 
   &__label {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: $step * 2;
@@ -30,17 +31,18 @@
   &__name {
     display: flex;
     width: 500px;
+    flex: 1;
   }
 
   &__slug {
     display: flex;
     align-items: flex-end;
     gap: $step * 2;
+    flex: 1;
   }
 
   &__apply {
     display: flex;
-    justify-content: center;
     align-items: center;
   }
 

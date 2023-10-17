@@ -7,8 +7,8 @@ import Button from "@/components/UI/Button/Button";
 import AdminTableCategories from "@/components/AdminTable/AdminTableCategories/AdminTableCategories";
 import { Category } from "@/types/category";
 import Modal from "@/components/UI/Modal/Modal";
-import CreateCategoryForm from "@/components/CreateCategoryForm/CreateCategoryForm";
 import CategoryService from "@/services/category";
+import CreateCategoryModal from "@/components/CreateCategoryForm/CreateCategoryModal";
 
 const AdminCategoriesPage: FC = () => {
   const categoryService = new CategoryService();
@@ -35,7 +35,7 @@ const AdminCategoriesPage: FC = () => {
         <AdminTableCategories categories={categories} />
       </div>
       <Modal active={isModalVisible} setActive={setIsModalVisible}>
-        <CreateCategoryForm />
+        <CreateCategoryModal />
       </Modal>
     </section>
   );
