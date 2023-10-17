@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, ChangeEvent } from "react";
 import styles from "./CreateProductModal.module.scss";
 import Separator from "../Separator/Separator";
 import Button from "../UI/Button/Button";
@@ -13,7 +13,6 @@ import { createNotify, notifyMode } from "@/utils/createNotify";
 import { slugRegex } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import DropZone from "../UI/DropZone/DropZone";
-import DropZoneField from "../DropZoneField/DropZoneField";
 
 interface CreateProductModalProps {}
 
@@ -40,6 +39,10 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
 
       createNotify("Something went wrong...", notifyMode.ERROR);
     }
+  };
+
+  const onImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("onImagesChange", e);
   };
 
   return (
@@ -137,8 +140,20 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
             <div className={styles["create-product-modal__content-image"]}>
               <div className={styles["create-product-modal__label"]}>
                 <span>Изображения</span>
-                {/* <DropZone /> */}
-                <DropZoneField name="productImages" control={control} />
+                <Controller
+                  name="productImages"
+                  control={control}
+                  defaultValue={[]}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "This field is required",
+                    },
+                  }}
+                  render={({ field: { onChange, name } }) => (
+                    <DropZone name={name} />
+                  )}
+                />
                 {errors.productImages && (
                   <ErrorValidationText text={errors.productImages.message!} />
                 )}

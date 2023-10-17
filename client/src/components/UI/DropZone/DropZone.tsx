@@ -15,13 +15,14 @@ import classNames from "classnames";
 
 interface DropZoneProps {
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  name?: string;
 }
 
 interface FileWithPreview extends File {
   preview: string;
 }
 
-const DropZone: FC<DropZoneProps> = ({ onChange }) => {
+const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
   const MAX_FILES_QUANTITY: number = 4;
 
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -69,7 +70,7 @@ const DropZone: FC<DropZoneProps> = ({ onChange }) => {
           }),
         })}
       >
-        <input {...getInputProps({ onChange })} />
+        <input {...getInputProps()} name={name} />
         {isDragActive ? (
           <p>Перенесите</p>
         ) : (
