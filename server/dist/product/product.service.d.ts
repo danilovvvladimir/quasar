@@ -5,7 +5,13 @@ export declare class ProductService {
     private readonly prismaService;
     private readonly categoryService;
     constructor(prismaService: PrismaService, categoryService: CategoryService);
-    findAll(): Promise<{
+    findAll(): Promise<({
+        productImage: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+    } & {
         id: string;
         name: string;
         slug: string;
@@ -14,7 +20,7 @@ export declare class ProductService {
         currentPrice: import("@prisma/client/runtime/library").Decimal;
         createdAt: Date;
         updatedAt: Date;
-    }[]>;
+    })[]>;
     findById(id: string): Promise<{
         productImage: {
             id: string;

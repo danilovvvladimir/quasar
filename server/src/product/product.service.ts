@@ -29,7 +29,9 @@ export class ProductService {
   ) {}
 
   async findAll() {
-    const products = await this.prismaService.product.findMany();
+    const products = await this.prismaService.product.findMany({
+      include: { productImage: true },
+    });
 
     return products;
   }

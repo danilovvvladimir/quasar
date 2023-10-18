@@ -2,13 +2,22 @@ import { FC } from "react";
 import "./ProductsList.scss";
 import ProductMedium from "../Product/ProductMedium/ProductMedium";
 import Button from "../UI/Button/Button";
+import { Product } from "@/types/product";
 
-const ProductsList: FC = () => {
+interface ProductsListProps {
+  products: Product[];
+}
+
+const ProductsList: FC<ProductsListProps> = ({ products }) => {
   console.log("products list");
 
   return (
     <>
       <div className="product-list">
+        {products.map((product) => (
+          <ProductMedium key={product.id} product={product} />
+        ))}
+        {/* <ProductMedium />
         <ProductMedium />
         <ProductMedium />
         <ProductMedium />
@@ -19,8 +28,7 @@ const ProductsList: FC = () => {
         <ProductMedium />
         <ProductMedium />
         <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
+        <ProductMedium /> */}
       </div>
       <div className="pagination">
         <Button className="pagination__button" isInverted={true}>

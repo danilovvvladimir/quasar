@@ -20,7 +20,9 @@ let ProductService = class ProductService {
         this.categoryService = categoryService;
     }
     async findAll() {
-        const products = await this.prismaService.product.findMany();
+        const products = await this.prismaService.product.findMany({
+            include: { productImage: true },
+        });
         return products;
     }
     async findById(id) {

@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { Product } from "@/types/product";
 import Button from "@/components/UI/Button/Button";
@@ -6,16 +8,38 @@ import Link from "next/link";
 import CustomLink from "@/components/CustomLink/CustomLink";
 import Favorite from "@/components/Favorite/Favorite";
 import styles from "./ProductMedium.module.scss";
+import OldPrice from "@/components/OldPrice/OldPrice";
+import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
+import { getDiscountPercent } from "@/utils/getDiscountPercent";
 
-interface ProductMediumProps extends Product {}
-const ProductMedium: FC = () => {
+interface ProductMediumProps {
+  product: Product;
+}
+
+const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
+  const {
+    createdAt,
+    currentPrice,
+    description,
+    id,
+    name,
+    oldPrice,
+    productDetails,
+    productImage: productImages,
+    slug,
+    updatedAt,
+  } = product;
+
+  console.log("product images", productImages[0].imagePath);
+
   return (
     <div className={styles["product-medium"]}>
       <div className={styles["product-medium__image"]}>
         <Link href="products/1">
           <Image
-            src="/product-image.jpg"
-            alt="product image"
+            // src="/product-image.jpg"
+            src={"/" + productImages[0].imagePath}
+            alt={"/" + productImages[0].imagePath}
             width={200}
             height={200}
           />
@@ -29,12 +53,27 @@ const ProductMedium: FC = () => {
         <Link href="products/1">
           <h3 className={`title ${styles["product-medium__title"]}`}>
             Nike Air Force 1 &apos;07 Nike Airffs...
+            {name}
           </h3>
         </Link>
         <span className={styles["product-medium__price"]}>
-          <div className={styles["product-medium__price-current"]}>7 593 ₽</div>
-          <div className={styles["product-medium__price-old"]}>10 900 ₽</div>
-          <div className={styles["product-medium__price-discount"]}>-29%</div>
+          <div className={styles["product-medium__price-current"]}>
+            {currentPrice} ₽
+          </div>
+          {oldPrice && (
+            <>
+              {/* <div className={styles["product-medium__price-old"]}>
+                10 900 ₽
+              </div> */}
+              <OldPrice oldPrice={oldPrice} />
+              <DiscountBadge
+                discountPercent={getDiscountPercent(oldPrice, currentPrice)}
+              />
+              {/* <div className={styles["product-medium__price-discount"]}>
+                -29%
+              </div> */}
+            </>
+          )}
         </span>
         <div className={styles["product-medium__about"]}>
           <div className={styles["product-medium__rating"]}>

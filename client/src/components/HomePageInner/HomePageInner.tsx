@@ -71,8 +71,11 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
   const productService = new ProductService();
 
   const fetchProducts = async () => {
-    // const products = await productService.getAll();
-    const products = await productService.getAll(filters, sorting, searchTerm);
+    const products = await productService.getAll({
+      filters,
+      sorting,
+      searchTerm,
+    });
     setProducts(products);
   };
 
@@ -94,7 +97,7 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
             setSelectedOption={setSelectedOption}
           />
         </div>
-        <ProductsList />
+        <ProductsList products={products} />
       </div>
     </div>
   );

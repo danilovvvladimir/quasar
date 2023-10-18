@@ -10,11 +10,19 @@ exports.FileModule = void 0;
 const common_1 = require("@nestjs/common");
 const file_service_1 = require("./file.service");
 const file_controller_1 = require("./file.controller");
+const serve_static_1 = require("@nestjs/serve-static");
+const app_root_path_1 = require("app-root-path");
 let FileModule = class FileModule {
 };
 exports.FileModule = FileModule;
 exports.FileModule = FileModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: `${app_root_path_1.path}/uploads`,
+                serveRoot: "/uploads",
+            }),
+        ],
         controllers: [file_controller_1.FileController],
         providers: [file_service_1.FileService],
     })

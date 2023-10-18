@@ -22,7 +22,7 @@ export interface Product {
   oldPrice: number;
   createdAt: Date;
   updatedAt: Date;
-  productImages: ProductImage[];
+  productImage: ProductImage[];
   productDetails: ProductDetails[];
 }
 
