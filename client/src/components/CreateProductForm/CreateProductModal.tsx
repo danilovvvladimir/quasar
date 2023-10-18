@@ -59,13 +59,13 @@ const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
           quantity: item.quantity,
           size: item.size,
         })),
-        categoryIds: values.categoryIds,
+        categoryIds: values.categoryIds.map((item) => item.id),
       });
 
       console.log("data", data);
 
       createNotify("Товар успешно создан", notifyMode.SUCCESS);
-      // reset();
+      reset();
     } catch (error) {
       console.log(error);
 

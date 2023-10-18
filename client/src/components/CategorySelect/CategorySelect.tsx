@@ -19,6 +19,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
   const categoriesOptions = categories.map((category) => ({
     label: category.name,
     value: category.name,
+    id: category.id,
   }));
 
   return (

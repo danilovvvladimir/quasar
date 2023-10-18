@@ -10,7 +10,7 @@ export interface ICreatingProduct
   > {
   images: File[];
   details: ICreatingProductDetails[];
-  categoryIds: string[];
+  categoryIds: ICategoryOption[];
 }
 
 export interface Product {
@@ -52,13 +52,9 @@ export interface ProductCart extends Product {
 
 export interface ProductCreateDTO {
   name: string;
-
   slug: string;
-
   description: string;
-
   currentPrice: number;
-
   details: Omit<IProductDetail, "id" | "productId">[];
   imagePaths: string[];
   categoryIds: string[];
@@ -73,3 +69,9 @@ export interface IProductDetail {
 
 export interface ICreatingProductDetails
   extends Omit<IProductDetail, "productId"> {}
+
+export interface ICategoryOption {
+  label: string;
+  value: string;
+  id: string;
+}
