@@ -37,3 +37,16 @@ export interface ProductCart extends Product {
   selectedDetails: ProductDetails;
   isSelected: boolean;
 }
+
+export interface ProductCreateDTO {
+  name: string;
+
+  slug: string;
+
+  description: string;
+
+  currentPrice: number;
+
+  details: Omit<ProductSize, "id" | "productId">[];
+  imagePaths: string[];
+}

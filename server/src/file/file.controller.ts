@@ -36,6 +36,8 @@ export class FileController {
     }),
   )
   async uploadFile(@UploadedFile() file) {
+    console.log("Что пришло на сервер:", file);
+
     return {
       filename: `${DISTINATION_FOLDER_FILE}/${file.filename}`,
       originalname: file.originalname,

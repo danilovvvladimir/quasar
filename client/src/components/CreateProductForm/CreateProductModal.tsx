@@ -13,11 +13,21 @@ import { createNotify, notifyMode } from "@/utils/createNotify";
 import { slugRegex } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import DropZone from "../UI/DropZone/DropZone";
+import ProductService from "@/services/product";
 
 interface CreateProductModalProps {}
 
-interface ICreatingProduct
-  extends Omit<Product, "id" | "createdAt" | "updatedAt"> {}
+export interface ICreatingProduct {
+  name: string;
+  slug: string;
+  description: string;
+  currentPrice: number;
+  oldPrice: number;
+  images: File[];
+}
+
+// interface ICreatingProduct
+//   extends Omit<Product, "id" | "createdAt" | "updatedAt"> {}
 
 const CreateProductModal: FC<CreateProductModalProps> = () => {
   const {
@@ -25,12 +35,35 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
     reset,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<ICreatingProduct>({ mode: "onChange" });
 
+  const uploadImage = async (image: File) => {
+    return await productService.uploadImage(image);
+  };
+
+  const productService = new ProductService();
+
   const onSubmit: SubmitHandler<ICreatingProduct> = async (values) => {
     try {
-      console.log(values);
+      const responses: any[] = [];
+      console.log("started values", values);
+
+      for (let i = 0; i < values.images.length; i++) {
+        responses.push(await uploadImage(values.images[i]));
+      }
+      console.log(responses);
+
+      const data = await productService.create({
+        name: values.name,
+        currentPrice: +values.currentPrice,
+        description: values.description,
+        imagePaths: responses,
+        slug: values.slug,
+      });
+
+      console.log("data", data);
 
       createNotify("Товар успешно создан", notifyMode.SUCCESS);
       // reset();
@@ -141,7 +174,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
               <div className={styles["create-product-modal__label"]}>
                 <span>Изображения</span>
                 <Controller
-                  name="productImages"
+                  name="images"
                   control={control}
                   defaultValue={[]}
                   rules={{
@@ -150,12 +183,12 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                       message: "This field is required",
                     },
                   }}
-                  render={({ field: { onChange, name } }) => (
-                    <DropZone name={name} />
+                  render={({ field: { onChange, name, value } }) => (
+                    <DropZone name={name} onChange={onChange} />
                   )}
                 />
-                {errors.productImages && (
-                  <ErrorValidationText text={errors.productImages.message!} />
+                {errors.images && (
+                  <ErrorValidationText text={errors.images.message!} />
                 )}
               </div>
             </div>

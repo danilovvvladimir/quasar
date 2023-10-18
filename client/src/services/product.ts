@@ -2,7 +2,8 @@ import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
 import { IFilters, ISorting } from "@/components/HomePageInner/HomePageInner";
-import { AdminProduct } from "@/types/product";
+import { AdminProduct, ProductCreateDTO } from "@/types/product";
+import { ICreatingProduct } from "@/components/CreateProductForm/CreateProductModal";
 
 export interface AllProductsConfig {
   filters?: IFilters;
@@ -49,6 +50,36 @@ class ProductService {
     const response = await defaultAxios.get<any[]>(`${this.PRODUCT_BASE_API}`);
 
     console.log("Get all products response", response);
+
+    return response.data;
+  }
+
+  async uploadImage(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await updatedAxios.post(`${API_URL}/files`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("Get uploadImage response", response);
+
+    return response.data;
+  }
+
+  async create(dto: ProductCreateDTO) {
+    const { currentPrice, description, imagePaths, name, slug } = dto;
+
+    const response = await updatedAxios.post(`${this.PRODUCT_BASE_API}`, {
+      name,
+      currentPrice,
+      description,
+      imagePaths,
+      slug,
+    });
+
+    console.log("Get create response", response);
 
     return response.data;
   }

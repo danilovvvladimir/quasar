@@ -26,25 +26,6 @@ const AdminProductsPage: FC = () => {
     getData();
   }, []);
 
-  // const products: AdminProduct[] = [
-  //   {
-  //     id: "1",
-  //     name: " Nike Air Force 1'07 Nike Airffs...",
-  //     slug: "temp-slug",
-  //     ordersCount: 14,
-  //     rating: 4.2,
-  //     reviewsCount: 4,
-  //   },
-  //   {
-  //     id: "2",
-  //     name: " Nike Air Force 1'07 Nike Airffs...",
-  //     slug: "tempfsaf-slug",
-  //     ordersCount: 14,
-  //     rating: 4.73,
-  //     reviewsCount: 5,
-  //   },
-  // ];
-
   console.log("Current products", products);
 
   return (

@@ -12,35 +12,52 @@ import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import getIconByName from "@/utils/getIconByName";
 import classNames from "classnames";
+import { useFormContext } from "react-hook-form";
 
 interface DropZoneProps {
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  name?: string;
+  name: string;
+  // setValue: (name: string, value: any) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 interface FileWithPreview extends File {
   preview: string;
 }
 
-const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
+const DropZone: FC<DropZoneProps> = ({ value, onChange, name }) => {
   const MAX_FILES_QUANTITY: number = 4;
 
   const [files, setFiles] = useState<FileWithPreview[]>([]);
 
-  const onDrop = useCallback((acceptedFiles: any[]) => {
-    if (files.length === MAX_FILES_QUANTITY) {
-      return;
-    }
+  const onDrop = useCallback(
+    (acceptedFiles: any[]) => {
+      if (files.length === MAX_FILES_QUANTITY) {
+        return;
+      }
 
-    if (acceptedFiles?.length) {
-      setFiles((previousFiles) => [
-        ...previousFiles,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) }),
-        ),
-      ]);
-    }
-  }, []);
+      if (acceptedFiles?.length) {
+        // setFiles((previousFiles) => [
+        //   ...previousFiles,
+        //   ...acceptedFiles.map((file) =>
+        //     Object.assign(file, { preview: URL.createObjectURL(file) }),
+        //   ),
+        // ]);
+        // setValue(name, [...files, ...updatedFiles]);
+
+        setFiles((previousFiles) => [
+          ...previousFiles,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, { preview: URL.createObjectURL(file) }),
+          ),
+        ]);
+
+        // Вызовите onChange с актуальным значением файлов
+        const updatedFiles = [...files, ...acceptedFiles];
+        onChange && onChange({ target: { name, value: updatedFiles } });
+      }
+    },
+    [files, name],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
