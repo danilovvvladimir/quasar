@@ -9,24 +9,33 @@ import AdminTableProducts from "@/components/AdminTable/AdminTableProducts/Admin
 import Modal from "@/components/UI/Modal/Modal";
 import ProductService from "@/services/product";
 import CreateProductModal from "@/components/CreateProductForm/CreateProductModal";
+import { Category } from "@/types/category";
+import CategoryService from "@/services/category";
 
 const AdminProductsPage: FC = () => {
   const productService = new ProductService();
+  const categoryService = new CategoryService();
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const [products, setProducts] = useState<Product[]>([]);
 
+  const [categories, setCategories] = useState<Category[]>([]);
+
   useEffect(() => {
     const getData = async () => {
-      const data = await productService.getAllAdminProducts();
+      const products = await productService.getAllAdminProducts();
+      const categories = await categoryService.getAll();
 
-      setProducts(data);
+      setProducts(products);
+      setCategories(categories);
     };
 
     getData();
   }, []);
 
   console.log("Current products", products);
+  console.log("Current categories", categories);
 
   return (
     <section className={styles["admin-products"]}>
@@ -38,7 +47,7 @@ const AdminProductsPage: FC = () => {
         <AdminTableProducts products={products} />
       </div>
       <Modal active={isModalVisible} setActive={setIsModalVisible}>
-        <CreateProductModal />
+        <CreateProductModal categories={categories} />
       </Modal>
     </section>
   );

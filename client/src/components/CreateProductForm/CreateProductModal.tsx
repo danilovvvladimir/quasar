@@ -7,29 +7,22 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import { Controller, useFormContext } from "react-hook-form";
 import Toggler from "../UI/Toggler/Toggler";
-import { Product } from "@/types/product";
+import { ICreatingProduct, Product } from "@/types/product";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { slugRegex } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import DropZone from "../UI/DropZone/DropZone";
 import ProductService from "@/services/product";
+import SizeCreation from "../SizeCreation/SizeCreation";
+import CategorySelect from "../CategorySelect/CategorySelect";
+import { Category } from "@/types/category";
 
-interface CreateProductModalProps {}
-
-export interface ICreatingProduct {
-  name: string;
-  slug: string;
-  description: string;
-  currentPrice: number;
-  oldPrice: number;
-  images: File[];
+export interface CreateProductModalProps {
+  categories: Category[];
 }
 
-// interface ICreatingProduct
-//   extends Omit<Product, "id" | "createdAt" | "updatedAt"> {}
-
-const CreateProductModal: FC<CreateProductModalProps> = () => {
+const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
   const {
     register,
     reset,
@@ -47,11 +40,12 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
 
   const onSubmit: SubmitHandler<ICreatingProduct> = async (values) => {
     try {
-      const responses: any[] = [];
-      console.log("started values", values);
+      console.log("values", values);
+      const responses: string[] = [];
 
       for (let i = 0; i < values.images.length; i++) {
-        responses.push(await uploadImage(values.images[i]));
+        const uploadedImage = await uploadImage(values.images[i]);
+        responses.push(uploadedImage.filename);
       }
       console.log(responses);
 
@@ -61,6 +55,11 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
         description: values.description,
         imagePaths: responses,
         slug: values.slug,
+        details: values.details.map((item) => ({
+          quantity: item.quantity,
+          size: item.size,
+        })),
+        categoryIds: values.categoryIds,
       });
 
       console.log("data", data);
@@ -72,10 +71,6 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
 
       createNotify("Something went wrong...", notifyMode.ERROR);
     }
-  };
-
-  const onImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("onImagesChange", e);
   };
 
   return (
@@ -98,7 +93,10 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                 <input
                   className="input"
                   {...register("name", {
-                    required: { value: true, message: "Name is required" },
+                    required: {
+                      value: true,
+                      message: "Название обязательно к заполнению!",
+                    },
                   })}
                   type="text"
                 />
@@ -113,8 +111,11 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                 <input
                   className="input"
                   {...register("slug", {
-                    required: { value: true, message: "Slug is required" },
-                    pattern: { value: slugRegex, message: "Slug is invalid!" },
+                    required: {
+                      value: true,
+                      message: "Slug обязателен к заполнению!",
+                    },
+                    pattern: { value: slugRegex, message: "Slug не валиден!" },
                   })}
                   type="text"
                 />
@@ -134,6 +135,33 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                 )}
               </label>
             </div>
+            <div className={styles["create-product-modal__categories"]}>
+              <label className={styles["create-product-modal__label"]}>
+                <span>Категории</span>
+
+                <Controller
+                  name="categoryIds"
+                  control={control}
+                  defaultValue={[]}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Должна быть хотя бы одна категория!",
+                    },
+                  }}
+                  render={({ field: { onChange, name } }) => (
+                    <CategorySelect
+                      categories={categories}
+                      name={name}
+                      onChange={onChange}
+                    />
+                  )}
+                />
+                {errors.categoryIds && (
+                  <ErrorValidationText text={errors.categoryIds.message!} />
+                )}
+              </label>
+            </div>
             <div className={styles["create-product-modal__categories"]}></div>
             <div className={styles["create-product-modal__current-price"]}>
               <label className={styles["create-product-modal__label"]}>
@@ -143,7 +171,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                   {...register("currentPrice", {
                     required: {
                       value: true,
-                      message: "CurrentPrice is required",
+                      message: "Актуальная стоимость обязательна к заполнению!",
                     },
                   })}
                   type="number"
@@ -180,7 +208,7 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
                   rules={{
                     required: {
                       value: true,
-                      message: "This field is required",
+                      message: "Изображения обязательны к заполнению!",
                     },
                   }}
                   render={({ field: { onChange, name, value } }) => (
@@ -193,7 +221,27 @@ const CreateProductModal: FC<CreateProductModalProps> = () => {
               </div>
             </div>
             <div className={styles["create-product-modal__content-sizes"]}>
-              size
+              <div className={styles["create-product-modal__label"]}>
+                <span>Размеры</span>
+                <Controller
+                  name="details"
+                  control={control}
+                  defaultValue={[]}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Размеры обязательны к заполнению!",
+                    },
+                  }}
+                  render={({ field: { onChange, name, value } }) => (
+                    // <DropZone name={name} onChange={onChange} />
+                    <SizeCreation name={name} onChange={onChange} />
+                  )}
+                />
+                {errors.details && (
+                  <ErrorValidationText text={errors.details.message!} />
+                )}
+              </div>
               {/* <div className={styles["create-product-modal__content-sizes"]}></div> */}
             </div>
           </div>

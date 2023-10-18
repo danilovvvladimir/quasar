@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+
+.size-creation {
+  display: flex;
+  gap: $step * 2;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  &__items {
+    display: flex;
+    gap: $step * 2;
+    flex-wrap: wrap;
+  }
+  &__actions {
+    display: flex;
+    gap: $step * 2;
+    flex-wrap: wrap;
+  }
+}

@@ -27,7 +27,6 @@ let FileController = class FileController {
         this.fileService = fileService;
     }
     async uploadFile(file) {
-        console.log("Что пришло на сервер:", file);
         return {
             filename: `${file_1.DISTINATION_FOLDER_FILE}/${file.filename}`,
             originalname: file.originalname,

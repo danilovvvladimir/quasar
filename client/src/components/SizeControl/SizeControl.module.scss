@@ -1,0 +1,25 @@
+@import "../../styles/variables.scss";
+
+.size-control {
+  border-radius: 5px;
+  display: flex;
+  border: 2px solid $main-blue-color;
+  font-weight: 700;
+  max-width: 200px;
+
+  &__size {
+    width: 50%;
+    display: flex;
+    border: none;
+    background-color: $main-blue-color;
+    color: $main-white-color;
+    padding: $step * 2 $step * 3;
+  }
+
+  &__quantity {
+    width: 50%;
+    border: none;
+    color: $text-title-color;
+    padding: $step * 2 $step * 5;
+  }
+}

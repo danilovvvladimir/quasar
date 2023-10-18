@@ -16,7 +16,6 @@ import { useFormContext } from "react-hook-form";
 
 interface DropZoneProps {
   name: string;
-  // setValue: (name: string, value: any) => void;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -24,7 +23,7 @@ interface FileWithPreview extends File {
   preview: string;
 }
 
-const DropZone: FC<DropZoneProps> = ({ value, onChange, name }) => {
+const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
   const MAX_FILES_QUANTITY: number = 4;
 
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -36,14 +35,6 @@ const DropZone: FC<DropZoneProps> = ({ value, onChange, name }) => {
       }
 
       if (acceptedFiles?.length) {
-        // setFiles((previousFiles) => [
-        //   ...previousFiles,
-        //   ...acceptedFiles.map((file) =>
-        //     Object.assign(file, { preview: URL.createObjectURL(file) }),
-        //   ),
-        // ]);
-        // setValue(name, [...files, ...updatedFiles]);
-
         setFiles((previousFiles) => [
           ...previousFiles,
           ...acceptedFiles.map((file) =>
@@ -53,7 +44,7 @@ const DropZone: FC<DropZoneProps> = ({ value, onChange, name }) => {
 
         // Вызовите onChange с актуальным значением файлов
         const updatedFiles = [...files, ...acceptedFiles];
-        onChange && onChange({ target: { name, value: updatedFiles } });
+        onChange({ target: { name, value: updatedFiles } });
       }
     },
     [files, name],
@@ -74,6 +65,9 @@ const DropZone: FC<DropZoneProps> = ({ value, onChange, name }) => {
 
   const removeFile = (name: string) => {
     setFiles((files) => files.filter((file) => file.name !== name));
+    onChange({
+      target: { name, value: files.filter((item) => item.name !== name) },
+    });
   };
 
   console.log("files:", files);

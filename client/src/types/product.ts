@@ -1,5 +1,17 @@
-import { Order } from "./order";
-import { Review } from "./review";
+export interface IUploadedFile {
+  filename: string;
+  originalname: string;
+}
+
+export interface ICreatingProduct
+  extends Omit<
+    Product,
+    "createdAt" | "updatedAt" | "productImages" | "productDetails"
+  > {
+  images: File[];
+  details: ICreatingProductDetails[];
+  categoryIds: string[];
+}
 
 export interface Product {
   id: string;
@@ -47,6 +59,17 @@ export interface ProductCreateDTO {
 
   currentPrice: number;
 
-  details: Omit<ProductSize, "id" | "productId">[];
+  details: Omit<IProductDetail, "id" | "productId">[];
   imagePaths: string[];
+  categoryIds: string[];
 }
+
+export interface IProductDetail {
+  id: string;
+  size: number;
+  quantity: number;
+  productId: string;
+}
+
+export interface ICreatingProductDetails
+  extends Omit<IProductDetail, "productId"> {}

@@ -16,8 +16,6 @@ const Select: FC<SelectProps> = ({
   selectedOption,
   setSelectedOption,
 }) => {
-  // const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
-
   return (
     <ReactSelect
       instanceId="1"
