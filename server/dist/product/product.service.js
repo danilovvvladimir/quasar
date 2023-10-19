@@ -21,7 +21,7 @@ let ProductService = class ProductService {
     }
     async findAll() {
         const products = await this.prismaService.product.findMany({
-            include: { productImage: true },
+            include: { productImage: true, review: true },
         });
         return products;
     }
@@ -41,6 +41,7 @@ let ProductService = class ProductService {
     async findBySlug(slug) {
         const product = await this.prismaService.product.findUnique({
             where: { slug },
+            include: { productImage: true, productSize: true },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);

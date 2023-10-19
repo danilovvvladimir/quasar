@@ -11,6 +11,7 @@ import styles from "./ProductMedium.module.scss";
 import OldPrice from "@/components/OldPrice/OldPrice";
 import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
+import { calculateAverageRating } from "@/utils/calculateAverageRating";
 
 interface ProductMediumProps {
   product: Product;
@@ -28,6 +29,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
     productImage: productImages,
     slug,
     updatedAt,
+    review: reviews,
   } = product;
 
   console.log("product images", productImages[0].imagePath);
@@ -35,11 +37,10 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
   return (
     <div className={styles["product-medium"]}>
       <div className={styles["product-medium__image"]}>
-        <Link href="products/1">
+        <Link href={`products/${slug}`}>
           <Image
-            // src="/product-image.jpg"
             src={"/" + productImages[0].imagePath}
-            alt={"/" + productImages[0].imagePath}
+            alt={name}
             width={200}
             height={200}
           />
@@ -51,10 +52,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
       </div>
       <div className={styles["product-medium__info"]}>
         <Link href="products/1">
-          <h3 className={`title ${styles["product-medium__title"]}`}>
-            Nike Air Force 1 &apos;07 Nike Airffs...
-            {name}
-          </h3>
+          <h3 className={`title ${styles["product-medium__title"]}`}>{name}</h3>
         </Link>
         <span className={styles["product-medium__price"]}>
           <div className={styles["product-medium__price-current"]}>
@@ -89,11 +87,12 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
                 fill="#FFA800"
               />
             </svg>
-            4.7
+
+            {calculateAverageRating(reviews).toFixed(2)}
           </div>
           <div className={styles["product-medium__reviews"]}>
             {" "}
-            / 4893 отзыва
+            / {reviews.length} отзыва
           </div>
         </div>
       </div>

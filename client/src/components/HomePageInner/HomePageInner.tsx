@@ -22,7 +22,6 @@ export interface IFilters {
   currentMinPrice: number;
   currentMaxPrice: number;
   categories: string[];
-
   selectedCategories: string[];
   rating: number;
   isDiscount: boolean;

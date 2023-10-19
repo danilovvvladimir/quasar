@@ -1,3 +1,5 @@
+import { Review } from "./review";
+
 export interface IUploadedFile {
   filename: string;
   originalname: string;
@@ -23,7 +25,8 @@ export interface Product {
   createdAt: Date;
   updatedAt: Date;
   productImage: ProductImage[];
-  productDetails: ProductDetails[];
+  productSize: ProductDetails[];
+  review: Review[];
 }
 
 export interface AdminProduct extends Product {

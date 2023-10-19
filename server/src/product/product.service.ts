@@ -30,7 +30,7 @@ export class ProductService {
 
   async findAll() {
     const products = await this.prismaService.product.findMany({
-      include: { productImage: true },
+      include: { productImage: true, review: true },
     });
 
     return products;
@@ -55,6 +55,7 @@ export class ProductService {
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: { slug },
+      include: { productImage: true, productSize: true },
     });
 
     if (!product) {

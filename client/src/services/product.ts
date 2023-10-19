@@ -2,7 +2,12 @@ import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
 import { IFilters, ISorting } from "@/components/HomePageInner/HomePageInner";
-import { AdminProduct, IUploadedFile, ProductCreateDTO } from "@/types/product";
+import {
+  AdminProduct,
+  IUploadedFile,
+  Product,
+  ProductCreateDTO,
+} from "@/types/product";
 import { ICreatingProduct } from "@/components/CreateProductForm/CreateProductModal";
 
 export interface AllProductsConfig {
@@ -94,6 +99,16 @@ class ProductService {
     });
 
     console.log("Get create response", response);
+
+    return response.data;
+  }
+
+  async getBySlug(slug: string) {
+    const response = await defaultAxios.get<Product>(
+      `${this.PRODUCT_BASE_API}/by-slug/${slug}`,
+    );
+
+    console.log("Get getBySlug response", response);
 
     return response.data;
   }

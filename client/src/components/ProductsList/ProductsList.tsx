@@ -17,18 +17,6 @@ const ProductsList: FC<ProductsListProps> = ({ products }) => {
         {products.map((product) => (
           <ProductMedium key={product.id} product={product} />
         ))}
-        {/* <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium />
-        <ProductMedium /> */}
       </div>
       <div className="pagination">
         <Button className="pagination__button" isInverted={true}>

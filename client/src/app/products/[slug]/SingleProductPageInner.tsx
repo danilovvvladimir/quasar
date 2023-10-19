@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { Product, ProductDetails } from "@/types/product";
 import { Review } from "@/types/review";
@@ -13,39 +13,20 @@ import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
 import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import styles from "./SingleProductPage.module.scss";
 import SingleProductAside from "@/components/SingleProductAside/SingleProductAside";
+import ProductService from "@/services/product";
 
 interface SingleProductPageInnerProps {
-  id: string;
+  slug: string;
+  product: Product;
 }
 
-const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
-  const foundProduct: Product = {
-    id: id,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    currentPrice: 7499,
-    oldPrice: 10900,
-    name: "Nike Air Force 1 ‘07",
-    slug: "nike-air-force-1-07",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    productDetails: [
-      { id: "1", quantity: 20, size: 41, productId: id },
-      { id: "2", quantity: 0, size: 42, productId: id },
-      { id: "3", quantity: 30, size: 43, productId: id },
-      { id: "4", quantity: 5, size: 44, productId: id },
-      { id: "5", quantity: 20, size: 45, productId: id },
-      { id: "6", quantity: 2, size: 46, productId: id },
-      { id: "7", quantity: 30, size: 47, productId: id },
-      { id: "8", quantity: 5, size: 48, productId: id },
-    ],
-    productImages: [
-      { id: "1", imagePath: "/product-image.jpg", productId: id },
-      { id: "2", imagePath: "/product-image.jpg", productId: id },
-      { id: "3", imagePath: "/product-image.jpg", productId: id },
-      { id: "4", imagePath: "/product-image.jpg", productId: id },
-    ],
-  };
+const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
+  slug,
+  product,
+}) => {
+  const [selectedImage, setSelectedImage] = useState<string>(
+    product.productImage[0].imagePath,
+  );
 
   const reviews: Review[] = [
     {
@@ -90,12 +71,14 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
     console.log("*Добавление в корзину*");
   };
 
+  console.log("product", product);
+
   return (
     <>
       <div className={styles["single-product__header"]}>
         <GoHomeButton />
         <h1 className={`title ${styles["single-product__title"]}`}>
-          {foundProduct.name}
+          {product.name}
         </h1>
       </div>
       <div className={styles["single-product__wrapper"]}>
@@ -103,21 +86,22 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
           <div className={styles["single-product__about-wrapper"]}>
             <div className={styles["single-product__gallery"]}>
               <div className={styles["single-product__gallery-list"]}>
-                {foundProduct.productImages.map((productImage) => (
+                {product.productImage.map((productImage) => (
                   <Image
                     key={productImage.id}
                     className={styles["single-product__gallery-item"]}
-                    src={productImage.imagePath}
+                    src={"/" + productImage.imagePath}
                     alt="product"
                     width={100}
                     height={100}
+                    onClick={() => setSelectedImage(productImage.imagePath)}
                   />
                 ))}
               </div>
               <div className={styles["single-product__gallery-main"]}>
                 <Image
                   className={styles["single-product__gallery-item"]}
-                  src="/product-image.jpg"
+                  src={"/" + selectedImage}
                   alt="product"
                   width={400}
                   height={400}
@@ -131,7 +115,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
                 Описание
               </h2>
               <div className={styles["single-product__description-text"]}>
-                {foundProduct.description}
+                {product.description}
               </div>
             </div>
           </div>
@@ -142,7 +126,15 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
             </h2>
             <div className={styles["single-product__sizes-list"]}>
               <SizeList
-                productDetails={foundProduct.productDetails}
+                productDetails={product.productSize.sort((a, b) => {
+                  if (a.size < b.size) {
+                    return -1;
+                  }
+                  if (a.size > b.size) {
+                    return 1;
+                  }
+                  return 0;
+                })}
                 handleSelectDetails={handleSelectDetails}
                 selectedDetails={selectedDetails}
               />
@@ -151,8 +143,8 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({ id }) => {
         </div>
         <SingleProductAside
           isDisabled={selectedDetails?.quantity === 0}
-          currentPrice={foundProduct.currentPrice}
-          oldPrice={foundProduct.oldPrice}
+          currentPrice={product.currentPrice}
+          oldPrice={product.oldPrice}
           handleSendToCart={handleSendToCart}
         />
       </div>

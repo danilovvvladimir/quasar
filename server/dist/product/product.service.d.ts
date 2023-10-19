@@ -11,6 +11,15 @@ export declare class ProductService {
             imagePath: string;
             productId: string;
         }[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -44,6 +53,18 @@ export declare class ProductService {
         updatedAt: Date;
     }>;
     findBySlug(slug: string): Promise<{
+        productImage: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+        productSize: {
+            id: string;
+            size: number;
+            quantity: number;
+            productId: string;
+        }[];
+    } & {
         id: string;
         name: string;
         slug: string;
