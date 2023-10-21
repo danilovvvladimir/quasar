@@ -112,6 +112,16 @@ class ProductService {
 
     return response.data;
   }
+
+  async delete(id: string) {
+    const response = await updatedAxios.delete<Product>(
+      `${this.PRODUCT_BASE_API}/${id}`,
+    );
+
+    console.log("Get deleteProduct response", response);
+
+    return response.data;
+  }
 }
 
 export default ProductService;

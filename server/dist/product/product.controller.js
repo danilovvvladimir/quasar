@@ -47,7 +47,7 @@ let ProductController = class ProductController {
     async createDetails(id, dto) {
         return this.productService.update(id, dto);
     }
-    async createImages(id) {
+    async delete(id) {
         return this.productService.delete(id);
     }
 };
@@ -138,7 +138,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ProductController.prototype, "createImages", null);
+], ProductController.prototype, "delete", null);
 exports.ProductController = ProductController = __decorate([
     (0, common_1.Controller)("products"),
     __metadata("design:paramtypes", [product_service_1.ProductService])

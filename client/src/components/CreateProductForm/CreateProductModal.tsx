@@ -17,18 +17,24 @@ import ProductService from "@/services/product";
 import SizeCreation from "../SizeCreation/SizeCreation";
 import CategorySelect from "../CategorySelect/CategorySelect";
 import { Category } from "@/types/category";
+import { createSlug } from "@/utils/createSlug";
 
 export interface CreateProductModalProps {
   categories: Category[];
+  updateData(): void;
 }
 
-const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
+const CreateProductModal: FC<CreateProductModalProps> = ({
+  categories,
+  updateData,
+}) => {
   const {
     register,
     reset,
     handleSubmit,
     control,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<ICreatingProduct>({ mode: "onChange" });
 
@@ -40,16 +46,14 @@ const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
 
   const onSubmit: SubmitHandler<ICreatingProduct> = async (values) => {
     try {
-      console.log("values", values);
       const responses: string[] = [];
 
       for (let i = 0; i < values.images.length; i++) {
         const uploadedImage = await uploadImage(values.images[i]);
         responses.push(uploadedImage.filename);
       }
-      console.log(responses);
 
-      const data = await productService.create({
+      await productService.create({
         name: values.name,
         currentPrice: +values.currentPrice,
         description: values.description,
@@ -62,15 +66,27 @@ const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
         categoryIds: values.categoryIds.map((item) => item.id),
       });
 
-      console.log("data", data);
-
+      updateData();
       createNotify("Товар успешно создан", notifyMode.SUCCESS);
       reset();
+      resetCustomControllers();
     } catch (error) {
       console.log(error);
 
       createNotify("Something went wrong...", notifyMode.ERROR);
     }
+  };
+
+  const resetCustomControllers = (): void => {
+    setValue("productImage", []);
+    setValue("categoryIds", []);
+    setValue("productSize", []);
+  };
+
+  const handleCreateSlug = (rawString: string) => {
+    const slug = createSlug(rawString);
+
+    setValue("slug", slug);
   };
 
   return (
@@ -122,13 +138,18 @@ const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
                 {errors.slug && (
                   <ErrorValidationText text={errors.slug.message!} />
                 )}
+                <Button
+                  disabled={getValues("name") === ""}
+                  type="button"
+                  onClick={() => handleCreateSlug(getValues("name"))}
+                >
+                  Создать Slug
+                </Button>
               </label>
             </div>
             <div className={styles["create-product-modal__description"]}>
               <label className={styles["create-product-modal__label"]}>
                 <span>Описание</span>
-                {/* <textarea></textarea> */}
-
                 <textarea className="textarea" {...register("description")} />
                 {errors.description && (
                   <ErrorValidationText text={errors.description.message!} />
@@ -211,7 +232,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({ categories }) => {
                       message: "Изображения обязательны к заполнению!",
                     },
                   }}
-                  render={({ field: { onChange, name, value } }) => (
+                  render={({ field: { onChange, name } }) => (
                     <DropZone name={name} onChange={onChange} />
                   )}
                 />

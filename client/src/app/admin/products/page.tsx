@@ -22,16 +22,16 @@ const AdminProductsPage: FC = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
 
+  const updateData = async () => {
+    const products = await productService.getAllAdminProducts();
+    const categories = await categoryService.getAll();
+
+    setProducts(products);
+    setCategories(categories);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const products = await productService.getAllAdminProducts();
-      const categories = await categoryService.getAll();
-
-      setProducts(products);
-      setCategories(categories);
-    };
-
-    getData();
+    updateData();
   }, []);
 
   console.log("Current products", products);
@@ -44,10 +44,10 @@ const AdminProductsPage: FC = () => {
           <SearchAdmin />
           <Button onClick={() => setIsModalVisible(true)}>Создать</Button>
         </div>
-        <AdminTableProducts products={products} />
+        <AdminTableProducts products={products} updateData={updateData} />
       </div>
       <Modal active={isModalVisible} setActive={setIsModalVisible}>
-        <CreateProductModal categories={categories} />
+        <CreateProductModal categories={categories} updateData={updateData} />
       </Modal>
     </section>
   );

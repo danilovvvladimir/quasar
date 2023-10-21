@@ -42,7 +42,6 @@ const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
           ),
         ]);
 
-        // Вызовите onChange с актуальным значением файлов
         const updatedFiles = [...files, ...acceptedFiles];
         onChange({ target: { name, value: updatedFiles } });
       }

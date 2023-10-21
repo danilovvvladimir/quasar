@@ -14,6 +14,7 @@ import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import styles from "./SingleProductPage.module.scss";
 import SingleProductAside from "@/components/SingleProductAside/SingleProductAside";
 import ProductService from "@/services/product";
+import classNames from "classnames";
 
 interface SingleProductPageInnerProps {
   slug: string;
@@ -89,7 +90,13 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
                 {product.productImage.map((productImage) => (
                   <Image
                     key={productImage.id}
-                    className={styles["single-product__gallery-item"]}
+                    className={classNames(
+                      styles["single-product__gallery-item"],
+                      {
+                        [styles["single-product__gallery-item--selected"]]:
+                          productImage.imagePath === selectedImage,
+                      },
+                    )}
                     src={"/" + productImage.imagePath}
                     alt="product"
                     width={100}

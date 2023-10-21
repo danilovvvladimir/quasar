@@ -89,7 +89,7 @@ export class ProductController {
   @Delete(":id")
   @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles("ADMIN", "SUPERADMIN")
-  async createImages(@Param("id") id: string) {
+  async delete(@Param("id") id: string) {
     return this.productService.delete(id);
   }
 }

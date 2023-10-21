@@ -9,8 +9,6 @@ interface ProductsListProps {
 }
 
 const ProductsList: FC<ProductsListProps> = ({ products }) => {
-  console.log("products list");
-
   return (
     <>
       <div className="product-list">

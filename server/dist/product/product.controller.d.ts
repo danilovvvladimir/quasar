@@ -113,7 +113,7 @@ export declare class ProductController {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    createImages(id: string): Promise<{
+    delete(id: string): Promise<{
         id: string;
         name: string;
         slug: string;
