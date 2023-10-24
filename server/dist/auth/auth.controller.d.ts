@@ -53,13 +53,6 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             }[];
-            cartItem: {
-                id: string;
-                size: number;
-                quantity: number;
-                userId: string;
-                productId: string;
-            }[];
             review: {
                 id: string;
                 text: string;
@@ -69,6 +62,24 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             }[];
+            cartItem: ({
+                product: {
+                    id: string;
+                    name: string;
+                    slug: string;
+                    description: string;
+                    oldPrice: import("@prisma/client/runtime/library").Decimal;
+                    currentPrice: import("@prisma/client/runtime/library").Decimal;
+                    createdAt: Date;
+                    updatedAt: Date;
+                };
+            } & {
+                id: string;
+                size: number;
+                quantity: number;
+                userId: string;
+                productId: string;
+            })[];
             order: ({
                 orderItem: {
                     id: string;

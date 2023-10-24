@@ -15,6 +15,7 @@ import { checkAuth, logoutUser } from "@/store/auth/auth.actions";
 import getIconByName from "@/utils/getIconByName";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import Loader from "../Loader/Loader";
+import Badge from "../Badge/Badge";
 
 const Navbar: FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -25,6 +26,8 @@ const Navbar: FC = () => {
     createNotify("Вы успешно вышли из аккаунта", notifyMode.SUCCESS);
     dispatch(logoutUser());
   };
+
+  console.log("user", user);
 
   return (
     <header className={styles["header"]}>
@@ -41,8 +44,28 @@ const Navbar: FC = () => {
             />
           )}
 
-          <NavigationItem href="/wishlist" iconName="heart" text="Избранное" />
-          <NavigationItem href="/cart" iconName="cart" text="Корзина" />
+          <div className={styles["navigation__block"]}>
+            <NavigationItem
+              href="/wishlist"
+              iconName="heart"
+              text="Избранное"
+            />
+            {user.wishlistItem.length > 0 && (
+              <Badge
+                className={styles["navigation__block-badge"]}
+                quantity={user.wishlistItem.length}
+              />
+            )}
+          </div>
+          <div className={styles["navigation__block"]}>
+            <NavigationItem href="/cart" iconName="cart" text="Корзина" />
+            {user.cartItem.length > 0 && (
+              <Badge
+                className={styles["navigation__block-badge"]}
+                quantity={user.cartItem.length}
+              />
+            )}
+          </div>
           <NavigationItem href="/profile/info" iconName="user" text="Профиль" />
 
           <button

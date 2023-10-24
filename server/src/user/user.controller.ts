@@ -7,6 +7,7 @@ import {
   ValidationPipe,
   Body,
   Param,
+  Post,
   UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
@@ -14,6 +15,7 @@ import { CurrentUser } from "src/decorators/user";
 import { Roles } from "src/decorators/role";
 import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";
+import { CartItemCreateDTO } from "./user.dto";
 
 @Controller("users")
 export class UserController {
@@ -79,6 +81,15 @@ export class UserController {
   @Roles("ADMIN", "SUPERADMIN")
   async findCartItems(@Param("userId") userId: string) {
     return this.userService.findCartItems(userId);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Post("/cart-item")
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
+  async createCartItem(@Body() dto: CartItemCreateDTO) {
+    return this.userService.createCartItem(dto);
   }
 
   // OriginalUserId check???

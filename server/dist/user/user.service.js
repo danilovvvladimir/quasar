@@ -28,7 +28,11 @@ let UserService = class UserService {
             where: { id },
             include: {
                 review: true,
-                cartItem: true,
+                cartItem: {
+                    include: {
+                        product: true,
+                    },
+                },
                 wishlistItem: true,
                 order: {
                     include: {
@@ -66,10 +70,25 @@ let UserService = class UserService {
         });
         return wishlistItems;
     }
+    async createCartItem(dto) {
+        const { productId, size, userId } = dto;
+        const cartItem = await this.prismaService.cartItem.create({
+            data: {
+                quantity: 1,
+                size,
+                productId,
+                userId,
+            },
+        });
+        return cartItem;
+    }
     async findCartItems(userId) {
         await this.findById(userId);
         const cartItems = await this.prismaService.cartItem.findMany({
             where: { userId },
+            include: {
+                product: true,
+            },
         });
         return cartItems;
     }

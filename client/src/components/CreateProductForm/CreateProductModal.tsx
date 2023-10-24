@@ -64,6 +64,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
           size: item.size,
         })),
         categoryIds: values.categoryIds.map((item) => item.id),
+        oldPrice: +values.oldPrice,
       });
 
       updateData();

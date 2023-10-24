@@ -82,8 +82,6 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     fetchProducts();
   }, []);
 
-  console.log("products,", products);
-
   return (
     <div className={styles["home-page__wrapper"]}>
       <Filters filters={filters} setFilters={setFilters} />

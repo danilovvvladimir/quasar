@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Button from "@/components/UI/Button/Button";
 import styles from "./CartPage.module.scss";
 import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
@@ -9,8 +9,14 @@ import { Product, ProductCart } from "@/types/product";
 import CartItem from "@/components/CartItem/CartItem";
 import CartAside from "@/components/CartAside/CartAside";
 import { getTotalAndSalesCartAmount } from "@/utils/getTotalAndSalesCartAmount";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import UserService from "@/services/user";
 
 const CartPageInner: FC = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const userService = new UserService();
+
   const products: ProductCart[] = [
     {
       id: "1",
@@ -91,6 +97,20 @@ const CartPageInner: FC = () => {
     // toast запустить
     setCartItems(cartItems.filter((item) => item.isSelected === false));
   };
+
+  const updateData = async () => {
+    const products = await userService.getCartItems(user.id);
+
+    const newCartItems = products.map((item) => ({ ...item, ...item.product }));
+
+    console.log("newCartItems", newCartItems);
+
+    setCartItems(newCartItems);
+  };
+
+  useEffect(() => {
+    updateData();
+  }, []);
 
   return (
     <>

@@ -24,3 +24,13 @@ export interface UserPrivate {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export interface CartItem {
+  id: string;
+  size: number;
+  quantity: number;
+  userId: string;
+  productId: string;
+}
+
+export interface CartItemCreate extends Omit<CartItem, "id"> {}

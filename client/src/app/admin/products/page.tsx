@@ -34,9 +34,6 @@ const AdminProductsPage: FC = () => {
     updateData();
   }, []);
 
-  console.log("Current products", products);
-  console.log("Current categories", categories);
-
   return (
     <section className={styles["admin-products"]}>
       <div className={styles["admin-products__wrapper"]}>

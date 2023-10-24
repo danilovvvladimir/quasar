@@ -4,3 +4,8 @@ export declare class UserUpdateDTO {
     username: string;
     phone: string;
 }
+export declare class CartItemCreateDTO {
+    size: number;
+    userId: string;
+    productId: string;
+}

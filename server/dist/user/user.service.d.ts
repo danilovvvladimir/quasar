@@ -1,5 +1,6 @@
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
+import { CartItemCreateDTO } from "./user.dto";
 export declare class UserService {
     private prismaService;
     private readonly productService;
@@ -19,13 +20,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
-        cartItem: {
-            id: string;
-            size: number;
-            quantity: number;
-            userId: string;
-            productId: string;
-        }[];
         review: {
             id: string;
             text: string;
@@ -35,6 +29,24 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
+        cartItem: ({
+            product: {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            size: number;
+            quantity: number;
+            userId: string;
+            productId: string;
+        })[];
         order: ({
             orderItem: {
                 id: string;
@@ -95,13 +107,31 @@ export declare class UserService {
         userId: string;
         productId: string;
     }[]>;
-    findCartItems(userId: string): Promise<{
+    createCartItem(dto: CartItemCreateDTO): Promise<{
         id: string;
         size: number;
         quantity: number;
         userId: string;
         productId: string;
-    }[]>;
+    }>;
+    findCartItems(userId: string): Promise<({
+        product: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
+        id: string;
+        size: number;
+        quantity: number;
+        userId: string;
+        productId: string;
+    })[]>;
     updateCartItem(id: string, newQuantity: number): Promise<{
         id: string;
         size: number;

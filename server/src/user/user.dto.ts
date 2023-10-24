@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UserUpdateDTO {
   @IsEmail()
@@ -15,4 +15,17 @@ export class UserUpdateDTO {
   @IsOptional()
   @IsString()
   phone: string;
+}
+
+export class CartItemCreateDTO {
+  @IsNumber()
+  size: number;
+
+  // @IsNumber()
+  // quantity: number;
+  @IsString()
+  userId: string;
+
+  @IsString()
+  productId: string;
 }

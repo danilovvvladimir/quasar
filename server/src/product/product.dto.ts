@@ -4,6 +4,7 @@ import {
   IsArray,
   IsBoolean,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   Min,
@@ -22,6 +23,10 @@ export class ProductCreateDTO {
 
   @IsNumber()
   currentPrice: number;
+
+  @IsOptional()
+  @IsNumber()
+  oldPrice?: number;
 
   @IsArray()
   @ArrayMinSize(1)

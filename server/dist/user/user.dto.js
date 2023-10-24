@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserUpdateDTO = void 0;
+exports.CartItemCreateDTO = exports.UserUpdateDTO = void 0;
 const class_validator_1 = require("class-validator");
 class UserUpdateDTO {
 }
@@ -33,4 +33,19 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UserUpdateDTO.prototype, "phone", void 0);
+class CartItemCreateDTO {
+}
+exports.CartItemCreateDTO = CartItemCreateDTO;
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CartItemCreateDTO.prototype, "size", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CartItemCreateDTO.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CartItemCreateDTO.prototype, "productId", void 0);
 //# sourceMappingURL=user.dto.js.map

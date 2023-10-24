@@ -86,6 +86,7 @@ class ProductService {
       slug,
       details,
       categoryIds,
+      oldPrice,
     } = dto;
 
     const response = await updatedAxios.post(`${this.PRODUCT_BASE_API}`, {
@@ -96,6 +97,7 @@ class ProductService {
       slug,
       categoryIds,
       details,
+      oldPrice,
     });
 
     console.log("Get create response", response);

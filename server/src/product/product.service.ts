@@ -114,6 +114,7 @@ export class ProductService {
       name,
       currentPrice,
       slug,
+      oldPrice,
     } = dto;
 
     let product: Product = undefined;
@@ -127,6 +128,7 @@ export class ProductService {
             slug,
             description,
             currentPrice,
+            oldPrice,
           },
         });
 

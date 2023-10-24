@@ -10,6 +10,7 @@ import {
 } from "src/constants/user";
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
+import { CartItemCreateDTO } from "./user.dto";
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,11 @@ export class UserService {
       where: { id },
       include: {
         review: true,
-        cartItem: true,
+        cartItem: {
+          include: {
+            product: true,
+          },
+        },
         wishlistItem: true,
         order: {
           include: {
@@ -79,11 +84,29 @@ export class UserService {
     return wishlistItems;
   }
 
+  async createCartItem(dto: CartItemCreateDTO) {
+    const { productId, size, userId } = dto;
+
+    const cartItem = await this.prismaService.cartItem.create({
+      data: {
+        quantity: 1,
+        size,
+        productId,
+        userId,
+      },
+    });
+
+    return cartItem;
+  }
+
   async findCartItems(userId: string) {
     await this.findById(userId);
 
     const cartItems = await this.prismaService.cartItem.findMany({
       where: { userId },
+      include: {
+        product: true,
+      },
     });
 
     return cartItems;

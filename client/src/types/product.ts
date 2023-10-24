@@ -61,6 +61,7 @@ export interface ProductCreateDTO {
   details: Omit<IProductDetail, "id" | "productId">[];
   imagePaths: string[];
   categoryIds: string[];
+  oldPrice?: number;
 }
 
 export interface IProductDetail {

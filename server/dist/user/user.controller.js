@@ -19,6 +19,7 @@ const user_1 = require("../decorators/user");
 const role_1 = require("../decorators/role");
 const accessToken_1 = require("../guard/accessToken");
 const roles_1 = require("../guard/roles");
+const user_dto_1 = require("./user.dto");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -43,6 +44,9 @@ let UserController = class UserController {
     }
     async findCartItems(userId) {
         return this.userService.findCartItems(userId);
+    }
+    async createCartItem(dto) {
+        return this.userService.createCartItem(dto);
     }
     async updateCartItemQuantity(id, newQuantity) {
         return this.userService.updateCartItem(id, newQuantity);
@@ -124,6 +128,17 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findCartItems", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Post)("/cart-item"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.CartItemCreateDTO]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "createCartItem", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

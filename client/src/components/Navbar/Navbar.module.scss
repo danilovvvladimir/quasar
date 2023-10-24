@@ -19,6 +19,19 @@
   align-items: center;
   gap: $step * 8;
 
+  &__block {
+    position: relative;
+
+    &-badge {
+      font-size: 12px;
+      position: absolute;
+      top: -5px;
+      right: 20%;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
   &__logout {
     border: none;
     background-color: transparent;

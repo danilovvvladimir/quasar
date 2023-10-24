@@ -80,7 +80,7 @@ let ProductService = class ProductService {
         return images;
     }
     async create(dto) {
-        const { description, details, imagePaths, categoryIds, name, currentPrice, slug, } = dto;
+        const { description, details, imagePaths, categoryIds, name, currentPrice, slug, oldPrice, } = dto;
         let product = undefined;
         try {
             product = await this.prismaService.$transaction(async (prisma) => {
@@ -90,6 +90,7 @@ let ProductService = class ProductService {
                         slug,
                         description,
                         currentPrice,
+                        oldPrice,
                     },
                 });
                 this.createProductDetails(createdProduct.id, {

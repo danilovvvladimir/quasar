@@ -31,6 +31,11 @@ __decorate([
     __metadata("design:type", Number)
 ], ProductCreateDTO.prototype, "currentPrice", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], ProductCreateDTO.prototype, "oldPrice", void 0);
+__decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ValidateNested)({ each: true }),

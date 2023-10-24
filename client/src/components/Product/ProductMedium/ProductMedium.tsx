@@ -2,7 +2,6 @@
 
 import { FC } from "react";
 import { Product } from "@/types/product";
-import Button from "@/components/UI/Button/Button";
 import Image from "next/image";
 import Link from "next/link";
 import CustomLink from "@/components/CustomLink/CustomLink";
@@ -12,6 +11,7 @@ import OldPrice from "@/components/OldPrice/OldPrice";
 import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import { calculateAverageRating } from "@/utils/calculateAverageRating";
+import { getFitProductName } from "@/utils/getFitProductName";
 
 interface ProductMediumProps {
   product: Product;
@@ -32,8 +32,6 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
     review: reviews,
   } = product;
 
-  console.log("product images", productImages[0].imagePath);
-
   return (
     <div className={styles["product-medium"]}>
       <div className={styles["product-medium__image"]}>
@@ -52,7 +50,9 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
       </div>
       <div className={styles["product-medium__info"]}>
         <Link href="products/1">
-          <h3 className={`title ${styles["product-medium__title"]}`}>{name}</h3>
+          <h3 className={`title ${styles["product-medium__title"]}`}>
+            {getFitProductName(name)}
+          </h3>
         </Link>
         <span className={styles["product-medium__price"]}>
           <div className={styles["product-medium__price-current"]}>
@@ -60,16 +60,11 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
           </div>
           {oldPrice && (
             <>
-              {/* <div className={styles["product-medium__price-old"]}>
-                10 900 ₽
-              </div> */}
               <OldPrice oldPrice={oldPrice} />
               <DiscountBadge
+                isInverted
                 discountPercent={getDiscountPercent(oldPrice, currentPrice)}
               />
-              {/* <div className={styles["product-medium__price-discount"]}>
-                -29%
-              </div> */}
             </>
           )}
         </span>
@@ -98,7 +93,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
       </div>
       <CustomLink
         className={styles["product-medium__link"]}
-        href="products/1"
+        href={`products/${slug}`}
         isButton={true}
       >
         Перейти

@@ -12,6 +12,7 @@
     font-weight: 600;
     color: $text-title-color;
     // margin-bottom: $step * 2;
+    height: $step * 8;
   }
 
   &__info {
@@ -23,7 +24,8 @@
   &__price {
     display: flex;
     align-items: center;
-    gap: $step * 2;
+    // gap: $step * 2;
+    justify-content: space-between;
 
     &-current {
       font-size: 18px;

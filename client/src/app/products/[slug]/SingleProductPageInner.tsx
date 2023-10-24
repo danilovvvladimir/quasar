@@ -15,6 +15,10 @@ import styles from "./SingleProductPage.module.scss";
 import SingleProductAside from "@/components/SingleProductAside/SingleProductAside";
 import ProductService from "@/services/product";
 import classNames from "classnames";
+import { createNotify, notifyMode } from "@/utils/createNotify";
+import UserService from "@/services/user";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface SingleProductPageInnerProps {
   slug: string;
@@ -25,6 +29,9 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const userService = new UserService();
+
   const [selectedImage, setSelectedImage] = useState<string>(
     product.productImage[0].imagePath,
   );
@@ -62,14 +69,24 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
     }
   };
 
-  const handleSendToCart = () => {
+  const handleSendToCart = async () => {
     if (selectedDetails === null) {
-      console.log("Не выбран размер");
-
+      createNotify("Размер не выбран!", notifyMode.ERROR);
       return;
     }
 
-    console.log("*Добавление в корзину*");
+    try {
+      await userService.create({
+        productId: product.id,
+        quantity: 1,
+        size: selectedDetails.size,
+        userId: user.id,
+      });
+      // console.log("*Добавление в корзину*");
+      createNotify("Успешно добавлен в корзину", notifyMode.SUCCESS);
+    } catch (error) {
+      createNotify("Что-то пошло не так!", notifyMode.ERROR);
+    }
   };
 
   console.log("product", product);
