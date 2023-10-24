@@ -3,7 +3,7 @@ import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 export declare class ProductController {
     private readonly productService;
     constructor(productService: ProductService);
-    findAll(): Promise<({
+    findAll(searchTerm?: string, sorting?: string, currentMinPrice?: number, currentMaxPrice?: number, selectedCategories?: string, rating?: number): Promise<({
         productImage: {
             id: string;
             imagePath: string;
@@ -49,6 +49,10 @@ export declare class ProductController {
         currentPrice: import("@prisma/client/runtime/library").Decimal;
         createdAt: Date;
         updatedAt: Date;
+    }>;
+    findMinMaxPrice(): Promise<{
+        min: import("@prisma/client/runtime/library").Decimal;
+        max: import("@prisma/client/runtime/library").Decimal;
     }>;
     findBySlug(slug: string): Promise<{
         productImage: {

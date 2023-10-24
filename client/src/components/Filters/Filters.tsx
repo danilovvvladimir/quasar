@@ -96,6 +96,8 @@ const Filters: FC<FiltersProps> = ({ filters, setFilters }) => {
     }
   };
 
+  console.log("FILTERS filters", filters);
+
   return (
     <div className={styles["filters"]}>
       <div className={styles["filters__item"]}>

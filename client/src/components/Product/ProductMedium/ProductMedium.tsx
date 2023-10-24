@@ -12,6 +12,7 @@ import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import { calculateAverageRating } from "@/utils/calculateAverageRating";
 import { getFitProductName } from "@/utils/getFitProductName";
+import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
 
 interface ProductMediumProps {
   product: Product;
@@ -34,9 +35,10 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
 
   return (
     <div className={styles["product-medium"]}>
-      <div className={styles["product-medium__image"]}>
+      <div className={styles["product-medium__image-box"]}>
         <Link href={`products/${slug}`}>
           <Image
+            className={styles["product-medium__image"]}
             src={"/" + productImages[0].imagePath}
             alt={name}
             width={200}
@@ -56,7 +58,8 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
         </Link>
         <span className={styles["product-medium__price"]}>
           <div className={styles["product-medium__price-current"]}>
-            {currentPrice} ₽
+            {/* {currentPrice} ₽ */}
+            <CurrentPrice currentPrice={currentPrice} />
           </div>
           {oldPrice && (
             <>

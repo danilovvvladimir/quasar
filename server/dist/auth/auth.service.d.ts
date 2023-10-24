@@ -22,15 +22,15 @@ export declare class AuthService {
     }>;
     login(loginDTO: AuthLoginDTO): Promise<{
         user: {
-            wishlistItem: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             cartItem: {
                 id: string;
                 size: number;
                 quantity: number;
+                userId: string;
+                productId: string;
+            }[];
+            wishlistItem: {
+                id: string;
                 userId: string;
                 productId: string;
             }[];
@@ -50,11 +50,6 @@ export declare class AuthService {
     }>;
     getNewTokens(dto: RefreshTokenDTO): Promise<{
         user: {
-            wishlistItem: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             review: {
                 id: string;
                 text: string;
@@ -82,6 +77,11 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItem: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             order: ({
                 orderItem: {
                     id: string;

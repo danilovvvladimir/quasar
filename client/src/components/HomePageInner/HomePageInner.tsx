@@ -8,6 +8,9 @@ import Search from "../Search/Search";
 import Select from "../UI/Select/Select";
 import ProductService from "@/services/product";
 import { Product } from "@/types/product";
+import CategoryService from "@/services/category";
+import { Category } from "@/types/category";
+import Loader from "../Loader/Loader";
 
 interface HomePageInnerProps {}
 
@@ -33,14 +36,18 @@ export interface ISorting {
 }
 
 const HomePageInner: FC<HomePageInnerProps> = () => {
+  const productService = new ProductService();
+  const categoryService = new CategoryService();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([]);
 
   const [filters, setFilters] = useState<IFilters>({
     currentMinPrice: 500,
     currentMaxPrice: 5000,
-    minPrice: 500,
-    maxPrice: 5000,
-    categories: ["Футболки", "Обувь", "Худи", "Шорты", "Кофты"],
+    minPrice: 0,
+    maxPrice: 1,
+    categories: [],
     selectedCategories: [],
     rating: 1,
     isDiscount: false,
@@ -49,10 +56,10 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
   const [sorting, setSorting] = useState<ISorting>({
     options: [
       { value: "by-rating", label: "По рейтингу -" },
-      { value: "price-asc", label: "По цене -" },
-      { value: "price-desc", label: "По цене +" },
-      { value: "date-asc", label: "По новизне -" },
-      { value: "date-desc", label: "По новизне +" },
+      { value: "price-asc", label: "По цене +" },
+      { value: "price-desc", label: "По цене -" },
+      { value: "date-asc", label: "По новизне +" },
+      { value: "date-desc", label: "По новизне -" },
     ],
     selectedOption: { value: "by-rating", label: "По рейтингу -" },
   });
@@ -67,8 +74,6 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     setSorting({ ...sorting, selectedOption: newSelectedOption });
   };
 
-  const productService = new ProductService();
-
   const fetchProducts = async () => {
     const products = await productService.getAll({
       filters,
@@ -78,9 +83,33 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     setProducts(products);
   };
 
+  const fetchCategories = async () => {
+    setIsLoading(true);
+    const categories = await categoryService.getAll();
+    const minMaxPrices = await productService.getMinMaxPrices();
+
+    setFilters({
+      ...filters,
+      categories: categories.map((category) => category.name),
+      minPrice: +minMaxPrices.min,
+      maxPrice: +minMaxPrices.max,
+      currentMinPrice: +minMaxPrices.min,
+      currentMaxPrice: +minMaxPrices.max,
+    });
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     fetchProducts();
+  }, [searchTerm, sorting, filters]);
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles["home-page__wrapper"]}>

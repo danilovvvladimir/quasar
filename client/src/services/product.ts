@@ -16,6 +16,11 @@ export interface AllProductsConfig {
   searchTerm?: string;
 }
 
+interface IMinMaxPrice {
+  min: number;
+  max: number;
+}
+
 class ProductService {
   private readonly PRODUCT_BASE_API: string = `${API_URL}/products`;
 
@@ -23,13 +28,13 @@ class ProductService {
     const { filters, searchTerm, sorting } = allProductsConfig;
     const queryParams = new URLSearchParams();
 
-    if (filters && sorting && searchTerm) {
+    if (filters) {
       queryParams.append(
         "selectedCategories",
         filters.selectedCategories.join(";"),
       );
       queryParams.append("currentMinPrice", filters.currentMinPrice.toString());
-      queryParams.append("currentMinPrice", filters.currentMaxPrice.toString());
+      queryParams.append("currentMaxPrice", filters.currentMaxPrice.toString());
       queryParams.append("isDiscount", `${filters.isDiscount}`);
       queryParams.append("rating", filters.rating.toString());
     }
@@ -55,6 +60,13 @@ class ProductService {
     const response = await defaultAxios.get<any[]>(`${this.PRODUCT_BASE_API}`);
 
     console.log("Get all products response", response);
+
+    return response.data;
+  }
+  async getMinMaxPrices() {
+    const response = await defaultAxios.get<IMinMaxPrice>(
+      `${this.PRODUCT_BASE_API}/min-max`,
+    );
 
     return response.data;
   }

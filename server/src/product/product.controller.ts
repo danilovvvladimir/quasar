@@ -7,6 +7,7 @@ import {
   Body,
   Delete,
   Post,
+  Query,
   ValidationPipe,
   Param,
   UseGuards,
@@ -25,8 +26,23 @@ export class ProductController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get()
-  async findAll() {
-    return this.productService.findAll();
+  async findAll(
+    @Query("searchTerm") searchTerm?: string,
+    @Query("sort") sorting?: string,
+    @Query("currentMinPrice") currentMinPrice?: number,
+    @Query("currentMaxPrice") currentMaxPrice?: number,
+    @Query("selectedCategories") selectedCategories?: string,
+    @Query("rating") rating?: number,
+  ) {
+    return this.productService.findAll({
+      searchTerm,
+      sorting,
+      currentMinPrice,
+      currentMaxPrice,
+      selectedCategories:
+        selectedCategories === "" ? [] : selectedCategories.split(";"),
+      rating,
+    });
   }
 
   @UsePipes(new ValidationPipe())
@@ -34,6 +50,13 @@ export class ProductController {
   @Get("by-id/:id")
   async findById(@Param("id") id: string) {
     return this.productService.findById(id);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Get("min-max")
+  async findMinMaxPrice() {
+    return this.productService.findMinMaxPrice();
   }
 
   @UsePipes(new ValidationPipe())

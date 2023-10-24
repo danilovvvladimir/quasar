@@ -19,11 +19,96 @@ let ProductService = class ProductService {
         this.prismaService = prismaService;
         this.categoryService = categoryService;
     }
-    async findAll() {
+    async findMinMaxPrice() {
+        const minPriceProduct = await this.prismaService.product.findFirst({
+            orderBy: {
+                currentPrice: "asc",
+            },
+        });
+        const maxPriceProduct = await this.prismaService.product.findFirst({
+            orderBy: {
+                currentPrice: "desc",
+            },
+        });
+        return {
+            min: minPriceProduct.currentPrice,
+            max: maxPriceProduct.currentPrice,
+        };
+    }
+    async findAll(config) {
+        const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, } = config;
+        console.log("selectedCategories", selectedCategories);
+        console.log("rating", rating);
+        let options = {};
+        if (searchTerm) {
+            options = {
+                name: {
+                    contains: searchTerm,
+                    mode: "insensitive",
+                },
+            };
+        }
+        if (currentMinPrice && currentMaxPrice) {
+            options = Object.assign(Object.assign({}, options), { currentPrice: {
+                    gte: currentMinPrice,
+                    lte: currentMaxPrice,
+                } });
+        }
+        if (selectedCategories.length > 0) {
+            options = Object.assign(Object.assign({}, options), { categories: {
+                    some: {
+                        Category: {
+                            name: {
+                                in: selectedCategories,
+                            },
+                        },
+                    },
+                } });
+        }
+        if (rating) {
+            options = Object.assign(Object.assign({}, options), { AND: {
+                    review: {
+                        every: {
+                            rating: {
+                                gte: +rating,
+                            },
+                        },
+                    },
+                } });
+        }
         const products = await this.prismaService.product.findMany({
             include: { productImage: true, review: true },
+            where: options,
+            orderBy: this.getProductOrderBy(sorting),
         });
         return products;
+    }
+    getProductOrderBy(sorting) {
+        let orderBy = {};
+        if (sorting === "by-rating") {
+            orderBy = {};
+        }
+        else if (sorting === "price-asc") {
+            orderBy = {
+                currentPrice: "asc",
+            };
+        }
+        else if (sorting === "price-desc") {
+            orderBy = {
+                currentPrice: "desc",
+            };
+        }
+        else if (sorting === "date-asc") {
+            orderBy = {
+                createdAt: "asc",
+            };
+        }
+        else if (sorting === "date-desc") {
+            orderBy = {
+                createdAt: "desc",
+            };
+        }
+        return orderBy;
     }
     async findById(id) {
         const product = await this.prismaService.product.findUnique({

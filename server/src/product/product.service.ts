@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Product } from "@prisma/client";
+import { Prisma, Product } from "@prisma/client";
 import {
   PRODUCT_CREATE_ERROR_MESSAGE,
   PRODUCT_DELETE_ERROR_MESSAGE,
@@ -20,6 +20,7 @@ import {
   ProductUpdateDTO,
 } from "./product.dto";
 import { CategoryService } from "src/category/category.service";
+import { AllProductsConfig } from "src/types/product";
 
 @Injectable()
 export class ProductService {
@@ -28,12 +29,123 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async findAll() {
+  async findMinMaxPrice() {
+    const minPriceProduct = await this.prismaService.product.findFirst({
+      orderBy: {
+        currentPrice: "asc",
+      },
+    });
+
+    const maxPriceProduct = await this.prismaService.product.findFirst({
+      orderBy: {
+        currentPrice: "desc",
+      },
+    });
+
+    return {
+      min: minPriceProduct.currentPrice,
+      max: maxPriceProduct.currentPrice,
+    };
+  }
+
+  async findAll(config: AllProductsConfig) {
+    const {
+      currentMaxPrice,
+      currentMinPrice,
+      isDiscount,
+      rating,
+      selectedCategories,
+      searchTerm,
+      sorting,
+    } = config;
+
+    console.log("selectedCategories", selectedCategories);
+    console.log("rating", rating);
+
+    let options: Prisma.ProductWhereInput = {};
+
+    if (searchTerm) {
+      options = {
+        name: {
+          contains: searchTerm,
+          mode: "insensitive",
+        },
+      };
+    }
+
+    if (currentMinPrice && currentMaxPrice) {
+      options = {
+        ...options,
+        currentPrice: {
+          gte: currentMinPrice,
+          lte: currentMaxPrice,
+        },
+      };
+    }
+
+    if (selectedCategories.length > 0) {
+      options = {
+        ...options,
+        categories: {
+          some: {
+            Category: {
+              name: {
+                in: selectedCategories,
+              },
+            },
+          },
+        },
+      };
+    }
+
+    if (rating) {
+      options = {
+        ...options,
+        AND: {
+          review: {
+            every: {
+              rating: {
+                gte: +rating,
+              },
+            },
+          },
+        },
+      };
+    }
+
     const products = await this.prismaService.product.findMany({
       include: { productImage: true, review: true },
+      where: options,
+      orderBy: this.getProductOrderBy(sorting),
     });
 
     return products;
+  }
+
+  private getProductOrderBy(sorting?: string) {
+    let orderBy: Prisma.ProductOrderByWithAggregationInput = {};
+
+    if (sorting === "by-rating") {
+      orderBy = {};
+    } else if (sorting === "price-asc") {
+      orderBy = {
+        currentPrice: "asc",
+      };
+    } else if (sorting === "price-desc") {
+      orderBy = {
+        currentPrice: "desc",
+      };
+    } else if (sorting === "date-asc") {
+      orderBy = {
+        createdAt: "asc",
+      };
+    } else if (sorting === "date-desc") {
+      orderBy = {
+        createdAt: "desc",
+      };
+    }
+
+    return orderBy;
   }
 
   async findById(id: string) {

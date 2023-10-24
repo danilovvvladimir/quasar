@@ -1,11 +1,17 @@
+import { Prisma } from "@prisma/client";
 import { PrismaService } from "src/database/prisma.service";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 import { CategoryService } from "src/category/category.service";
+import { AllProductsConfig } from "src/types/product";
 export declare class ProductService {
     private readonly prismaService;
     private readonly categoryService;
     constructor(prismaService: PrismaService, categoryService: CategoryService);
-    findAll(): Promise<({
+    findMinMaxPrice(): Promise<{
+        min: Prisma.Decimal;
+        max: Prisma.Decimal;
+    }>;
+    findAll(config: AllProductsConfig): Promise<({
         productImage: {
             id: string;
             imagePath: string;
@@ -25,11 +31,12 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     })[]>;
+    private getProductOrderBy;
     findById(id: string): Promise<{
         productImage: {
             id: string;
@@ -47,8 +54,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -69,8 +76,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -79,8 +86,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -100,8 +107,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -113,8 +120,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -123,8 +130,8 @@ export declare class ProductService {
         name: string;
         slug: string;
         description: string;
-        oldPrice: import("@prisma/client/runtime/library").Decimal;
-        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
         createdAt: Date;
         updatedAt: Date;
     }>;

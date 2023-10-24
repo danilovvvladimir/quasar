@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 
 .old-price {
+  font-size: 14px;
   color: $text-description-color;
   text-decoration: line-through;
 }

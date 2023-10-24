@@ -23,11 +23,21 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    async findAll() {
-        return this.productService.findAll();
+    async findAll(searchTerm, sorting, currentMinPrice, currentMaxPrice, selectedCategories, rating) {
+        return this.productService.findAll({
+            searchTerm,
+            sorting,
+            currentMinPrice,
+            currentMaxPrice,
+            selectedCategories: selectedCategories === "" ? [] : selectedCategories.split(";"),
+            rating,
+        });
     }
     async findById(id) {
         return this.productService.findById(id);
+    }
+    async findMinMaxPrice() {
+        return this.productService.findMinMaxPrice();
     }
     async findBySlug(slug) {
         return this.productService.findBySlug(slug);
@@ -56,8 +66,14 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)("searchTerm")),
+    __param(1, (0, common_1.Query)("sort")),
+    __param(2, (0, common_1.Query)("currentMinPrice")),
+    __param(3, (0, common_1.Query)("currentMaxPrice")),
+    __param(4, (0, common_1.Query)("selectedCategories")),
+    __param(5, (0, common_1.Query)("rating")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, String, Number, Number, String, Number]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "findAll", null);
 __decorate([
@@ -69,6 +85,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "findById", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)("min-max"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findMinMaxPrice", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
