@@ -37,8 +37,7 @@ let ProductService = class ProductService {
     }
     async findAll(config) {
         const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, } = config;
-        console.log("selectedCategories", selectedCategories);
-        console.log("rating", rating);
+        console.log("isDiscount", isDiscount);
         let options = {};
         if (searchTerm) {
             options = {
@@ -54,7 +53,7 @@ let ProductService = class ProductService {
                     lte: currentMaxPrice,
                 } });
         }
-        if (selectedCategories.length > 0) {
+        if (selectedCategories && selectedCategories.length > 0) {
             options = Object.assign(Object.assign({}, options), { categories: {
                     some: {
                         Category: {
@@ -68,11 +67,18 @@ let ProductService = class ProductService {
         if (rating) {
             options = Object.assign(Object.assign({}, options), { AND: {
                     review: {
-                        every: {
+                        some: {
                             rating: {
                                 gte: +rating,
                             },
                         },
+                    },
+                } });
+        }
+        if (isDiscount) {
+            options = Object.assign(Object.assign({}, options), { AND: {
+                    oldPrice: {
+                        gt: 0,
                     },
                 } });
         }
@@ -81,6 +87,19 @@ let ProductService = class ProductService {
             where: options,
             orderBy: this.getProductOrderBy(sorting),
         });
+        const filteredProducts = [];
+        console.log("he");
+        for (const product of products) {
+            const productId = product.id;
+            console.log("productId", productId);
+            const averageRating = await this.prismaService
+                .$queryRaw `SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
+            console.log("averageRating", averageRating);
+            if (!averageRating || averageRating.average_rating >= rating) {
+                filteredProducts.push(product);
+            }
+        }
+        console.log("filteredProducts", filteredProducts);
         return products;
     }
     getProductOrderBy(sorting) {
@@ -107,6 +126,9 @@ let ProductService = class ProductService {
             orderBy = {
                 createdAt: "desc",
             };
+        }
+        else {
+            orderBy = {};
         }
         return orderBy;
     }

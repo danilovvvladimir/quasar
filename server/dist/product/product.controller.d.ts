@@ -3,7 +3,7 @@ import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 export declare class ProductController {
     private readonly productService;
     constructor(productService: ProductService);
-    findAll(searchTerm?: string, sorting?: string, currentMinPrice?: number, currentMaxPrice?: number, selectedCategories?: string, rating?: number): Promise<({
+    findAll(searchTerm?: string, sorting?: string, currentMinPrice?: number, currentMaxPrice?: number, selectedCategories?: string, rating?: number, isDiscount?: string): Promise<({
         productImage: {
             id: string;
             imagePath: string;

@@ -59,8 +59,7 @@ export class ProductService {
       sorting,
     } = config;
 
-    console.log("selectedCategories", selectedCategories);
-    console.log("rating", rating);
+    console.log("isDiscount", isDiscount);
 
     let options: Prisma.ProductWhereInput = {};
 
@@ -83,7 +82,7 @@ export class ProductService {
       };
     }
 
-    if (selectedCategories.length > 0) {
+    if (selectedCategories && selectedCategories.length > 0) {
       options = {
         ...options,
         categories: {
@@ -103,7 +102,7 @@ export class ProductService {
         ...options,
         AND: {
           review: {
-            every: {
+            some: {
               rating: {
                 gte: +rating,
               },
@@ -113,11 +112,45 @@ export class ProductService {
       };
     }
 
+    if (isDiscount) {
+      options = {
+        ...options,
+        AND: {
+          oldPrice: {
+            gt: 0,
+          },
+        },
+      };
+    }
+
+    // const averageRating = await this.prismaService
+    //   .$queryRaw`SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
+
     const products = await this.prismaService.product.findMany({
       include: { productImage: true, review: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
     });
+
+    const filteredProducts = [];
+
+    console.log("he");
+    for (const product of products) {
+      const productId = product.id; // Предположим, что у продукта есть поле id
+      console.log("productId", productId);
+
+      const averageRating: any = await this.prismaService
+        .$queryRaw`SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
+
+      console.log("averageRating", averageRating);
+
+      // Проверяем, удовлетворяет ли продукт условиям
+      if (!averageRating || averageRating.average_rating >= rating) {
+        filteredProducts.push(product);
+      }
+    }
+
+    console.log("filteredProducts", filteredProducts);
 
     return products;
   }
@@ -143,6 +176,8 @@ export class ProductService {
       orderBy = {
         createdAt: "desc",
       };
+    } else {
+      orderBy = {};
     }
 
     return orderBy;

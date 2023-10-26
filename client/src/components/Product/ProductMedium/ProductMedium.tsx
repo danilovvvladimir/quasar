@@ -58,10 +58,9 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
         </Link>
         <span className={styles["product-medium__price"]}>
           <div className={styles["product-medium__price-current"]}>
-            {/* {currentPrice} ₽ */}
             <CurrentPrice currentPrice={currentPrice} />
           </div>
-          {oldPrice && (
+          {oldPrice > 0 && (
             <>
               <OldPrice oldPrice={oldPrice} />
               <DiscountBadge

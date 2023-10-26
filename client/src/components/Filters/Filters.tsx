@@ -11,9 +11,6 @@ import classNames from "classnames";
 import { IFilters } from "../HomePageInner/HomePageInner";
 
 interface FiltersProps {
-  // minPrice: number;
-  // maxPrice: number;
-  // categories: string[];
   filters: IFilters;
   setFilters: (filters: IFilters) => void;
 }

@@ -23,15 +23,20 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    async findAll(searchTerm, sorting, currentMinPrice, currentMaxPrice, selectedCategories, rating) {
-        return this.productService.findAll({
-            searchTerm,
-            sorting,
-            currentMinPrice,
-            currentMaxPrice,
-            selectedCategories: selectedCategories === "" ? [] : selectedCategories.split(";"),
-            rating,
-        });
+    async findAll(searchTerm, sorting, currentMinPrice, currentMaxPrice, selectedCategories, rating, isDiscount) {
+        let allProductsConfig = {};
+        if (sorting) {
+            allProductsConfig = {
+                searchTerm,
+                sorting,
+                currentMinPrice,
+                currentMaxPrice,
+                selectedCategories: selectedCategories === "" ? [] : selectedCategories.split(";"),
+                rating,
+                isDiscount: isDiscount === "true",
+            };
+        }
+        return this.productService.findAll(allProductsConfig);
     }
     async findById(id) {
         return this.productService.findById(id);
@@ -72,8 +77,9 @@ __decorate([
     __param(3, (0, common_1.Query)("currentMaxPrice")),
     __param(4, (0, common_1.Query)("selectedCategories")),
     __param(5, (0, common_1.Query)("rating")),
+    __param(6, (0, common_1.Query)("isDiscount")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Number, Number, String, Number]),
+    __metadata("design:paramtypes", [String, String, Number, Number, String, Number, String]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "findAll", null);
 __decorate([

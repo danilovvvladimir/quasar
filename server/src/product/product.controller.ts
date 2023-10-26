@@ -18,6 +18,7 @@ import { Auth } from "src/decorators/auth";
 import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";
 import { Roles } from "src/decorators/role";
+import { AllProductsConfig } from "src/types/product";
 
 @Controller("products")
 export class ProductController {
@@ -33,16 +34,23 @@ export class ProductController {
     @Query("currentMaxPrice") currentMaxPrice?: number,
     @Query("selectedCategories") selectedCategories?: string,
     @Query("rating") rating?: number,
+    @Query("isDiscount") isDiscount?: string, // костыль
   ) {
-    return this.productService.findAll({
-      searchTerm,
-      sorting,
-      currentMinPrice,
-      currentMaxPrice,
-      selectedCategories:
-        selectedCategories === "" ? [] : selectedCategories.split(";"),
-      rating,
-    });
+    let allProductsConfig: AllProductsConfig = {};
+    if (sorting) {
+      allProductsConfig = {
+        searchTerm,
+        sorting,
+        currentMinPrice,
+        currentMaxPrice,
+        selectedCategories:
+          selectedCategories === "" ? [] : selectedCategories.split(";"),
+        rating,
+        isDiscount: isDiscount === "true",
+      };
+    }
+
+    return this.productService.findAll(allProductsConfig);
   }
 
   @UsePipes(new ValidationPipe())
