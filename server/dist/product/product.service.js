@@ -64,17 +64,6 @@ let ProductService = class ProductService {
                     },
                 } });
         }
-        if (rating) {
-            options = Object.assign(Object.assign({}, options), { AND: {
-                    review: {
-                        some: {
-                            rating: {
-                                gte: +rating,
-                            },
-                        },
-                    },
-                } });
-        }
         if (isDiscount) {
             options = Object.assign(Object.assign({}, options), { AND: {
                     oldPrice: {
@@ -87,19 +76,6 @@ let ProductService = class ProductService {
             where: options,
             orderBy: this.getProductOrderBy(sorting),
         });
-        const filteredProducts = [];
-        console.log("he");
-        for (const product of products) {
-            const productId = product.id;
-            console.log("productId", productId);
-            const averageRating = await this.prismaService
-                .$queryRaw `SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
-            console.log("averageRating", averageRating);
-            if (!averageRating || averageRating.average_rating >= rating) {
-                filteredProducts.push(product);
-            }
-        }
-        console.log("filteredProducts", filteredProducts);
         return products;
     }
     getProductOrderBy(sorting) {

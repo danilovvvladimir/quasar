@@ -97,21 +97,6 @@ export class ProductService {
       };
     }
 
-    if (rating) {
-      options = {
-        ...options,
-        AND: {
-          review: {
-            some: {
-              rating: {
-                gte: +rating,
-              },
-            },
-          },
-        },
-      };
-    }
-
     if (isDiscount) {
       options = {
         ...options,
@@ -123,34 +108,37 @@ export class ProductService {
       };
     }
 
-    // const averageRating = await this.prismaService
-    //   .$queryRaw`SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
+    // if (rating) {
+    //   options = {
+    //     ...options,
+    //     AND: {
+    //       review: {
+    //         some: {
+    //           rating: {
+    //             gte: +rating,
+    //           },
+    //         },
+    //       },
+    //     },
+    //   };
+    // }
+
+    // const ag = await this.prismaService.review.aggregate({
+    //   _avg: {
+    //     rating: true,
+    //   },
+    //   _count: {
+    //     rating: true,
+    //   },
+    // });
+
+    // console.log("ag", ag);
 
     const products = await this.prismaService.product.findMany({
       include: { productImage: true, review: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
     });
-
-    const filteredProducts = [];
-
-    console.log("he");
-    for (const product of products) {
-      const productId = product.id; // Предположим, что у продукта есть поле id
-      console.log("productId", productId);
-
-      const averageRating: any = await this.prismaService
-        .$queryRaw`SELECT AVG(rating) as average_rating FROM Review WHERE productId = ${productId}`;
-
-      console.log("averageRating", averageRating);
-
-      // Проверяем, удовлетворяет ли продукт условиям
-      if (!averageRating || averageRating.average_rating >= rating) {
-        filteredProducts.push(product);
-      }
-    }
-
-    console.log("filteredProducts", filteredProducts);
 
     return products;
   }

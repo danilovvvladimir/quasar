@@ -16,11 +16,7 @@ const RatingFilter: FC<RatingFilterProps> = ({ selectedRating, setRating }) => {
     console.log("selectedRating", selectedRating);
     console.log("newRating", newRating);
 
-    if (selectedRating === newRating) {
-      setRating(0);
-    } else {
-      setRating(newRating);
-    }
+    setRating(newRating);
   };
 
   return (
@@ -87,23 +83,6 @@ const RatingFilter: FC<RatingFilterProps> = ({ selectedRating, setRating }) => {
         <div
           className={classNames(styles["rating-filter__item"], {
             [styles["rating-filter__item--selected"]]: selectedRating === 1,
-          })}
-        >
-          <Image src="/stars-1.svg" alt="stars-1" width={96} height={16} />
-          <div className={styles["rating-filter__item-text"]}>и выше</div>
-        </div>
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="rating"
-          value={0}
-          checked={selectedRating === 0}
-          onChange={handleOptionChange}
-        />
-        <div
-          className={classNames(styles["rating-filter__item"], {
-            [styles["rating-filter__item--selected"]]: selectedRating === 0,
           })}
         >
           <Image src="/stars-1.svg" alt="stars-1" width={96} height={16} />
