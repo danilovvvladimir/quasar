@@ -143,11 +143,7 @@ const CartPageInner: FC = () => {
       isSelected: false,
     }));
 
-    console.log("newCartItems", newCartItems);
-    console.log("CartItems", products);
-
     setCartItems(products);
-    // setCartItems(newCartItems);
   };
 
   useEffect(() => {

@@ -42,8 +42,7 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-user/:userId")
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async findByUserId(@Param("userId") userId: string) {
     return this.orderService.findByUserId(userId);
   }

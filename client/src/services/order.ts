@@ -14,6 +14,16 @@ class OrderService {
   //   return response.data;
   // }
 
+  async getByUser(userId: string) {
+    const response = await updatedAxios.get<any[]>(
+      `${this.ORDER_BASE_API}/by-user/${userId}`,
+    );
+
+    console.log("getByUser response", response);
+
+    return response.data;
+  }
+
   async create(dto: OrderCreateDTO) {
     const { orderItems, userId } = dto;
     const response = await updatedAxios.post<any>(`${this.ORDER_BASE_API}`, {
