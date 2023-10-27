@@ -23,6 +23,20 @@ class UserService {
     return response.data;
   }
 
+  async toggleWishlistItem(userId: string, productId: string) {
+    const response = await updatedAxios.post(
+      `${this.USER_BASE_API}/wishlist-item/:id`,
+      {
+        productId,
+        userId,
+      },
+    );
+
+    console.log("toggleWishlistItem", response);
+
+    return response.data;
+  }
+
   async deleteCartItem(id: string) {
     const response = await updatedAxios.delete(
       `${this.USER_BASE_API}/cart-item/${id}`,
@@ -39,6 +53,16 @@ class UserService {
     );
 
     console.log("getCartItems cartitem response", response);
+
+    return response.data;
+  }
+
+  async getWishlistItems(userId: string) {
+    const response = await updatedAxios.get(
+      `${this.USER_BASE_API}/${userId}/wishlist-items`,
+    );
+
+    console.log("getWishlistItems response", response);
 
     return response.data;
   }

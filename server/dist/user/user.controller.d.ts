@@ -1,5 +1,5 @@
 import { UserService } from "./user.service";
-import { CartItemCreateDTO } from "./user.dto";
+import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
@@ -29,15 +29,15 @@ export declare class UserController {
         }[];
         cartItem: ({
             product: {
-                productImage: {
-                    id: string;
-                    imagePath: string;
-                    productId: string;
-                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -100,15 +100,15 @@ export declare class UserController {
         }[];
         cartItem: ({
             product: {
-                productImage: {
-                    id: string;
-                    imagePath: string;
-                    productId: string;
-                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -183,22 +183,48 @@ export declare class UserController {
         updatedAt: Date;
         userId: string;
     }[]>;
-    findWishlistItems(userId: string): Promise<{
-        id: string;
-        userId: string;
-        productId: string;
-    }[]>;
-    findCartItems(userId: string): Promise<({
+    findWishlistItems(userId: string): Promise<({
         product: {
+            review: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
             productImage: {
                 id: string;
                 imagePath: string;
                 productId: string;
             }[];
+        } & {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
+        id: string;
+        userId: string;
+        productId: string;
+    })[]>;
+    findCartItems(userId: string): Promise<({
+        product: {
             productSize: {
                 id: string;
                 size: number;
                 quantity: number;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -225,6 +251,7 @@ export declare class UserController {
         userId: string;
         productId: string;
     }>;
+    toggleWishlistItem(dto: WishlistItemToggleDTO): Promise<{}>;
     deleteCartItem(id: string): Promise<{
         id: string;
         size: number;

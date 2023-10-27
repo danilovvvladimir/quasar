@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,12 +13,21 @@ import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import { calculateAverageRating } from "@/utils/calculateAverageRating";
 import { getFitProductName } from "@/utils/getFitProductName";
 import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
+import UserService from "@/services/user";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "@/store/auth/auth.actions";
 
 interface ProductMediumProps {
   product: Product;
 }
 
 const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     createdAt,
     currentPrice,
@@ -33,6 +42,26 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
     review: reviews,
   } = product;
 
+  const onToggleFavorite = async () => {
+    const userService = new UserService();
+
+    const response = await userService.toggleWishlistItem(user.id, id);
+
+    await dispatch(checkAuth());
+  };
+
+  const checkIsFavorite = () => {
+    if (user.wishlistItem.find((item) => item.productId === id)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  };
+
+  useEffect(() => {
+    checkIsFavorite();
+  }, [user]);
+
   return (
     <div className={styles["product-medium"]}>
       <div className={styles["product-medium__image-box"]}>
@@ -46,8 +75,9 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
           />
         </Link>
         <Favorite
-          isActivated={true}
+          isActivated={isFavorite}
           className={styles["product-medium__favorite"]}
+          onClick={onToggleFavorite}
         />
       </div>
       <div className={styles["product-medium__info"]}>

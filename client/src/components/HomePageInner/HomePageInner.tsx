@@ -123,7 +123,7 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
             setSelectedOption={setSelectedOption}
           />
         </div>
-        <ProductsList products={products} />
+        <ProductsList products={products} fetchProducts={fetchProducts} />
       </div>
     </div>
   );

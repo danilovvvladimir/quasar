@@ -9,3 +9,7 @@ export declare class CartItemCreateDTO {
     userId: string;
     productId: string;
 }
+export declare class WishlistItemToggleDTO {
+    userId: string;
+    productId: string;
+}

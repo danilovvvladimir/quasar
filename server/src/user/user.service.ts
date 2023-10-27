@@ -10,7 +10,7 @@ import {
 } from "src/constants/user";
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
-import { CartItemCreateDTO } from "./user.dto";
+import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
 
 @Injectable()
 export class UserService {
@@ -84,9 +84,52 @@ export class UserService {
 
     const wishlistItems = await this.prismaService.wishlistItem.findMany({
       where: { userId },
+      include: {
+        product: {
+          include: {
+            productImage: true,
+            review: true,
+          },
+        },
+      },
     });
 
     return wishlistItems;
+  }
+
+  async toggleWishlistItems(dto: WishlistItemToggleDTO) {
+    const { productId, userId } = dto;
+
+    await this.findById(userId);
+
+    const wishlistItem = await this.prismaService.wishlistItem.findFirst({
+      where: { userId, productId },
+    });
+
+    console.log(wishlistItem);
+
+    let response = {};
+
+    if (wishlistItem) {
+      await this.prismaService.wishlistItem.delete({
+        where: {
+          id: wishlistItem.id,
+        },
+      });
+
+      response = { mode: "deleted" };
+    } else {
+      await this.prismaService.wishlistItem.create({
+        data: {
+          productId,
+          userId,
+        },
+      });
+
+      response = { mode: "created" };
+    }
+
+    return response;
   }
 
   async createCartItem(dto: CartItemCreateDTO) {

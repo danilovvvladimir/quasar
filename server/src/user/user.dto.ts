@@ -29,3 +29,11 @@ export class CartItemCreateDTO {
   @IsString()
   productId: string;
 }
+
+export class WishlistItemToggleDTO {
+  @IsString()
+  userId: string;
+
+  @IsString()
+  productId: string;
+}

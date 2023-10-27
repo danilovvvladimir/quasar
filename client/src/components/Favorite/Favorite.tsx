@@ -8,13 +8,14 @@ import classNames from "classnames";
 interface FavoriteProps {
   isActivated: boolean;
   className: string;
+  onClick: () => void;
 }
 
-const Favorite: FC<FavoriteProps> = ({ isActivated, className }) => {
+const Favorite: FC<FavoriteProps> = ({ isActivated, className, onClick }) => {
   const finalClassName = classNames(styles["favorite"], className);
 
   return (
-    <div className={finalClassName}>
+    <div className={finalClassName} onClick={onClick}>
       {isActivated ? (
         <svg
           width="24"

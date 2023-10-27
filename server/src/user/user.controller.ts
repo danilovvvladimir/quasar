@@ -16,7 +16,7 @@ import { CurrentUser } from "src/decorators/user";
 import { Roles } from "src/decorators/role";
 import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";
-import { CartItemCreateDTO } from "./user.dto";
+import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
 
 @Controller("users")
 export class UserController {
@@ -60,8 +60,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/orders")
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async findOrders(@Param("userId") userId: string) {
     return this.userService.findOrders(userId);
   }
@@ -69,8 +68,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/wishlist-items")
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async findWishlistItems(@Param("userId") userId: string) {
     return this.userService.findWishlistItems(userId);
   }
@@ -78,8 +76,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":userId/cart-items")
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async findCartItems(@Param("userId") userId: string) {
     return this.userService.findCartItems(userId);
   }
@@ -90,6 +87,14 @@ export class UserController {
   @UseGuards(AccessTokenGuard)
   async createCartItem(@Body() dto: CartItemCreateDTO) {
     return this.userService.createCartItem(dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Post("/wishlist-item/:id")
+  @UseGuards(AccessTokenGuard)
+  async toggleWishlistItem(@Body() dto: WishlistItemToggleDTO) {
+    return this.userService.toggleWishlistItems(dto);
   }
 
   @UsePipes(new ValidationPipe())

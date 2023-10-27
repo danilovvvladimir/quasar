@@ -54,6 +54,12 @@ export interface ProductCart extends ProductDetails {
   isSelected: boolean;
 }
 
+export interface ProductWishlist extends ProductDetails {
+  // selectedDetails: ProductDetails;
+  product: Product;
+  isSelected: boolean;
+}
+
 // export interface ProductCart extends Product {
 //   selectedDetails: ProductDetails;
 //   isSelected: boolean;

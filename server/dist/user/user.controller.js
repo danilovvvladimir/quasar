@@ -48,6 +48,9 @@ let UserController = class UserController {
     async createCartItem(dto) {
         return this.userService.createCartItem(dto);
     }
+    async toggleWishlistItem(dto) {
+        return this.userService.toggleWishlistItems(dto);
+    }
     async deleteCartItem(id) {
         return this.userService.deleteCartItem(id);
     }
@@ -102,8 +105,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/orders"),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
-    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -113,8 +115,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/wishlist-items"),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
-    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -124,8 +125,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":userId/cart-items"),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
-    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -141,6 +141,16 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.CartItemCreateDTO]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createCartItem", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Post)("/wishlist-item/:id"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.WishlistItemToggleDTO]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "toggleWishlistItem", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

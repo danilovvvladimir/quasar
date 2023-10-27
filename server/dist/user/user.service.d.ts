@@ -1,6 +1,6 @@
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
-import { CartItemCreateDTO } from "./user.dto";
+import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
 export declare class UserService {
     private prismaService;
     private readonly productService;
@@ -114,11 +114,38 @@ export declare class UserService {
         updatedAt: Date;
         userId: string;
     }[]>;
-    findWishlistItems(userId: string): Promise<{
+    findWishlistItems(userId: string): Promise<({
+        product: {
+            review: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+        } & {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: string;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
+    toggleWishlistItems(dto: WishlistItemToggleDTO): Promise<{}>;
     createCartItem(dto: CartItemCreateDTO): Promise<{
         id: string;
         size: number;
