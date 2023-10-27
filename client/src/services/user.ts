@@ -5,7 +5,7 @@ import updatedAxios from "@/axios";
 class UserService {
   private readonly USER_BASE_API: string = `${API_URL}/users`;
 
-  async create(dto: CartItemCreate) {
+  async createCartItem(dto: CartItemCreate) {
     const { productId, quantity, size, userId } = dto;
 
     const response = await updatedAxios.post(
@@ -19,6 +19,16 @@ class UserService {
     );
 
     console.log("create cartitem response", response);
+
+    return response.data;
+  }
+
+  async deleteCartItem(id: string) {
+    const response = await updatedAxios.delete(
+      `${this.USER_BASE_API}/cart-item/${id}`,
+    );
+
+    console.log("deleteCartItem response", response);
 
     return response.data;
   }

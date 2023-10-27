@@ -15,6 +15,11 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }[]>;
     findById(id: string): Promise<{
+        wishlistItem: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         review: {
             id: string;
             text: string;
@@ -26,6 +31,18 @@ export declare class UserService {
         }[];
         cartItem: ({
             product: {
+                productSize: {
+                    id: string;
+                    size: number;
+                    quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
+            } & {
                 id: string;
                 name: string;
                 slug: string;
@@ -42,11 +59,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        wishlistItem: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         order: ({
             orderItem: {
                 id: string;
@@ -74,15 +86,15 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        wishlistItem: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         cartItem: {
             id: string;
             size: number;
             quantity: number;
-            userId: string;
-            productId: string;
-        }[];
-        wishlistItem: {
-            id: string;
             userId: string;
             productId: string;
         }[];
@@ -114,8 +126,27 @@ export declare class UserService {
         userId: string;
         productId: string;
     }>;
+    deleteCartItem(cartItemId: string): Promise<{
+        id: string;
+        size: number;
+        quantity: number;
+        userId: string;
+        productId: string;
+    }>;
     findCartItems(userId: string): Promise<({
         product: {
+            productSize: {
+                id: string;
+                size: number;
+                quantity: number;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+        } & {
             id: string;
             name: string;
             slug: string;

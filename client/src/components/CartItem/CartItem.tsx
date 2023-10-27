@@ -10,27 +10,46 @@ import DiscountBadge from "../DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import CurrentPrice from "../CurrentPrice/CurrentPrice";
 import Stepper from "../UI/Stepper/Stepper";
+import Link from "next/link";
+import UserService from "@/services/user";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { checkAuth } from "@/store/auth/auth.actions";
 
 interface CartItemProps {
   productCart: ProductCart;
   onSelectItem: (id: string) => void;
+  updateData: () => void;
 }
 
-const CartItem: FC<CartItemProps> = ({ productCart, onSelectItem }) => {
+const CartItem: FC<CartItemProps> = ({
+  productCart,
+  onSelectItem,
+  updateData,
+}) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { id, isSelected, product, productId, quantity, size } = productCart;
   const {
     createdAt,
     currentPrice,
     description,
-    id,
     name,
     oldPrice,
-    productDetails,
-    productImages,
-    selectedDetails,
+    productImage: productImages,
+    productSize,
+    review,
     slug,
     updatedAt,
-    isSelected,
-  } = productCart;
+  } = product;
+
+  const onRemoveFromCart = async () => {
+    const userService = new UserService();
+
+    await userService.deleteCartItem(id);
+    updateData();
+    dispatch(checkAuth());
+  };
 
   return (
     <div className={styles["cart-item"]}>
@@ -41,23 +60,33 @@ const CartItem: FC<CartItemProps> = ({ productCart, onSelectItem }) => {
         <Checkbox checked={isSelected} />
       </div>
       <div className={styles["cart-item__product"]}>
+        {/* <Link
+          className={styles["cart-item__product-image"]}
+          href={`/products/${slug}`}
+        > */}
         <Image
-          src={productImages[0].imagePath}
+          src={"/" + productImages[0].imagePath}
           alt={name}
           width={100}
           height={100}
           className={styles["cart-item__product-image"]}
         ></Image>
+        {/* </Link> */}
         <div className={styles["cart-item__product-info"]}>
           <div className={styles["cart-item__product-name"]}>{name}</div>
           <div className={styles["cart-item__product-size"]}>
-            Размер: {selectedDetails.size}
+            Размер: {size}
           </div>
           <div className={styles["cart-item__product-controls"]}>
             <span className={styles["cart-item__product-favorite"]}>
               В избранное
             </span>
-            <span className={styles["cart-item__product-remove"]}>Удалить</span>
+            <span
+              className={styles["cart-item__product-remove"]}
+              onClick={onRemoveFromCart}
+            >
+              Удалить
+            </span>
           </div>
         </div>
       </div>
@@ -75,12 +104,9 @@ const CartItem: FC<CartItemProps> = ({ productCart, onSelectItem }) => {
           </div>
         )}
       </div>
-      <div className={styles["cart-item__info"]}>
-        <Stepper min={1} max={selectedDetails.quantity} />
-        {/* Или счётчик до количества quantity этого продукта */}
-        {/* Или товар закончился */}
-        {/* Или размер закончился */}
-      </div>
+      {/* <div className={styles["cart-item__info"]}>
+        <Stepper min={1} max={quantity} />
+      </div> */}
     </div>
   );
 };

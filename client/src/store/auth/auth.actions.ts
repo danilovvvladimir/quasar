@@ -41,10 +41,8 @@ export const checkAuth = createAsyncThunk<IAuthResponse>(
   "auth/check-auth",
   async (_, thunkAPI) => {
     try {
-      console.log("start");
-
       const response = await AuthService.getNewTokens();
-      console.log("checkAuth response", response);
+
       return response.data;
     } catch (error) {
       // thunkAPI.dispatch(logoutUser());

@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserService from "@/services/user";
 
+export interface CartItem {}
+
 const CartPageInner: FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const userService = new UserService();
@@ -53,7 +55,7 @@ const CartPageInner: FC = () => {
   ];
 
   // Ещё при product -> ProductCart добавить количество товара в корзине.
-  const [cartItems, setCartItems] = useState<ProductCart[]>(products);
+  const [cartItems, setCartItems] = useState<ProductCart[]>([]);
 
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
 
@@ -101,16 +103,25 @@ const CartPageInner: FC = () => {
   const updateData = async () => {
     const products = await userService.getCartItems(user.id);
 
-    const newCartItems = products.map((item) => ({ ...item, ...item.product }));
+    const newCartItems = products.map((item) => ({
+      ...item,
+      ...item.product,
+      isSelected: false,
+    }));
 
     console.log("newCartItems", newCartItems);
+    console.log("CartItems", products);
 
-    setCartItems(newCartItems);
+    setCartItems(products);
+    // setCartItems(newCartItems);
   };
 
   useEffect(() => {
     updateData();
   }, []);
+
+  console.log("totalAmount", totalAmount);
+  console.log("salesAmount", salesAmount);
 
   return (
     <>
@@ -138,9 +149,10 @@ const CartPageInner: FC = () => {
           <div className={styles["cart__items"]}>
             {cartItems.map((productCart) => (
               <CartItem
-                key={productCart.id + productCart.selectedDetails.id}
+                key={productCart.id + productCart.id}
                 onSelectItem={onSelectItem}
                 productCart={productCart}
+                updateData={updateData}
               />
             ))}
           </div>

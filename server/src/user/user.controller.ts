@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   UseGuards,
+  Delete,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CurrentUser } from "src/decorators/user";
@@ -86,10 +87,17 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post("/cart-item")
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async createCartItem(@Body() dto: CartItemCreateDTO) {
     return this.userService.createCartItem(dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Delete("/cart-item/:id")
+  @UseGuards(AccessTokenGuard)
+  async deleteCartItem(@Param("id") id: string) {
+    return this.userService.deleteCartItem(id);
   }
 
   // OriginalUserId check???

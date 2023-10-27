@@ -48,10 +48,16 @@ export interface ProductDetails {
   productId: string;
 }
 
-export interface ProductCart extends Product {
-  selectedDetails: ProductDetails;
+export interface ProductCart extends ProductDetails {
+  // selectedDetails: ProductDetails;
+  product: Product;
   isSelected: boolean;
 }
+
+// export interface ProductCart extends Product {
+//   selectedDetails: ProductDetails;
+//   isSelected: boolean;
+// }
 
 export interface ProductCreateDTO {
   name: string;

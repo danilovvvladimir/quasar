@@ -48,6 +48,9 @@ let UserController = class UserController {
     async createCartItem(dto) {
         return this.userService.createCartItem(dto);
     }
+    async deleteCartItem(id) {
+        return this.userService.deleteCartItem(id);
+    }
     async updateCartItemQuantity(id, newQuantity) {
         return this.userService.updateCartItem(id, newQuantity);
     }
@@ -132,13 +135,22 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)("/cart-item"),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
-    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.CartItemCreateDTO]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createCartItem", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Delete)("/cart-item/:id"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteCartItem", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

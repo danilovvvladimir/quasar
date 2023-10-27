@@ -17,8 +17,9 @@ import ProductService from "@/services/product";
 import classNames from "classnames";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import UserService from "@/services/user";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { checkAuth } from "@/store/auth/auth.actions";
 
 interface SingleProductPageInnerProps {
   slug: string;
@@ -29,6 +30,8 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const user = useSelector((state: RootState) => state.auth.user);
   const userService = new UserService();
 
@@ -69,6 +72,19 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
     }
   };
 
+  const userHasSameProductSize = () => {
+    const userHasProduct = user.cartItem.find(
+      (item) => item.productId === product.id,
+    );
+
+    if (userHasProduct && userHasProduct.size === selectedDetails?.size) {
+      createNotify("У вас уже есть этот товар в корзине", notifyMode.ERROR);
+      return true;
+    }
+
+    return false;
+  };
+
   const handleSendToCart = async () => {
     if (selectedDetails === null) {
       createNotify("Размер не выбран!", notifyMode.ERROR);
@@ -76,20 +92,21 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
     }
 
     try {
-      await userService.create({
+      await userService.createCartItem({
         productId: product.id,
         quantity: 1,
         size: selectedDetails.size,
         userId: user.id,
       });
-      // console.log("*Добавление в корзину*");
+
+      setSelectedDetails(null);
+
+      dispatch(checkAuth());
       createNotify("Успешно добавлен в корзину", notifyMode.SUCCESS);
     } catch (error) {
       createNotify("Что-то пошло не так!", notifyMode.ERROR);
     }
   };
-
-  console.log("product", product);
 
   return (
     <>
@@ -166,7 +183,9 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
           </div>
         </div>
         <SingleProductAside
-          isDisabled={selectedDetails?.quantity === 0}
+          isDisabled={
+            selectedDetails?.quantity === 0 || userHasSameProductSize()
+          }
           currentPrice={product.currentPrice}
           oldPrice={product.oldPrice}
           handleSendToCart={handleSendToCart}

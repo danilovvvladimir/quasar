@@ -30,7 +30,12 @@ let UserService = class UserService {
                 review: true,
                 cartItem: {
                     include: {
-                        product: true,
+                        product: {
+                            include: {
+                                productImage: true,
+                                productSize: true,
+                            },
+                        },
                     },
                 },
                 wishlistItem: true,
@@ -82,12 +87,25 @@ let UserService = class UserService {
         });
         return cartItem;
     }
+    async deleteCartItem(cartItemId) {
+        const deletedItem = await this.prismaService.cartItem.delete({
+            where: {
+                id: cartItemId,
+            },
+        });
+        return deletedItem;
+    }
     async findCartItems(userId) {
         await this.findById(userId);
         const cartItems = await this.prismaService.cartItem.findMany({
             where: { userId },
             include: {
-                product: true,
+                product: {
+                    include: {
+                        productImage: true,
+                        productSize: true,
+                    },
+                },
             },
         });
         return cartItems;

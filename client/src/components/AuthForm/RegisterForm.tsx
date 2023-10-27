@@ -14,6 +14,7 @@ import { AppDispatch } from "@/store/store";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { emailRegex } from "@/constants/regex";
 import { checkIsAuth } from "@/store/auth/auth.slice";
+import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 
 const RegisterForm: FC = () => {
   const {
@@ -68,9 +69,11 @@ const RegisterForm: FC = () => {
           className="auth-form__input"
           placeholder="Username..."
         />
+
         {errors.username && (
-          <div className="auth-form__error">{errors.username.message}</div>
+          <ErrorValidationText text={errors.username.message!} />
         )}
+
         <input
           {...register("email", {
             required: { value: true, message: "Email is required" },
@@ -80,9 +83,9 @@ const RegisterForm: FC = () => {
           className="auth-form__input"
           placeholder="Email..."
         />
-        {errors.email && (
-          <div className="auth-form__error">{errors.email.message}</div>
-        )}
+
+        {errors.email && <ErrorValidationText text={errors.email.message!} />}
+
         <input
           {...register("password", {
             required: { value: true, message: "Password is required" },
@@ -96,7 +99,7 @@ const RegisterForm: FC = () => {
           placeholder="Password..."
         />
         {errors.password && (
-          <div className="auth-form__error">{errors.password.message}</div>
+          <ErrorValidationText text={errors.password.message!} />
         )}
       </div>
       <div className="auth-form__controls auth-form__controls--register">
