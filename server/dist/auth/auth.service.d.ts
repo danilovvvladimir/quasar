@@ -55,26 +55,17 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             }[];
-            review: {
-                id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
-                userId: string;
-                productId: string;
-            }[];
             cartItem: ({
                 product: {
+                    productImage: {
+                        id: string;
+                        imagePath: string;
+                        productId: string;
+                    }[];
                     productSize: {
                         id: string;
                         size: number;
                         quantity: number;
-                        productId: string;
-                    }[];
-                    productImage: {
-                        id: string;
-                        imagePath: string;
                         productId: string;
                     }[];
                 } & {
@@ -94,10 +85,20 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             })[];
+            review: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
             order: ({
                 orderItem: {
                     id: string;
                     quantity: number;
+                    size: number;
                     totalPrice: import("@prisma/client/runtime/library").Decimal;
                     orderId: string;
                     productId: string;

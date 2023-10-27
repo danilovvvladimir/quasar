@@ -13,12 +13,18 @@ export class OrderCreateDTO {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  orderItems: Pick<OrderItem, "productId" | "quantity" | "totalPrice">[];
+  orderItems: Pick<
+    OrderItem,
+    "productId" | "quantity" | "totalPrice" | "size"
+  >[];
 }
 
 export class OrderItemsCreateDTO {
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
-  orderItems: Pick<OrderItem, "productId" | "quantity" | "totalPrice">[];
+  orderItems: Pick<
+    OrderItem,
+    "productId" | "quantity" | "totalPrice" | "size"
+  >[];
 }

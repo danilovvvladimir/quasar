@@ -5,6 +5,14 @@ import updatedAxios from "@/axios";
 class UserService {
   private readonly USER_BASE_API: string = `${API_URL}/users`;
 
+  async getAll() {
+    const response = await updatedAxios.get(`${this.USER_BASE_API}`);
+
+    console.log("getAll response", response);
+
+    return response.data;
+  }
+
   async createCartItem(dto: CartItemCreate) {
     const { productId, quantity, size, userId } = dto;
 

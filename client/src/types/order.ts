@@ -22,3 +22,15 @@ export enum OrderStatus {
   PROCESSING = "PROCESSING",
   DELIVERED = "DELIVERED",
 }
+
+export interface OrderCreateDTO {
+  userId: string;
+  orderItems: OrderItemCreateDTO[];
+}
+
+export interface OrderItemCreateDTO {
+  productId: string;
+  quantity: number;
+  size: number;
+  totalPrice: number;
+}

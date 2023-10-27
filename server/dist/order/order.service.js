@@ -64,10 +64,12 @@ let OrderService = class OrderService {
                         userId,
                     },
                 });
-                const createdOrderItems = await this.createOrderItems(createdOrder.id, {
+                console.log("1 зашло");
+                this.createOrderItems(createdOrder.id, {
                     orderItems,
                 });
-                await Promise.all(createdOrderItems);
+                this.updateOrderedItems({ orderItems });
+                console.log("2 зашло");
                 return createdOrder;
             });
         }
@@ -76,17 +78,40 @@ let OrderService = class OrderService {
         }
         return order;
     }
-    async createOrderItems(id, dto) {
-        await this.findById(id);
+    async updateOrderedItems(dto) {
         const { orderItems } = dto;
-        const detailsPromises = orderItems.map((orderItem) => this.prismaService.orderItem.create({
-            data: {
-                quantity: orderItem.quantity,
-                totalPrice: orderItem.totalPrice,
-                productId: orderItem.productId,
-                orderId: id,
-            },
-        }));
+        const detailsPromises = orderItems.map((orderItem) => {
+            return this.prismaService.productSize.updateMany({
+                data: {
+                    quantity: {
+                        decrement: 1,
+                    },
+                },
+                where: {
+                    productId: orderItem.productId,
+                    AND: {
+                        size: orderItem.size,
+                    },
+                },
+            });
+        });
+        await Promise.all(detailsPromises);
+        return detailsPromises;
+    }
+    async createOrderItems(id, dto) {
+        const { orderItems } = dto;
+        const detailsPromises = orderItems.map((orderItem) => {
+            return this.prismaService.orderItem.create({
+                data: {
+                    size: orderItem.size,
+                    quantity: orderItem.quantity,
+                    totalPrice: orderItem.totalPrice,
+                    productId: orderItem.productId,
+                    orderId: id,
+                },
+            });
+        });
+        await Promise.all(detailsPromises);
         return detailsPromises;
     }
     async updateStatus(id, newOrderStatus) {

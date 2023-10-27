@@ -1,33 +1,30 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useEffect, useState } from "react";
 import styles from "../AdminPage.module.scss";
 import AdminTableUsers from "@/components/AdminTable/AdminTableUsers/AdminTableUsers";
 import { RoleName, UserPrivate } from "@/types/user";
 import Search from "@/components/Search/Search";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
+import UserService from "@/services/user";
 
 const AdminUsersPage: FC = () => {
-  const users: UserPrivate[] = [
-    {
-      id: "12414",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      email: "mockemail@gmail.com",
-      ordersCount: 12,
-      reviewsCount: 2,
-      role: RoleName.USER,
-      username: "abobus",
-    },
-    {
-      id: "12414421",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      email: "mockesafafsafafsafafsafsafafsafasfafasmail@gmail.com",
-      ordersCount: 12,
-      reviewsCount: 2,
-      role: RoleName.USER,
-      username: "abobus",
-    },
-  ];
+  const [users, setUsers] = useState<UserPrivate[]>([]);
+
+  const userService = new UserService();
+
+  const updateData = async () => {
+    const users = await userService.getAll();
+
+    setUsers(
+      users.map((item) => ({ ...item, createdAt: new Date(item.createdAt) })),
+    );
+    console.log("users", users);
+  };
+
+  useEffect(() => {
+    updateData();
+  }, []);
 
   return (
     <section className={styles["admin-users"]}>

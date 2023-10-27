@@ -51,7 +51,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
   };
 
   const checkIsFavorite = () => {
-    if (user.wishlistItem.find((item) => item.productId === id)) {
+    if (user && user.wishlistItem.find((item) => item.productId === id)) {
       setIsFavorite(true);
     } else {
       setIsFavorite(false);
@@ -74,11 +74,13 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
             height={200}
           />
         </Link>
-        <Favorite
-          isActivated={isFavorite}
-          className={styles["product-medium__favorite"]}
-          onClick={onToggleFavorite}
-        />
+        {user && (
+          <Favorite
+            isActivated={isFavorite}
+            className={styles["product-medium__favorite"]}
+            onClick={onToggleFavorite}
+          />
+        )}
       </div>
       <div className={styles["product-medium__info"]}>
         <Link href="products/1">

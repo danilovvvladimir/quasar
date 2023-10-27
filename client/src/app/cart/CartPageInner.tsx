@@ -9,15 +9,20 @@ import { Product, ProductCart } from "@/types/product";
 import CartItem from "@/components/CartItem/CartItem";
 import CartAside from "@/components/CartAside/CartAside";
 import { getTotalAndSalesCartAmount } from "@/utils/getTotalAndSalesCartAmount";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import UserService from "@/services/user";
+import { OrderItemCreateDTO } from "@/types/order";
+import OrderService from "@/services/order";
+import { checkAuth } from "@/store/auth/auth.actions";
 
 export interface CartItem {}
 
 const CartPageInner: FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const userService = new UserService();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const products: ProductCart[] = [
     {
@@ -54,7 +59,6 @@ const CartPageInner: FC = () => {
     },
   ];
 
-  // Ещё при product -> ProductCart добавить количество товара в корзине.
   const [cartItems, setCartItems] = useState<ProductCart[]>([]);
 
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
@@ -95,9 +99,39 @@ const CartPageInner: FC = () => {
     cartItems.filter((item) => item.isSelected === true),
   );
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
+    const userService = new UserService();
+    const orderService = new OrderService();
+
+    const selectedItems = cartItems.filter((item) => item.isSelected);
+
+    if (selectedItems.length === 0) {
+      return;
+    }
+
+    const orderItems: OrderItemCreateDTO[] = selectedItems.map((item) => {
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        totalPrice: item.product.currentPrice * item.quantity,
+        size: item.size,
+      };
+    });
+
+    console.log("Оплачены товары orderItems:", orderItems);
+    orderService.create({ userId: user.id, orderItems });
+
+    const deletedItems = selectedItems.map((item) => {
+      return userService.deleteCartItem(item.id);
+    });
+
+    await Promise.all(deletedItems);
+
     // toast запустить
-    setCartItems(cartItems.filter((item) => item.isSelected === false));
+    // setCartItems(cartItems.filter((item) => item.isSelected === false));
+
+    updateData();
+    dispatch(checkAuth());
   };
 
   const updateData = async () => {

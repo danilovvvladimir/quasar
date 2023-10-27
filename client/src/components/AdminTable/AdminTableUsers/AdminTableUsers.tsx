@@ -28,8 +28,10 @@ const AdminTableUsers: FC<AdminTableUsersProps> = ({ users }) => {
       <div className={styles["admin-table__users-rows"]}>
         {users.map((user) => (
           <div key={user.id} className={styles["admin-table__users-row"]}>
-            <div className={styles["admin-table__users-row-email"]}>
-              {/* {user.email} */}
+            <div
+              title={user.email}
+              className={styles["admin-table__users-row-email"]}
+            >
               {getShortEmail(user.email)}
             </div>
             <div className={styles["admin-table__users-row-register"]}>

@@ -137,6 +137,7 @@ model Order {
 model OrderItem {
   id         String  @id @default(uuid())
   quantity   Int
+  size       Int
   totalPrice Decimal @map("total_price")
 
   orderId   String  @map("order_id")

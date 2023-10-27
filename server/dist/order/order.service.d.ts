@@ -8,6 +8,7 @@ export declare class OrderService {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
@@ -25,6 +26,7 @@ export declare class OrderService {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
@@ -42,6 +44,7 @@ export declare class OrderService {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
@@ -69,6 +72,7 @@ export declare class OrderService {
         updatedAt: Date;
         userId: string;
     }>;
+    private updateOrderedItems;
     private createOrderItems;
     updateStatus(id: string, newOrderStatus: OrderStatus): Promise<{
         id: string;

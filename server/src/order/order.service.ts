@@ -79,12 +79,15 @@ export class OrderService {
             userId,
           },
         });
+        console.log("1 зашло");
 
-        const createdOrderItems = await this.createOrderItems(createdOrder.id, {
+        this.createOrderItems(createdOrder.id, {
           orderItems,
         });
 
-        await Promise.all(createdOrderItems);
+        this.updateOrderedItems({ orderItems });
+
+        console.log("2 зашло");
 
         return createdOrder;
       });
@@ -99,21 +102,46 @@ export class OrderService {
     return order;
   }
 
-  private async createOrderItems(id: string, dto: OrderItemsCreateDTO) {
-    await this.findById(id);
-
+  private async updateOrderedItems(dto: OrderItemsCreateDTO) {
     const { orderItems } = dto;
 
-    const detailsPromises = orderItems.map((orderItem) =>
-      this.prismaService.orderItem.create({
+    const detailsPromises = orderItems.map((orderItem) => {
+      return this.prismaService.productSize.updateMany({
         data: {
+          quantity: {
+            decrement: 1,
+          },
+        },
+        where: {
+          productId: orderItem.productId,
+          AND: {
+            size: orderItem.size,
+          },
+        },
+      });
+    });
+
+    await Promise.all(detailsPromises);
+
+    return detailsPromises;
+  }
+
+  private async createOrderItems(id: string, dto: OrderItemsCreateDTO) {
+    const { orderItems } = dto;
+
+    const detailsPromises = orderItems.map((orderItem) => {
+      return this.prismaService.orderItem.create({
+        data: {
+          size: orderItem.size,
           quantity: orderItem.quantity,
           totalPrice: orderItem.totalPrice,
           productId: orderItem.productId,
           orderId: id,
         },
-      }),
-    );
+      });
+    });
+
+    await Promise.all(detailsPromises);
 
     return detailsPromises;
   }

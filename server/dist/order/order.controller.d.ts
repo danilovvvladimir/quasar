@@ -8,6 +8,7 @@ export declare class OrderController {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
@@ -25,6 +26,7 @@ export declare class OrderController {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
@@ -42,6 +44,7 @@ export declare class OrderController {
         orderItem: {
             id: string;
             quantity: number;
+            size: number;
             totalPrice: import("@prisma/client/runtime/library").Decimal;
             orderId: string;
             productId: string;
