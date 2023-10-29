@@ -59,8 +59,6 @@ export class ProductService {
       sorting,
     } = config;
 
-    console.log("isDiscount", isDiscount);
-
     let options: Prisma.ProductWhereInput = {};
 
     if (searchTerm) {

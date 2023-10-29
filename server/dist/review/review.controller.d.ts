@@ -19,7 +19,17 @@ export declare class ReviewController {
         updatedAt: Date;
         userId: string;
     }>;
-    findByProductIdId(productId: string): Promise<{
+    findByProductId(productId: string): Promise<({
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: import(".prisma/client").$Enums.RoleName;
+        };
+    } & {
         id: string;
         text: string;
         rating: number;
@@ -27,7 +37,7 @@ export declare class ReviewController {
         updatedAt: Date;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     findByUserId(userId: string): Promise<{
         id: string;
         text: string;

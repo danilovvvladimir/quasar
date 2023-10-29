@@ -49,6 +49,9 @@ export class ReviewService {
       where: {
         productId,
       },
+      include: {
+        user: true,
+      },
     });
 
     return reviews;

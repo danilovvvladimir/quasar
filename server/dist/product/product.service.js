@@ -37,7 +37,6 @@ let ProductService = class ProductService {
     }
     async findAll(config) {
         const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, } = config;
-        console.log("isDiscount", isDiscount);
         let options = {};
         if (searchTerm) {
             options = {

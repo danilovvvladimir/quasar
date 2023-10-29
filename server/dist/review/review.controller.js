@@ -30,7 +30,7 @@ let ReviewController = class ReviewController {
     async findById(id) {
         return this.reviewService.findById(id);
     }
-    async findByProductIdId(productId) {
+    async findByProductId(productId) {
         return this.reviewService.findByProductId(productId);
     }
     async findByUserId(userId) {
@@ -74,7 +74,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ReviewController.prototype, "findByProductIdId", null);
+], ReviewController.prototype, "findByProductId", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
@@ -89,8 +89,7 @@ __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
-    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [review_dto_1.ReviewCreateDTO]),

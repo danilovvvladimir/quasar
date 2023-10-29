@@ -20,6 +20,9 @@ import UserService from "@/services/user";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { checkAuth } from "@/store/auth/auth.actions";
+import Modal from "@/components/UI/Modal/Modal";
+import CreateReviewModalInner from "@/components/CreateReviewModalInner/CreateReviewModalInner";
+import ReviewService from "@/services/review";
 
 interface SingleProductPageInnerProps {
   slug: string;
@@ -30,35 +33,39 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
+  const [userHasProduct, setUserHasProduct] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useSelector((state: RootState) => state.auth.user);
   const userService = new UserService();
+  const reviewService = new ReviewService();
 
   const [selectedImage, setSelectedImage] = useState<string>(
     product.productImage[0].imagePath,
   );
 
-  const reviews: Review[] = [
-    {
-      id: "1",
-      createdAt: new Date(),
-      productId: "1",
-      rating: 4,
-      text: "good",
-      updatedAt: new Date(),
-      user: { id: "1", username: "megahypergava" },
-    },
-    {
-      id: "2",
-      createdAt: new Date(),
-      productId: "1",
-      rating: 3,
-      text: "good not good",
-      updatedAt: new Date(),
-      user: { id: "2", username: "yousmellliketeens" },
-    },
-  ];
+  // const reviews: Review[] = [
+  //   {
+  //     id: "1",
+  //     createdAt: new Date(),
+  //     productId: "1",
+  //     rating: 4,
+  //     text: "good",
+  //     updatedAt: new Date(),
+  //     user: { id: "1", username: "megahypergava" },
+  //   },
+  //   {
+  //     id: "2",
+  //     createdAt: new Date(),
+  //     productId: "1",
+  //     rating: 3,
+  //     text: "good not good",
+  //     updatedAt: new Date(),
+  //     user: { id: "2", username: "yousmellliketeens" },
+  //   },
+  // ];
 
   const [selectedDetails, setSelectedDetails] = useState<ProductDetails | null>(
     null,
@@ -107,6 +114,30 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
       createNotify("Что-то пошло не так!", notifyMode.ERROR);
     }
   };
+
+  useEffect(() => {
+    const getReviews = async () => {
+      const data = await reviewService.getByProductId(product.id);
+      console.log("DATA", data);
+
+      setReviews(data);
+    };
+
+    if (
+      user &&
+      user.order.find((item) =>
+        item.orderItem.find((oi) => oi.productId === product.id),
+      )
+    ) {
+      console.log("users has this product", user);
+
+      setUserHasProduct(true);
+    } else {
+      setUserHasProduct(false);
+    }
+
+    getReviews();
+  }, []);
 
   return (
     <>
@@ -192,7 +223,15 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
         />
       </div>
 
-      <Reviews reviews={reviews} />
+      <Reviews
+        reviews={reviews}
+        openModal={() => setIsModalVisible(true)}
+        userHasProduct={userHasProduct}
+      />
+      <Modal active={isModalVisible} setActive={setIsModalVisible}>
+        {/* <CreateProductModal categories={categories} updateData={updateData} /> */}
+        <CreateReviewModalInner productId={product.id} />
+      </Modal>
     </>
   );
 };

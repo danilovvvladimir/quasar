@@ -24,7 +24,17 @@ export declare class ReviewService {
         updatedAt: Date;
         userId: string;
     }>;
-    findByProductId(productId: string): Promise<{
+    findByProductId(productId: string): Promise<({
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: $Enums.RoleName;
+        };
+    } & {
         id: string;
         text: string;
         rating: number;
@@ -32,7 +42,7 @@ export declare class ReviewService {
         updatedAt: Date;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     findByUserId(userId: string): Promise<{
         id: string;
         text: string;

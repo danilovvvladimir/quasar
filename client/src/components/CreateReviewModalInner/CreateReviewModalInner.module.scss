@@ -1,0 +1,24 @@
+@import "../../styles/variables.scss";
+
+.crmi {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: $step * 2;
+    margin-bottom: $step * 3;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: $step;
+  }
+
+  &__textarea {
+    resize: none;
+  }
+
+  &__input {
+    max-width: 250px;
+  }
+}

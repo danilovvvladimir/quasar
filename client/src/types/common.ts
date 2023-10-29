@@ -15,6 +15,18 @@ export interface IRegisterRequest {
   password: string;
 }
 
+export interface IReviewRequest {
+  text: string;
+  rating: number;
+  userId: string;
+  productId: string;
+}
+
+export interface IReviewCreateFields {
+  text: string;
+  rating: number;
+}
+
 export interface IAuthInitialState {
   loading: LoadingStatus | null;
   tokens: ITokens | null;

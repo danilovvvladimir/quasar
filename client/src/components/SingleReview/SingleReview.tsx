@@ -12,6 +12,9 @@ const SingleReview: FC<SingleReviewProps> = ({
   updatedAt,
   user,
 }) => {
+  console.log("sr user", user);
+  console.log("sr createdAt", createdAt);
+
   return (
     <div className="single-review">
       <div className="single-review__wrapper">
@@ -19,7 +22,7 @@ const SingleReview: FC<SingleReviewProps> = ({
           <div className="single-review__details">
             <div className="single-review__username">{user.username}</div>
             <div className="single-review__date">
-              / {createdAt.toLocaleDateString()}
+              / {new Date(createdAt).toLocaleDateString()}
             </div>
           </div>
           <div className="single-review__rating">

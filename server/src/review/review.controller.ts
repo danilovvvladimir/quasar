@@ -41,7 +41,7 @@ export class ReviewController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-product/:productId")
-  async findByProductIdId(@Param("productId") productId: string) {
+  async findByProductId(@Param("productId") productId: string) {
     return this.reviewService.findByProductId(productId);
   }
 
@@ -57,8 +57,7 @@ export class ReviewController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post()
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(AccessTokenGuard)
   async create(@Body() dto: ReviewCreateDTO) {
     return this.reviewService.create(dto);
   }

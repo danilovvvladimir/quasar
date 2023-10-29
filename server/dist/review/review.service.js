@@ -41,6 +41,9 @@ let ReviewService = class ReviewService {
             where: {
                 productId,
             },
+            include: {
+                user: true,
+            },
         });
         return reviews;
     }

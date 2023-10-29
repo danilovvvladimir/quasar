@@ -1,17 +1,21 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Button from "../UI/Button/Button";
 import SingleReview from "../SingleReview/SingleReview";
 import { Review } from "@/types/review";
 import ReviewsInfo from "../ReviewsInfo/ReviewsInfo";
 import styles from "./Reviews.module.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface ReviewsProps {
   reviews: Review[];
+  openModal: () => void;
+  userHasProduct: boolean;
 }
-// {styles[]}
-const Reviews: FC<ReviewsProps> = ({ reviews }) => {
+
+const Reviews: FC<ReviewsProps> = ({ reviews, openModal, userHasProduct }) => {
   return (
     <div className={styles["reviews"]}>
       <h2 className={`title ${styles["reviews__title"]}`}>Отзывы</h2>
@@ -29,7 +33,11 @@ const Reviews: FC<ReviewsProps> = ({ reviews }) => {
             Отзывы могут оставлять только те, кто купил товар. Так мы формируем
             честный рейтинг
           </div>
-          <Button className={styles["reviews__button"]}>Написать отзыв</Button>
+          {userHasProduct && (
+            <Button onClick={openModal} className={styles["reviews__button"]}>
+              Написать отзыв
+            </Button>
+          )}
         </div>
       </div>
     </div>
