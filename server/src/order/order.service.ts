@@ -16,12 +16,51 @@ import { OrderCreateDTO, OrderItemsCreateDTO } from "./order.dto";
 export class OrderService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  // async findAll() {
+  //   const ordersWithTotalPrice = await this.prismaService.order.aggregate({
+  //     where: {
+  //       orderItem: {
+  //         every: {
+  //           id: true,
+  //         },
+  //       },
+  //     },
+  //     _sum: { orderItem: { select: { totalPrice: true } } },
+  //   });
+
+  //   return ordersWithTotalPrice;
+  // }
+
+  private async getOrderTotalPrice(orderId: string) {
+    const orderWithTotalPrice = await this.prismaService.orderItem.aggregate({
+      where: {
+        orderId: orderId,
+      },
+      _sum: {
+        totalPrice: true,
+      },
+    });
+
+    console.log("orderWithTotalPrice", orderWithTotalPrice);
+
+    return orderWithTotalPrice._sum.totalPrice;
+  }
+
   async findAll() {
     const orders = await this.prismaService.order.findMany({
       include: { orderItem: true },
     });
 
-    return orders;
+    const orderPromises = orders.map(async (item) => ({
+      ...item,
+      totalPrice: +(await this.getOrderTotalPrice(item.id)),
+    }));
+
+    const ordersWithTotalPrices = await Promise.all(orderPromises);
+
+    console.log("ordersWithTotalPrices", ordersWithTotalPrices);
+
+    return ordersWithTotalPrices;
   }
 
   async findById(id: string) {
@@ -44,7 +83,17 @@ export class OrderService {
       where: {
         userId,
       },
-      include: { orderItem: true },
+      include: {
+        orderItem: {
+          include: {
+            product: {
+              include: {
+                productImage: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return products;

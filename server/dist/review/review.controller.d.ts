@@ -38,7 +38,24 @@ export declare class ReviewController {
         userId: string;
         productId: string;
     })[]>;
-    findByUserId(userId: string): Promise<{
+    findByUserId(userId: string): Promise<({
+        product: {
+            productImage: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+        } & {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: string;
         text: string;
         rating: number;
@@ -46,7 +63,7 @@ export declare class ReviewController {
         updatedAt: Date;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     create(dto: ReviewCreateDTO): Promise<{
         id: string;
         text: string;

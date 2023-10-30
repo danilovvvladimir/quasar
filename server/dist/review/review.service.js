@@ -53,6 +53,11 @@ let ReviewService = class ReviewService {
             where: {
                 userId,
             },
+            include: {
+                product: {
+                    include: { productImage: true },
+                },
+            },
         });
         return reviews;
     }

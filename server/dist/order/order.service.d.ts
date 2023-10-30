@@ -4,7 +4,9 @@ import { OrderCreateDTO } from "./order.dto";
 export declare class OrderService {
     private readonly prismaService;
     constructor(prismaService: PrismaService);
-    findAll(): Promise<({
+    private getOrderTotalPrice;
+    findAll(): Promise<{
+        totalPrice: number;
         orderItem: {
             id: string;
             quantity: number;
@@ -15,13 +17,12 @@ export declare class OrderService {
             createdAt: Date;
             updatedAt: Date;
         }[];
-    } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-    })[]>;
+    }[]>;
     findById(id: string): Promise<{
         orderItem: {
             id: string;
@@ -41,7 +42,24 @@ export declare class OrderService {
         userId: string;
     }>;
     findByUserId(userId: string): Promise<({
-        orderItem: {
+        orderItem: ({
+            product: {
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
+            } & {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
             id: string;
             quantity: number;
             size: number;
@@ -50,7 +68,7 @@ export declare class OrderService {
             productId: string;
             createdAt: Date;
             updatedAt: Date;
-        }[];
+        })[];
     } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

@@ -17,11 +17,26 @@ let OrderService = class OrderService {
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
+    async getOrderTotalPrice(orderId) {
+        const orderWithTotalPrice = await this.prismaService.orderItem.aggregate({
+            where: {
+                orderId: orderId,
+            },
+            _sum: {
+                totalPrice: true,
+            },
+        });
+        console.log("orderWithTotalPrice", orderWithTotalPrice);
+        return orderWithTotalPrice._sum.totalPrice;
+    }
     async findAll() {
         const orders = await this.prismaService.order.findMany({
             include: { orderItem: true },
         });
-        return orders;
+        const orderPromises = orders.map(async (item) => (Object.assign(Object.assign({}, item), { totalPrice: +(await this.getOrderTotalPrice(item.id)) })));
+        const ordersWithTotalPrices = await Promise.all(orderPromises);
+        console.log("ordersWithTotalPrices", ordersWithTotalPrices);
+        return ordersWithTotalPrices;
     }
     async findById(id) {
         const order = await this.prismaService.order.findUnique({
@@ -38,7 +53,17 @@ let OrderService = class OrderService {
             where: {
                 userId,
             },
-            include: { orderItem: true },
+            include: {
+                orderItem: {
+                    include: {
+                        product: {
+                            include: {
+                                productImage: true,
+                            },
+                        },
+                    },
+                },
+            },
         });
         return products;
     }
