@@ -3,17 +3,23 @@ import styles from "./SingleOrderItem.module.scss";
 import { OrderItem } from "@/types/order";
 import Image from "next/image";
 import Badge from "../Badge/Badge";
+import Link from "next/link";
 
 interface SingleOrderItemProps {
   orderItem: OrderItem;
 }
 
 const SingleOrderItem: FC<SingleOrderItemProps> = ({ orderItem }) => {
+  console.log("Orderitem", orderItem);
+
   return (
-    <div className={styles["order-item"]}>
+    <Link
+      href={`/products/${orderItem.product.slug}`}
+      className={styles["order-item"]}
+    >
       <Image
         className={styles["order-item__image"]}
-        src="/product-image.jpg"
+        src={"/" + orderItem.product.productImage[0].imagePath}
         alt="product name"
         width={75}
         height={75}
@@ -25,7 +31,7 @@ const SingleOrderItem: FC<SingleOrderItemProps> = ({ orderItem }) => {
         />
       )}
       <div className={styles["order-item__size"]}>{orderItem.size}</div>
-    </div>
+    </Link>
   );
 };
 

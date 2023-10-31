@@ -1,3 +1,13 @@
+export interface AdminOrder {
+  id: string;
+  userId: string;
+  orderStatus: OrderStatus;
+  totalPrice: number;
+  orderItems: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Order {
   id: string;
   userId: string;

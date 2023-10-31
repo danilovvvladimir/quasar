@@ -31,7 +31,9 @@
 
   &-users,
   &-categories,
-  &-products {
+  &-products,
+  &-orders,
+  &-reviews {
     padding: $step * 8 0;
     &__wrapper {
       display: flex;

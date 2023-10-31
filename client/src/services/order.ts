@@ -1,18 +1,19 @@
 import updatedAxios from "@/axios";
 import { API_URL } from "@/constants/api";
-import { OrderCreateDTO } from "@/types/order";
+import { AdminOrder, Order, OrderCreateDTO } from "@/types/order";
 import defaultAxios from "axios";
 
 class OrderService {
   private readonly ORDER_BASE_API: string = `${API_URL}/orders`;
 
-  // async getAll() {
-  //   const response = await updatedAxios.get<Category[]>(
-  //     `${this.ORDER_BASE_API}`,
-  //   );
+  async getAll() {
+    const response = await updatedAxios.get<AdminOrder[]>(
+      `${this.ORDER_BASE_API}`,
+    );
+    console.log("getAll orders response", response);
 
-  //   return response.data;
-  // }
+    return response.data;
+  }
 
   async getByUser(userId: string) {
     const response = await updatedAxios.get<any[]>(

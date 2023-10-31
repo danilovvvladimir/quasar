@@ -16,66 +16,10 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const orderService = new OrderService();
 
-  // const orders: Order[] = [
-  //   {
-  //     id: "1",
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //     orderStatus: OrderStatus.PROCESSING,
-  //     userId: "1",
-  //   },
-  //   {
-  //     id: "2",
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //     orderStatus: OrderStatus.PENDING,
-  //     userId: "1",
-  //   },
-  // ];
-
-  // const orderItems: OrderItem[] = [
-  //   {
-  //     id: "1",
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //     orderId: "1",
-  //     productId: "1",
-  //     quantity: 2,
-  //     totalPrice: 3500,
-  //     size: 43,
-  //   },
-  //   {
-  //     id: "2",
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //     orderId: "1",
-  //     productId: "3",
-  //     quantity: 1,
-  //     totalPrice: 1200,
-  //     size: 43,
-  //   },
-  //   {
-  //     id: "2",
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //     orderId: "2",
-  //     productId: "3",
-  //     quantity: 3,
-  //     totalPrice: 2400,
-  //     size: 43,
-  //   },
-  // ];
-
   const updateData = async () => {
-    const products = await orderService.getByUser(user.id);
+    const orders = await orderService.getByUser(user.id);
 
-    const newCartItems = products.map((item) => ({
-      ...item,
-      ...item.product,
-      isSelected: false,
-    }));
-
-    setOrders(products);
+    setOrders(orders);
   };
 
   useEffect(() => {

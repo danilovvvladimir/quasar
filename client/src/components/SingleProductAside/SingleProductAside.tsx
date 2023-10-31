@@ -23,7 +23,7 @@ const SingleProductAside: FC<SingleProductAsideProps> = ({
     <div className={styles["single-product__aside-container"]}>
       <div className={styles["single-product__process"]}>
         <div className={styles["single-product__price"]}>
-          {oldPrice ? (
+          {oldPrice > 0 ? (
             <ExtendedPrice
               currentPrice={currentPrice}
               oldPrice={oldPrice}
