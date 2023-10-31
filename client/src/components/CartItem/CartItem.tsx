@@ -15,6 +15,10 @@ import UserService from "@/services/user";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { checkAuth } from "@/store/auth/auth.actions";
+import {
+  REMOVE_FROM_CART_MESSAGE,
+  SEND_TO_WISHLIST_MESSAGE,
+} from "@/constants/messages";
 
 interface CartItemProps {
   productCart: ProductCart;
@@ -36,7 +40,7 @@ const CartItem: FC<CartItemProps> = ({
     description,
     name,
     oldPrice,
-    productImage: productImages,
+    productImage: productImages, // TODO: Поправить передачу параметров
     productSize,
     review,
     slug,
@@ -60,10 +64,6 @@ const CartItem: FC<CartItemProps> = ({
         <Checkbox checked={isSelected} />
       </div>
       <div className={styles["cart-item__product"]}>
-        {/* <Link
-          className={styles["cart-item__product-image"]}
-          href={`/products/${slug}`}
-        > */}
         <Image
           src={"/" + productImages[0].imagePath}
           alt={name}
@@ -71,7 +71,6 @@ const CartItem: FC<CartItemProps> = ({
           height={100}
           className={styles["cart-item__product-image"]}
         ></Image>
-        {/* </Link> */}
         <div className={styles["cart-item__product-info"]}>
           <div className={styles["cart-item__product-name"]}>{name}</div>
           <div className={styles["cart-item__product-size"]}>
@@ -79,13 +78,13 @@ const CartItem: FC<CartItemProps> = ({
           </div>
           <div className={styles["cart-item__product-controls"]}>
             <span className={styles["cart-item__product-favorite"]}>
-              В избранное
+              {SEND_TO_WISHLIST_MESSAGE}
             </span>
             <span
               className={styles["cart-item__product-remove"]}
               onClick={onRemoveFromCart}
             >
-              Удалить
+              {REMOVE_FROM_CART_MESSAGE}
             </span>
           </div>
         </div>

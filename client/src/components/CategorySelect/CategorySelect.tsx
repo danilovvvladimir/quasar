@@ -1,9 +1,9 @@
 "use client";
 
 import { FC, ChangeEventHandler, useState } from "react";
-import styles from "./CategorySelect.module.scss";
 import Select from "react-select";
 import { Category } from "@/types/category";
+import { SELECT_CATEGORY_PLACEHOLDER_MESSAGE } from "@/constants/messages";
 
 interface CategorySelectProps {
   categories: Category[];
@@ -25,6 +25,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleSelectChange = (selectedOptions) => {
+    // TODO: Поправить передачу
     setSelectedOptions(selectedOptions);
     onChange(selectedOptions);
   };
@@ -33,7 +34,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
     <Select
       isMulti
       options={categoriesOptions}
-      placeholder="Выберите категорию"
+      placeholder={SELECT_CATEGORY_PLACEHOLDER_MESSAGE}
       name={name}
       onChange={handleSelectChange}
       value={selectedOptions}

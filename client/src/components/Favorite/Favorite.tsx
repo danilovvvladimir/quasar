@@ -1,7 +1,6 @@
 "use client";
 
 import { FC } from "react";
-
 import styles from "./Favorite.module.scss";
 import classNames from "classnames";
 

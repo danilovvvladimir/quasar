@@ -1,10 +1,14 @@
 import { FC } from "react";
 import styles from "./HomePage.module.scss";
 import HomePageInner from "@/components/HomePageInner/HomePageInner";
+import {
+  HOMEPAGE_METADATA_DESCRIPTION,
+  HOMEPAGE_METADATA_TITLE,
+} from "@/constants/metadata";
 
 export const metadata = {
-  title: "QUASAR | Главная",
-  description: "Quasar Главная",
+  title: HOMEPAGE_METADATA_TITLE,
+  description: HOMEPAGE_METADATA_DESCRIPTION,
 };
 
 const HomePage: FC = () => {

@@ -1,35 +1,33 @@
 "use client";
 
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styles from "./CreateCategoryModal.module.scss";
 import Button from "../UI/Button/Button";
-import Input from "../UI/Input/Input";
 import Separator from "../Separator/Separator";
-import Toggler from "../UI/Toggler/Toggler";
 import { Category } from "@/types/category";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createNotify, notifyMode } from "@/utils/createNotify";
-import { createSlug } from "@/utils/createSlug";
 import CategoryService from "@/services/category";
-import Loader from "../Loader/Loader";
-import { useDebounce } from "@/hooks/useDebounce";
-import { slugRegex } from "@/constants/regex";
+import { SLUG_REGEX } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import { ProductDetails, ProductImage } from "@/types/product";
+import {
+  CATEGORY_CREATE_NOTIFY_MESSAGE,
+  CATEGORY_MODAL_CREATE_MESSAGE,
+  CATEGORY_MODAL_CREATE_NAME_LABEL_MESSAGE,
+  CATEGORY_MODAL_CREATE_SLUG_LABEL_MESSAGE,
+  CATEGORY_MODAL_CREATE_TITLE_MESSAGE,
+  CATEGORY_NAME_REQUIRED_MESSAGE,
+  CREATE_MESSAGE,
+  ERROR_NOTIFY_MESSAGE,
+  INVALID_SLUG_MESSAGE,
+  SLUG_REQUIRED_MESSAGE,
+} from "@/constants/messages";
 
 interface CreateCategoryModalProps {}
 
 interface ICreatingCategory
   extends Omit<Category, "id" | "createdAt" | "updatedAt"> {}
-// const [creatingProduct, setCreatingProduct] = useState<ICreatingCategory>({
-//   name: "",
-//   slug: "",
-// });
-
-interface ICreatingProductImage extends Pick<ProductImage, "imagePath"> {}
-
-interface ICreatingProductDetails
-  extends Pick<ProductDetails, "size" | "quantity"> {}
 
 const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
   const categoryService = new CategoryService();
@@ -43,19 +41,14 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
 
   const onSubmit: SubmitHandler<ICreatingCategory> = async (values) => {
     try {
-      console.log(values);
+      await categoryService.createCategory(values.name, values.slug);
 
-      const data = await categoryService.createCategory(
-        values.name,
-        values.slug,
-      );
-
-      createNotify("Категория успешно создана", notifyMode.SUCCESS);
+      createNotify(CATEGORY_CREATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
       reset();
     } catch (error) {
       console.log(error);
 
-      createNotify("Something went wrong...", notifyMode.ERROR);
+      createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
   };
 
@@ -63,7 +56,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
     <div className={styles["create-category-modal"]}>
       <div className={styles["create-category-modal__header"]}>
         <h2 className={`title ${styles["create-category-modal__title"]}`}>
-          Создание категории
+          {CATEGORY_MODAL_CREATE_TITLE_MESSAGE}
         </h2>
         <Separator />
       </div>
@@ -74,11 +67,14 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
         <div className={styles["create-category-modal__content"]}>
           <div className={styles["create-category-modal__name"]}>
             <label className={styles["create-category-modal__label"]}>
-              <span>Название</span>
+              <span>{CATEGORY_MODAL_CREATE_NAME_LABEL_MESSAGE}</span>
               <input
                 className="input"
                 {...register("name", {
-                  required: { value: true, message: "Name is required" },
+                  required: {
+                    value: true,
+                    message: CATEGORY_NAME_REQUIRED_MESSAGE,
+                  },
                 })}
                 type="text"
               />
@@ -89,12 +85,12 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
           </div>
           <div className={styles["create-category-modal__slug"]}>
             <label className={styles["create-category-modal__label"]}>
-              <span>Slug</span>
+              <span>{CATEGORY_MODAL_CREATE_SLUG_LABEL_MESSAGE}</span>
               <input
                 className="input"
                 {...register("slug", {
-                  required: { value: true, message: "Slug is required" },
-                  pattern: { value: slugRegex, message: "Slug is invalid!" },
+                  required: { value: true, message: SLUG_REQUIRED_MESSAGE },
+                  pattern: { value: SLUG_REGEX, message: INVALID_SLUG_MESSAGE },
                 })}
                 type="text"
               />
@@ -109,7 +105,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
             type="submit"
             className={styles["create-category-modal__create"]}
           >
-            Создать
+            {CREATE_MESSAGE}
           </Button>
         </div>
       </form>

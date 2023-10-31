@@ -1,21 +1,28 @@
 import { FC } from "react";
 import styles from "./CreateReviewModalInner.module.scss";
-import { IReviewCreateFields, IReviewRequest } from "@/types/common";
-import { emailRegex } from "@/constants/regex";
-import { loginUser } from "@/store/auth/auth.actions";
-import { checkIsAuth } from "@/store/auth/auth.slice";
-import { AppDispatch, RootState } from "@/store/store";
+import { IReviewCreateFields } from "@/types/common";
+import { RootState } from "@/store/store";
 import { createNotify, notifyMode } from "@/utils/createNotify";
-import axios from "axios";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
-import CustomLink from "../CustomLink/CustomLink";
+import { useSelector } from "react-redux";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import Button from "../UI/Button/Button";
 import ReviewService from "@/services/review";
 import classNames from "classnames";
+import {
+  CREATE_MESSAGE,
+  DESCRIPTION_LABEL_MESSAGE,
+  ERROR_NOTIFY_MESSAGE,
+  MAX_RATING,
+  MAX_RATING_MESSAGE,
+  MIN_RATING,
+  MIN_RATING_MESSAGE,
+  RATING_LABEL_MESSAGE,
+  RATING_PLACEHOLDER_MESSAGE,
+  RATING_REQUIRED_MESSAGE,
+  REVIEW_CREATE_NOTIFY_MESSAGE,
+  REVIEW_DESCRIPTION_PLACEHOLDER_MESSAGE,
+} from "@/constants/messages";
 
 interface CreateReviewModalInnerProps {
   productId: string; // не правильно, что он знает об этом, надо на callback заменить
@@ -43,9 +50,9 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
       });
 
       reset();
-      createNotify("Вы успешно оставили отзыв!");
+      createNotify(REVIEW_CREATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
     } catch (error) {
-      createNotify("Something went wrong...", notifyMode.ERROR);
+      createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
   };
 
@@ -53,33 +60,33 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className={styles["crmi-form"]}>
       <div className={styles["crmi__fields"]}>
         <label className={styles["crmi__label"]}>
-          <span>Описание</span>
+          <span>{DESCRIPTION_LABEL_MESSAGE}</span>
           <textarea
             {...register("text")}
             className={classNames("textarea", styles["crmi__textarea"])}
-            placeholder="Описание отзыва..."
+            placeholder={REVIEW_DESCRIPTION_PLACEHOLDER_MESSAGE}
           />
         </label>
         <label className={styles["crmi__label"]}>
-          <span>Оценка</span>
+          <span>{RATING_LABEL_MESSAGE}</span>
           <input
             {...register("rating", {
               required: {
                 value: true,
-                message: "Оценка обязательна к заполнению в отзыве",
+                message: RATING_REQUIRED_MESSAGE,
               },
               min: {
-                value: 1,
-                message: "Рейтинг не может быть ниже 1",
+                value: MIN_RATING,
+                message: MIN_RATING_MESSAGE,
               },
               max: {
-                value: 5,
-                message: "Рейтинг не может быть больше 5",
+                value: MAX_RATING,
+                message: MAX_RATING_MESSAGE,
               },
             })}
             type="number"
             className={classNames("input", styles["crmi__input"])}
-            placeholder="Rating..."
+            placeholder={RATING_PLACEHOLDER_MESSAGE}
           />
 
           {errors.rating && (
@@ -88,7 +95,7 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
         </label>
       </div>
       <div className={styles["crmi__controls"]}>
-        <Button>Создать</Button>
+        <Button>{CREATE_MESSAGE}</Button>
       </div>
     </form>
   );

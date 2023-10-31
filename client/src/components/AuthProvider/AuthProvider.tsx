@@ -1,12 +1,18 @@
 "use client";
 
 import { checkAuth } from "@/store/auth/auth.actions";
-import { checkIsAuth } from "@/store/auth/auth.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import { redirect, usePathname } from "next/navigation";
+import {
+  ADMIN_START_URL,
+  CARTPAGE_START_URL,
+  PROFILEPAGE_START_URL,
+  WISHLISTPAGE_START_URL,
+} from "@/constants/path";
+import { LOCALSTORAGE_ACCESS_TOKEN_KEY } from "@/constants/localStorage";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -21,7 +27,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (localStorage.getItem(LOCALSTORAGE_ACCESS_TOKEN_KEY)) {
       dispatch(checkAuth()).finally(() => setIsLoading(false));
     } else {
       setIsLoading(false);
@@ -31,16 +37,16 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (!isLoading) {
       if (
-        pathname.startsWith("/profile") ||
-        pathname.startsWith("/cart") ||
-        pathname.startsWith("/wishlist")
+        pathname.startsWith(PROFILEPAGE_START_URL) ||
+        pathname.startsWith(CARTPAGE_START_URL) ||
+        pathname.startsWith(WISHLISTPAGE_START_URL)
       ) {
         if (!user) {
           redirect("/auth/login");
         }
       }
 
-      if (pathname.startsWith("/admin")) {
+      if (pathname.startsWith(ADMIN_START_URL)) {
         if (user) {
           if (user.role === "USER") {
             redirect("/not-found");

@@ -46,7 +46,10 @@ const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
       <div className={styles["admin-table__orders-rows"]}>
         {orders.map((order) => (
           <div key={order.id} className={styles["admin-table__orders-row"]}>
-            <div className={styles["admin-table__orders-row-email"]}>
+            <div
+              className={styles["admin-table__orders-row-email"]}
+              title={order.user.email}
+            >
               {getShortEmail(order.user.email)}
             </div>
             <div className={styles["admin-table__orders-row-status"]}>

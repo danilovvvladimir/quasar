@@ -24,26 +24,17 @@ export declare class UserController {
             userId: string;
             productId: string;
         }[];
-        review: {
-            id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
         cartItem: ({
             product: {
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
-                    productId: string;
-                }[];
-                productImage: {
-                    id: string;
-                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -63,6 +54,15 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         order: ({
             orderItem: {
                 id: string;
@@ -96,26 +96,17 @@ export declare class UserController {
             userId: string;
             productId: string;
         }[];
-        review: {
-            id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
         cartItem: ({
             product: {
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
-                    productId: string;
-                }[];
-                productImage: {
-                    id: string;
-                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -135,6 +126,15 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         order: ({
             orderItem: {
                 id: string;
@@ -193,6 +193,11 @@ export declare class UserController {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
+            productImage: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
             review: {
                 id: string;
                 text: string;
@@ -200,11 +205,6 @@ export declare class UserController {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
-                productId: string;
-            }[];
-            productImage: {
-                id: string;
-                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -224,15 +224,15 @@ export declare class UserController {
     })[]>;
     findCartItems(userId: string): Promise<({
         product: {
+            productImage: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
             productSize: {
                 id: string;
                 size: number;
                 quantity: number;
-                productId: string;
-            }[];
-            productImage: {
-                id: string;
-                imagePath: string;
                 productId: string;
             }[];
         } & {

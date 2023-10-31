@@ -1,73 +1,40 @@
 "use client";
 
 import { FC } from "react";
-import "./AuthForm.scss";
+import styles from "./AuthForm.module.scss";
 import Button from "../UI/Button/Button";
 import CustomLink from "../CustomLink/CustomLink";
-import { IRegisterRequest } from "@/types/common";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
-import { checkAuth, registerUser } from "@/store/auth/auth.actions";
-import { AppDispatch } from "@/store/store";
-import { createNotify, notifyMode } from "@/utils/createNotify";
-import { emailRegex } from "@/constants/regex";
-import { checkIsAuth } from "@/store/auth/auth.slice";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
+import {
+  ALREADY_HAS_ACCOUNT_MESSAGE,
+  EMAIL_PLACEHOLDER_MESSAGE,
+  EMAIL_REQUIRED_MESSAGE,
+  INVALID_EMAIL_MESSAGE,
+  MIN_PASSWORD_LENGTH,
+  MIN_PASSWORD_LENGTH_MESSAGE,
+  PASSWORD_PLACEHOLDER_MESSAGE,
+  PASSWORD_REQUIRED_MESSAGE,
+  REGISTER_MESSAGE,
+  USERNAME_PLACEHOLDER_MESSAGE,
+  USERNAME_REQUIRED_MESSAGE,
+} from "@/constants/messages";
+import useRegisterForm from "@/hooks/useRegisterForm";
+import { EMAIL_REGEX } from "@/constants/regex";
+import classNames from "classnames";
 
 const RegisterForm: FC = () => {
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IRegisterRequest>({ mode: "onChange" });
-
-  const isAuth = useSelector(checkIsAuth);
-
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-
-  const onSubmit: SubmitHandler<IRegisterRequest> = async (values) => {
-    console.log(errors);
-
-    try {
-      const response = await dispatch(registerUser(values));
-
-      if (registerUser.rejected.match(response)) {
-        if (axios.isAxiosError(response.payload)) {
-          createNotify(
-            response.payload.response?.data?.message,
-            notifyMode.ERROR,
-          );
-        }
-      } else {
-        reset();
-        createNotify("You are successfully authorized!");
-        router.push("/");
-      }
-    } catch (error) {
-      console.log(error);
-
-      createNotify("Something went wrong...", notifyMode.ERROR);
-    }
-  };
-
-  if (isAuth) {
-    redirect("/");
-  }
+  const { register, handleSubmit, errors, onSubmit } = useRegisterForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-      <div className="auth-form__inputs">
+    <form onSubmit={handleSubmit(onSubmit)} className={styles["auth-form"]}>
+      <div className={styles["auth-form__inputs"]}>
         <input
           {...register("username", {
-            required: { value: true, message: "Username is required" },
+            required: { value: true, message: USERNAME_REQUIRED_MESSAGE },
           })}
           type="text"
-          className="auth-form__input"
-          placeholder="Username..."
+          className={styles["auth-form__input"]}
+          placeholder={USERNAME_PLACEHOLDER_MESSAGE}
         />
 
         {errors.username && (
@@ -76,35 +43,42 @@ const RegisterForm: FC = () => {
 
         <input
           {...register("email", {
-            required: { value: true, message: "Email is required" },
-            pattern: { value: emailRegex, message: "Invalid email!" },
+            required: { value: true, message: EMAIL_REQUIRED_MESSAGE },
+            pattern: { value: EMAIL_REGEX, message: INVALID_EMAIL_MESSAGE },
           })}
           type="text"
-          className="auth-form__input"
-          placeholder="Email..."
+          className={styles["auth-form__input"]}
+          placeholder={EMAIL_PLACEHOLDER_MESSAGE}
         />
 
         {errors.email && <ErrorValidationText text={errors.email.message!} />}
 
         <input
           {...register("password", {
-            required: { value: true, message: "Password is required" },
+            required: { value: true, message: PASSWORD_REQUIRED_MESSAGE },
             min: {
-              value: 8,
-              message: "Password should be at least 8 characters",
+              value: MIN_PASSWORD_LENGTH,
+              message: MIN_PASSWORD_LENGTH_MESSAGE,
             },
           })}
-          type="text"
-          className="auth-form__input"
-          placeholder="Password..."
+          type="password"
+          className={styles["auth-form__input"]}
+          placeholder={PASSWORD_PLACEHOLDER_MESSAGE}
         />
         {errors.password && (
           <ErrorValidationText text={errors.password.message!} />
         )}
       </div>
-      <div className="auth-form__controls auth-form__controls--register">
-        <Button type="submit">Зарегистрироваться</Button>
-        <CustomLink href="/auth/login">Уже есть аккаунт</CustomLink>
+      <div
+        className={classNames(
+          styles["auth-form__controls"],
+          styles["auth-form__controls--register"],
+        )}
+      >
+        <Button type="submit">{REGISTER_MESSAGE}</Button>
+        <CustomLink href="/auth/login">
+          {ALREADY_HAS_ACCOUNT_MESSAGE}
+        </CustomLink>
       </div>
     </form>
   );

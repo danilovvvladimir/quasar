@@ -9,6 +9,7 @@ import RatingFilter from "./RatingFilter/RatingFilter";
 import styles from "./Filters.module.scss";
 import classNames from "classnames";
 import { IFilters } from "../HomePageInner/HomePageInner";
+import useFilters from "@/hooks/useFilters";
 
 interface FiltersProps {
   filters: IFilters;
@@ -17,83 +18,23 @@ interface FiltersProps {
 
 const Filters: FC<FiltersProps> = ({ filters, setFilters }) => {
   const {
-    categories,
+    currentMinPrice,
+    currentMaxPrice,
     maxPrice,
     minPrice,
-    isDiscount,
-    currentMaxPrice,
-    currentMinPrice,
+    prices,
+    setPrices,
+    changeOriginalPrices,
+    handleMinPriceChange,
+    handleMaxPriceChange,
+    categories,
     selectedCategories,
+    selectCategory,
     rating,
-  } = filters;
-
-  const [prices, setPrices] = useState<number[]>([minPrice, maxPrice]);
-
-  const changeOriginalPrices = (newPrices: number[]): void => {
-    setFilters({
-      ...filters,
-      currentMinPrice: newPrices[0],
-      currentMaxPrice: newPrices[1],
-    });
-  };
-
-  const setRating = (newRating: number): void => {
-    setFilters({ ...filters, rating: newRating });
-  };
-
-  const toggleDiscount = (newIsDiscount: boolean): void => {
-    setFilters({ ...filters, isDiscount: newIsDiscount });
-  };
-
-  const selectCategory = (category: string) => {
-    if (!selectedCategories.includes(category)) {
-      setFilters({
-        ...filters,
-        selectedCategories: [...selectedCategories, category],
-      });
-    } else {
-      setFilters({
-        ...filters,
-        selectedCategories: selectedCategories.filter(
-          (item) => item !== category,
-        ),
-      });
-    }
-  };
-
-  const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const newPrice = parseInt(e.target.value, 10);
-
-    if (isNaN(newPrice)) {
-      return;
-    }
-
-    if (newPrice >= minPrice && newPrice <= prices[1]) {
-      setPrices([newPrice, prices[1]]);
-    }
-
-    if (newPrice > currentMaxPrice) {
-      setPrices([prices[1], prices[1]]);
-    }
-  };
-
-  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const newPrice = parseInt(e.target.value, 10);
-
-    if (isNaN(newPrice)) {
-      return;
-    }
-
-    if (newPrice <= maxPrice && newPrice >= prices[0]) {
-      setPrices([prices[0], newPrice]);
-    }
-
-    if (newPrice < currentMinPrice) {
-      setPrices([prices[0], prices[0]]);
-    }
-  };
-
-  console.log("FILTERS filters", filters);
+    setRating,
+    toggleDiscount,
+    isDiscount,
+  } = useFilters({ filters, setFilters });
 
   return (
     <div className={styles["filters"]}>
