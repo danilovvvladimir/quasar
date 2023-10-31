@@ -3,7 +3,27 @@ import { ReviewCreateDTO, ReviewUpdateDTO } from "./review.dto";
 export declare class ReviewController {
     private readonly reviewService;
     constructor(reviewService: ReviewService);
-    findAll(): Promise<{
+    findAll(): Promise<({
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: import(".prisma/client").$Enums.RoleName;
+        };
+        product: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: string;
         text: string;
         rating: number;
@@ -11,7 +31,7 @@ export declare class ReviewController {
         updatedAt: Date;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     findById(id: string): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

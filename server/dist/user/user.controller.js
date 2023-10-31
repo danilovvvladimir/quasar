@@ -27,6 +27,9 @@ let UserController = class UserController {
     async findAll() {
         return this.userService.findAll();
     }
+    async getStatistics() {
+        return this.userService.getStatistics();
+    }
     async getProfile(id) {
         return this.userService.findById(id);
     }
@@ -69,6 +72,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)("statistics"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getStatistics", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

@@ -23,7 +23,12 @@ let ReviewService = class ReviewService {
         this.prismaService = prismaService;
     }
     async findAll() {
-        const reviews = await this.prismaService.review.findMany();
+        const reviews = await this.prismaService.review.findMany({
+            include: {
+                product: true,
+                user: true,
+            },
+        });
         return reviews;
     }
     async findById(id) {

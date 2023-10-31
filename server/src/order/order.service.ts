@@ -16,21 +16,6 @@ import { OrderCreateDTO, OrderItemsCreateDTO } from "./order.dto";
 export class OrderService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  // async findAll() {
-  //   const ordersWithTotalPrice = await this.prismaService.order.aggregate({
-  //     where: {
-  //       orderItem: {
-  //         every: {
-  //           id: true,
-  //         },
-  //       },
-  //     },
-  //     _sum: { orderItem: { select: { totalPrice: true } } },
-  //   });
-
-  //   return ordersWithTotalPrice;
-  // }
-
   private async getOrderTotalPrice(orderId: string) {
     const orderWithTotalPrice = await this.prismaService.orderItem.aggregate({
       where: {
@@ -48,7 +33,7 @@ export class OrderService {
 
   async findAll() {
     const orders = await this.prismaService.order.findMany({
-      include: { orderItem: true },
+      include: { orderItem: true, user: true },
     });
 
     const orderPromises = orders.map(async (item) => ({

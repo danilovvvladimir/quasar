@@ -121,15 +121,6 @@ export class ProductService {
     //   };
     // }
 
-    // const ag = await this.prismaService.review.aggregate({
-    //   _avg: {
-    //     rating: true,
-    //   },
-    //   _count: {
-    //     rating: true,
-    //   },
-    // });
-
     // console.log("ag", ag);
 
     const products = await this.prismaService.product.findMany({

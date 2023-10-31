@@ -5,6 +5,12 @@ export declare class UserService {
     private prismaService;
     private readonly productService;
     constructor(prismaService: PrismaService, productService: ProductService);
+    getStatistics(): Promise<{
+        users: number;
+        reviews: number;
+        orders: number;
+        totalIncome: number;
+    }>;
     findAll(): Promise<{
         id: string;
         username: string;
@@ -20,17 +26,26 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItem: ({
             product: {
-                productImage: {
-                    id: string;
-                    imagePath: string;
-                    productId: string;
-                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -50,15 +65,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        review: {
-            id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
         order: ({
             orderItem: {
                 id: string;
@@ -117,11 +123,6 @@ export declare class UserService {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            productImage: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             review: {
                 id: string;
                 text: string;
@@ -129,6 +130,11 @@ export declare class UserService {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -163,15 +169,15 @@ export declare class UserService {
     }>;
     findCartItems(userId: string): Promise<({
         product: {
-            productImage: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             productSize: {
                 id: string;
                 size: number;
                 quantity: number;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {

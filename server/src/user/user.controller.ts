@@ -33,6 +33,15 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
+  @Get("statistics")
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
+  async getStatistics() {
+    return this.userService.getStatistics();
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
   @Get("profile")
   @UseGuards(AccessTokenGuard)
   async getProfile(@CurrentUser("id") id: string) {

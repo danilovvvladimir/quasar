@@ -31,7 +31,7 @@ let OrderService = class OrderService {
     }
     async findAll() {
         const orders = await this.prismaService.order.findMany({
-            include: { orderItem: true },
+            include: { orderItem: true, user: true },
         });
         const orderPromises = orders.map(async (item) => (Object.assign(Object.assign({}, item), { totalPrice: +(await this.getOrderTotalPrice(item.id)) })));
         const ordersWithTotalPrices = await Promise.all(orderPromises);

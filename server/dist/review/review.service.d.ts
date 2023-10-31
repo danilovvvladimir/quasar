@@ -8,7 +8,27 @@ export declare class ReviewService {
     private readonly productService;
     private readonly prismaService;
     constructor(userService: UserService, productService: ProductService, prismaService: PrismaService);
-    findAll(): Promise<{
+    findAll(): Promise<({
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: $Enums.RoleName;
+        };
+        product: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: string;
         text: string;
         rating: number;
@@ -16,7 +36,7 @@ export declare class ReviewService {
         updatedAt: Date;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     findById(id: string): Promise<{
         id: string;
         orderStatus: $Enums.OrderStatus;

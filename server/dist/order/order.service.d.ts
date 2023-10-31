@@ -7,6 +7,15 @@ export declare class OrderService {
     private getOrderTotalPrice;
     findAll(): Promise<{
         totalPrice: number;
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: import(".prisma/client").$Enums.RoleName;
+        };
         orderItem: {
             id: string;
             quantity: number;

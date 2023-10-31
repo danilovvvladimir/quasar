@@ -19,6 +19,22 @@ let UserService = class UserService {
         this.prismaService = prismaService;
         this.productService = productService;
     }
+    async getStatistics() {
+        const allUsers = await this.findAll();
+        const allReviews = await this.prismaService.review.findMany();
+        const allOrders = await this.prismaService.order.findMany();
+        const totalIncome = await this.prismaService.orderItem.aggregate({
+            _sum: {
+                totalPrice: true,
+            },
+        });
+        return {
+            users: allUsers.length,
+            reviews: allReviews.length,
+            orders: allOrders.length,
+            totalIncome: +totalIncome._sum.totalPrice,
+        };
+    }
     async findAll() {
         const users = await this.prismaService.user.findMany();
         return users;
