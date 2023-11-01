@@ -6,12 +6,6 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import { redirect, usePathname } from "next/navigation";
-import {
-  ADMIN_START_URL,
-  CARTPAGE_START_URL,
-  PROFILEPAGE_START_URL,
-  WISHLISTPAGE_START_URL,
-} from "@/constants/path";
 import { LOCALSTORAGE_ACCESS_TOKEN_KEY } from "@/constants/localStorage";
 
 interface AuthProviderProps {
@@ -37,16 +31,16 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (!isLoading) {
       if (
-        pathname.startsWith(PROFILEPAGE_START_URL) ||
-        pathname.startsWith(CARTPAGE_START_URL) ||
-        pathname.startsWith(WISHLISTPAGE_START_URL)
+        pathname.startsWith("/profile") ||
+        pathname.startsWith("/cart") ||
+        pathname.startsWith("/wishlist")
       ) {
         if (!user) {
           redirect("/auth/login");
         }
       }
 
-      if (pathname.startsWith(ADMIN_START_URL)) {
+      if (pathname.startsWith("/admin")) {
         if (user) {
           if (user.role === "USER") {
             redirect("/not-found");

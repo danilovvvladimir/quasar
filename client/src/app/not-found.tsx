@@ -32,7 +32,7 @@ const NotFoundPage: FC = () => {
           height={NOTFOUNDPAGE_IMAGE_HEIGHT}
         />
         <CustomLink href="/" isButton className={styles["not-found__button"]}>
-          {GO_BACK_BUTTON_MESSAGE}
+          На главную
         </CustomLink>
       </div>
     </section>

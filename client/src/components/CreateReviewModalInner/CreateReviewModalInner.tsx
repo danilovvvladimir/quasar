@@ -10,19 +10,18 @@ import Button from "../UI/Button/Button";
 import ReviewService from "@/services/review";
 import classNames from "classnames";
 import {
-  CREATE_MESSAGE,
-  DESCRIPTION_LABEL_MESSAGE,
+  REVIEW_CREATE_NOTIFY_MESSAGE,
   ERROR_NOTIFY_MESSAGE,
-  MAX_RATING,
-  MAX_RATING_MESSAGE,
+  REVIEW_DESCRIPTION_PLACEHOLDER_MESSAGE,
+  RATING_PLACEHOLDER_MESSAGE,
+} from "@/constants/messages";
+import {
+  RATING_REQUIRED_MESSAGE,
   MIN_RATING,
   MIN_RATING_MESSAGE,
-  RATING_LABEL_MESSAGE,
-  RATING_PLACEHOLDER_MESSAGE,
-  RATING_REQUIRED_MESSAGE,
-  REVIEW_CREATE_NOTIFY_MESSAGE,
-  REVIEW_DESCRIPTION_PLACEHOLDER_MESSAGE,
-} from "@/constants/messages";
+  MAX_RATING,
+  MAX_RATING_MESSAGE,
+} from "@/constants/validation";
 
 interface CreateReviewModalInnerProps {
   productId: string; // не правильно, что он знает об этом, надо на callback заменить
@@ -60,7 +59,7 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className={styles["crmi-form"]}>
       <div className={styles["crmi__fields"]}>
         <label className={styles["crmi__label"]}>
-          <span>{DESCRIPTION_LABEL_MESSAGE}</span>
+          <span>Описание</span>
           <textarea
             {...register("text")}
             className={classNames("textarea", styles["crmi__textarea"])}
@@ -68,7 +67,7 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
           />
         </label>
         <label className={styles["crmi__label"]}>
-          <span>{RATING_LABEL_MESSAGE}</span>
+          <span>Оценка</span>
           <input
             {...register("rating", {
               required: {
@@ -95,7 +94,7 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
         </label>
       </div>
       <div className={styles["crmi__controls"]}>
-        <Button>{CREATE_MESSAGE}</Button>
+        <Button>Создать</Button>
       </div>
     </form>
   );

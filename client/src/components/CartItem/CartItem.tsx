@@ -15,10 +15,6 @@ import UserService from "@/services/user";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { checkAuth } from "@/store/auth/auth.actions";
-import {
-  REMOVE_FROM_CART_MESSAGE,
-  SEND_TO_WISHLIST_MESSAGE,
-} from "@/constants/messages";
 
 interface CartItemProps {
   productCart: ProductCart;
@@ -78,13 +74,13 @@ const CartItem: FC<CartItemProps> = ({
           </div>
           <div className={styles["cart-item__product-controls"]}>
             <span className={styles["cart-item__product-favorite"]}>
-              {SEND_TO_WISHLIST_MESSAGE}
+              В избранное
             </span>
             <span
               className={styles["cart-item__product-remove"]}
               onClick={onRemoveFromCart}
             >
-              {REMOVE_FROM_CART_MESSAGE}
+              Удалить
             </span>
           </div>
         </div>

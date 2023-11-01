@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC } from "react";
 import Image from "next/image";
 import styles from "./RatingFilter.module.scss";
 import classNames from "classnames";
@@ -9,12 +9,10 @@ interface RatingFilterProps {
   selectedRating: number;
   setRating: (rating: number) => void;
 }
-
+// TODO
 const RatingFilter: FC<RatingFilterProps> = ({ selectedRating, setRating }) => {
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newRating = parseInt(event.target.value);
-    console.log("selectedRating", selectedRating);
-    console.log("newRating", newRating);
 
     setRating(newRating);
   };

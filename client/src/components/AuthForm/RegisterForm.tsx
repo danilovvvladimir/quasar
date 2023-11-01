@@ -5,22 +5,23 @@ import styles from "./AuthForm.module.scss";
 import Button from "../UI/Button/Button";
 import CustomLink from "../CustomLink/CustomLink";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
-import {
-  ALREADY_HAS_ACCOUNT_MESSAGE,
-  EMAIL_PLACEHOLDER_MESSAGE,
-  EMAIL_REQUIRED_MESSAGE,
-  INVALID_EMAIL_MESSAGE,
-  MIN_PASSWORD_LENGTH,
-  MIN_PASSWORD_LENGTH_MESSAGE,
-  PASSWORD_PLACEHOLDER_MESSAGE,
-  PASSWORD_REQUIRED_MESSAGE,
-  REGISTER_MESSAGE,
-  USERNAME_PLACEHOLDER_MESSAGE,
-  USERNAME_REQUIRED_MESSAGE,
-} from "@/constants/messages";
+
 import useRegisterForm from "@/hooks/useRegisterForm";
 import { EMAIL_REGEX } from "@/constants/regex";
 import classNames from "classnames";
+import {
+  USERNAME_PLACEHOLDER_MESSAGE,
+  EMAIL_PLACEHOLDER_MESSAGE,
+  PASSWORD_PLACEHOLDER_MESSAGE,
+} from "@/constants/messages";
+import {
+  USERNAME_REQUIRED_MESSAGE,
+  EMAIL_REQUIRED_MESSAGE,
+  INVALID_EMAIL_MESSAGE,
+  PASSWORD_REQUIRED_MESSAGE,
+  MIN_PASSWORD_LENGTH,
+  MIN_PASSWORD_LENGTH_MESSAGE,
+} from "@/constants/validation";
 
 const RegisterForm: FC = () => {
   const { register, handleSubmit, errors, onSubmit } = useRegisterForm();
@@ -75,10 +76,8 @@ const RegisterForm: FC = () => {
           styles["auth-form__controls--register"],
         )}
       >
-        <Button type="submit">{REGISTER_MESSAGE}</Button>
-        <CustomLink href="/auth/login">
-          {ALREADY_HAS_ACCOUNT_MESSAGE}
-        </CustomLink>
+        <Button type="submit">Зарегистрироваться</Button>
+        <CustomLink href="/auth/login">Уже есть аккаунт</CustomLink>
       </div>
     </form>
   );

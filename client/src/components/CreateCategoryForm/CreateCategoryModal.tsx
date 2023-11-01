@@ -10,19 +10,15 @@ import { createNotify, notifyMode } from "@/utils/createNotify";
 import CategoryService from "@/services/category";
 import { SLUG_REGEX } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
-import { ProductDetails, ProductImage } from "@/types/product";
 import {
   CATEGORY_CREATE_NOTIFY_MESSAGE,
-  CATEGORY_MODAL_CREATE_MESSAGE,
-  CATEGORY_MODAL_CREATE_NAME_LABEL_MESSAGE,
-  CATEGORY_MODAL_CREATE_SLUG_LABEL_MESSAGE,
-  CATEGORY_MODAL_CREATE_TITLE_MESSAGE,
-  CATEGORY_NAME_REQUIRED_MESSAGE,
-  CREATE_MESSAGE,
   ERROR_NOTIFY_MESSAGE,
-  INVALID_SLUG_MESSAGE,
-  SLUG_REQUIRED_MESSAGE,
 } from "@/constants/messages";
+import {
+  CATEGORY_NAME_REQUIRED_MESSAGE,
+  SLUG_REQUIRED_MESSAGE,
+  INVALID_SLUG_MESSAGE,
+} from "@/constants/validation";
 
 interface CreateCategoryModalProps {}
 
@@ -56,7 +52,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
     <div className={styles["create-category-modal"]}>
       <div className={styles["create-category-modal__header"]}>
         <h2 className={`title ${styles["create-category-modal__title"]}`}>
-          {CATEGORY_MODAL_CREATE_TITLE_MESSAGE}
+          Создание категории
         </h2>
         <Separator />
       </div>
@@ -67,7 +63,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
         <div className={styles["create-category-modal__content"]}>
           <div className={styles["create-category-modal__name"]}>
             <label className={styles["create-category-modal__label"]}>
-              <span>{CATEGORY_MODAL_CREATE_NAME_LABEL_MESSAGE}</span>
+              <span>Название</span>
               <input
                 className="input"
                 {...register("name", {
@@ -85,7 +81,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
           </div>
           <div className={styles["create-category-modal__slug"]}>
             <label className={styles["create-category-modal__label"]}>
-              <span>{CATEGORY_MODAL_CREATE_SLUG_LABEL_MESSAGE}</span>
+              <span>Slug</span>
               <input
                 className="input"
                 {...register("slug", {
@@ -105,7 +101,7 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
             type="submit"
             className={styles["create-category-modal__create"]}
           >
-            {CREATE_MESSAGE}
+            Создать
           </Button>
         </div>
       </form>

@@ -5,19 +5,19 @@ import styles from "./AuthForm.module.scss";
 import Button from "../UI/Button/Button";
 import CustomLink from "../CustomLink/CustomLink";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
+import { EMAIL_REGEX } from "@/constants/regex";
+import useLoginForm from "@/hooks/useLoginForm";
+import {
+  EMAIL_PLACEHOLDER_MESSAGE,
+  PASSWORD_PLACEHOLDER_MESSAGE,
+} from "@/constants/messages";
 import {
   EMAIL_REQUIRED_MESSAGE,
   INVALID_EMAIL_MESSAGE,
-  EMAIL_PLACEHOLDER_MESSAGE,
   PASSWORD_REQUIRED_MESSAGE,
   MIN_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH_MESSAGE,
-  PASSWORD_PLACEHOLDER_MESSAGE,
-  LOGIN_MESSAGE,
-  CREATE_ACCOUNT_MESSAGE,
-} from "@/constants/messages";
-import { EMAIL_REGEX } from "@/constants/regex";
-import useLoginForm from "@/hooks/useLoginForm";
+} from "@/constants/validation";
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, errors, onSubmit } = useLoginForm();
@@ -54,8 +54,8 @@ const LoginForm: FC = () => {
         )}
       </div>
       <div className={styles["auth-form__controls"]}>
-        <Button>{LOGIN_MESSAGE}</Button>
-        <CustomLink href="/auth/register">{CREATE_ACCOUNT_MESSAGE}</CustomLink>
+        <Button>Войти</Button>
+        <CustomLink href="/auth/register">Создать аккаунт</CustomLink>
       </div>
     </form>
   );

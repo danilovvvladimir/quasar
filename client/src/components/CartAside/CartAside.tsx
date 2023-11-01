@@ -3,7 +3,6 @@ import styles from "./CartAside.module.scss";
 import Button from "../UI/Button/Button";
 import CurrentPrice from "../CurrentPrice/CurrentPrice";
 import Separator from "../Separator/Separator";
-import { PAY_CART_MESSAGE } from "@/constants/messages";
 
 interface CartAsideProps {
   totalAmount: number;
@@ -44,7 +43,7 @@ const CartAside: FC<CartAsideProps> = ({
         </div>
       </div>
       <Button className={styles["cart-aside__button"]} onClick={handlePayment}>
-        {PAY_CART_MESSAGE}
+        Оплатить
       </Button>
     </div>
   );

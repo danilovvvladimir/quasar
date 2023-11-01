@@ -5,40 +5,22 @@ import styles from "./CreateProductModal.module.scss";
 import Separator from "../Separator/Separator";
 import Button from "../UI/Button/Button";
 import { Controller } from "react-hook-form";
-import { ICreatingProduct } from "@/types/product";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { createNotify, notifyMode } from "@/utils/createNotify";
 import { SLUG_REGEX } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import DropZone from "../UI/DropZone/DropZone";
-import ProductService from "@/services/product";
 import SizeCreation from "../SizeCreation/SizeCreation";
 import CategorySelect from "../CategorySelect/CategorySelect";
 import { Category } from "@/types/category";
-import { createSlug } from "@/utils/createSlug";
-import {
-  CATEGORY_LABEL_MESSAGE,
-  CATEGORY_LENGTH_MESSAGE,
-  CREATE_MESSAGE,
-  CREATE_SLUG_MESSAGE,
-  CURRENT_PRICE_LABEL_MESSAGE,
-  CURRENT_PRICE_REQUIRED_MESSAGE,
-  DESCRIPTION_LABEL_MESSAGE,
-  ERROR_NOTIFY_MESSAGE,
-  IMAGES_LABEL_MESSAGE,
-  IMAGES_REQUIRED_MESSAGE,
-  INVALID_SLUG_MESSAGE,
-  NAME_LABEL_MESSAGE,
-  NAME_REQUIRED_MESSAGE,
-  OLD_PRICE_LABEL_MESSAGE,
-  PRODUCT_CREATE_NOTIFY_MESSAGE,
-  PRODUCT_MODAL_CREATE_TITLE_MESSAGE,
-  SIZED_LABEL_MESSAGE,
-  SIZES_REQUIRED_MESSAGE,
-  SLUG_LABEL_MESSAGE,
-  SLUG_REQUIRED_MESSAGE,
-} from "@/constants/messages";
 import useCreateProductModal from "@/hooks/useCreateProductModal";
+import {
+  NAME_REQUIRED_MESSAGE,
+  SLUG_REQUIRED_MESSAGE,
+  INVALID_SLUG_MESSAGE,
+  CATEGORY_LENGTH_MESSAGE,
+  CURRENT_PRICE_REQUIRED_MESSAGE,
+  IMAGES_REQUIRED_MESSAGE,
+  SIZES_REQUIRED_MESSAGE,
+} from "@/constants/validation";
 
 export interface CreateProductModalProps {
   categories: Category[];
@@ -63,7 +45,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
     <div className={styles["create-product-modal"]}>
       <div className={styles["create-product-modal__header"]}>
         <h2 className={`title ${styles["create-product-modal__title"]}`}>
-          {PRODUCT_MODAL_CREATE_TITLE_MESSAGE}
+          Создание продукта
         </h2>
         <Separator />
       </div>
@@ -75,7 +57,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
           <div className={styles["create-product-modal__content-left"]}>
             <div className={styles["create-product-modal__name"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{NAME_LABEL_MESSAGE}</span>
+                <span>Название</span>
                 <input
                   className="input"
                   {...register("name", {
@@ -93,7 +75,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             </div>
             <div className={styles["create-product-modal__slug"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{SLUG_LABEL_MESSAGE}</span>
+                <span>Slug</span>
                 <input
                   className="input"
                   {...register("slug", {
@@ -116,13 +98,13 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                   type="button"
                   onClick={() => handleCreateSlug(getValues("name"))}
                 >
-                  {CREATE_SLUG_MESSAGE}
+                  Создать Slug
                 </Button>
               </label>
             </div>
             <div className={styles["create-product-modal__description"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{DESCRIPTION_LABEL_MESSAGE}</span>
+                <span>Описание</span>
                 <textarea className="textarea" {...register("description")} />
                 {errors.description && (
                   <ErrorValidationText text={errors.description.message!} />
@@ -131,7 +113,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             </div>
             <div className={styles["create-product-modal__categories"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{CATEGORY_LABEL_MESSAGE}</span>
+                <span>Категории</span>
 
                 <Controller
                   name="categoryIds"
@@ -159,7 +141,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             <div className={styles["create-product-modal__categories"]}></div>
             <div className={styles["create-product-modal__current-price"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{CURRENT_PRICE_LABEL_MESSAGE}</span>
+                <span>Актуальная стоимость</span>
                 <input
                   className="input"
                   {...register("currentPrice", {
@@ -178,7 +160,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             </div>
             <div className={styles["create-product-modal__old-price"]}>
               <label className={styles["create-product-modal__label"]}>
-                <span>{OLD_PRICE_LABEL_MESSAGE}</span>
+                <span>Старая стоимость</span>
                 <input
                   className="input"
                   {...register("oldPrice")}
@@ -194,7 +176,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
           <div className={styles["create-product-modal__content-right"]}>
             <div className={styles["create-product-modal__content-image"]}>
               <div className={styles["create-product-modal__label"]}>
-                <span>{IMAGES_LABEL_MESSAGE}</span>
+                <span>Изображения</span>
                 <Controller
                   name="images"
                   control={control}
@@ -216,7 +198,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             </div>
             <div className={styles["create-product-modal__content-sizes"]}>
               <div className={styles["create-product-modal__label"]}>
-                <span>{SIZED_LABEL_MESSAGE}</span>
+                <span>Размеры</span>
                 <Controller
                   name="details"
                   control={control}
@@ -243,7 +225,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             type="submit"
             className={styles["create-product-modal__apply"]}
           >
-            {CREATE_MESSAGE}
+            Создать
           </Button>
         </div>
       </form>
