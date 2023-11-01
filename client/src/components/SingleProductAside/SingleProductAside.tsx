@@ -3,7 +3,6 @@ import ExtendedPrice from "../ExtendedPrice/ExtendedPrice";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import CurrentPrice from "../CurrentPrice/CurrentPrice";
 import Button from "../UI/Button/Button";
-import { ProductDetails } from "@/types/product";
 import styles from "./SingleProductAside.module.scss";
 
 interface SingleProductAsideProps {

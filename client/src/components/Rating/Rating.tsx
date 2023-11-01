@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "./Rating.scss";
+import styles from "./Rating.module.scss";
 
 interface RatingProps {
   value: number;
@@ -14,7 +14,7 @@ const Rating: FC<RatingProps> = ({ value, type = "medium" }) => {
   );
 
   return (
-    <div className="rating">
+    <div className={styles["rating"]}>
       {starsCount.map((item) =>
         type === "medium" ? (
           <svg

@@ -1,14 +1,8 @@
 import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
-import { IFilters, ISorting } from "@/components/HomePageInner/HomePageInner";
-import {
-  AdminProduct,
-  IUploadedFile,
-  Product,
-  ProductCreateDTO,
-} from "@/types/product";
-import { ICreatingProduct } from "@/components/CreateProductForm/CreateProductModal";
+import { IFilters, ISorting } from "@/hooks/useHomePageInner";
+import { IUploadedFile, ProductCreateDTO, Product } from "@/types/product";
 
 export interface AllProductsConfig {
   filters?: IFilters;

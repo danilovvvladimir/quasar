@@ -1,5 +1,5 @@
-import { IFilters } from "@/components/HomePageInner/HomePageInner";
 import { ChangeEvent, useState } from "react";
+import { IFilters } from "./useHomePageInner";
 
 interface FiltersProps {
   filters: IFilters;

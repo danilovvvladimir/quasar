@@ -1,9 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import "./ProfileNavigationItem.scss";
+import styles from "./ProfileNavigationItem.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import classNames from "classnames";
 
 interface ProfileNavigationItemProps {
   label: string;
@@ -17,11 +18,11 @@ const ProfileNavigationItem: FC<ProfileNavigationItemProps> = ({
   const pathname = usePathname();
 
   return (
-    <div className="profile-navigation-item">
+    <div className={styles["profile-navigation-item"]}>
       <Link
-        className={`profile-navigation-item__link ${
-          pathname === url ? "profile-navigation-item__link--active" : ""
-        }`}
+        className={classNames(styles["profile-navigation-item__link"], {
+          [styles["profile-navigation-item__link--active"]]: pathname === url,
+        })}
         href={url}
       >
         {label}

@@ -1,29 +1,30 @@
 import { FC } from "react";
-import "./ProductsList.scss";
-import ProductMedium from "../Product/ProductMedium/ProductMedium";
+import styles from "./ProductsList.module.scss";
 import Button from "../UI/Button/Button";
 import { Product } from "@/types/product";
+import ProductMedium from "../ProductMedium/ProductMedium";
 
 interface ProductsListProps {
   products: Product[];
 }
 
+// TODO
 const ProductsList: FC<ProductsListProps> = ({ products }) => {
   return (
     <>
-      <div className="product-list">
+      <div className={styles["product-list"]}>
         {products.map((product) => (
           <ProductMedium key={product.id} product={product} />
         ))}
       </div>
-      <div className="pagination">
-        <Button className="pagination__button" isInverted={true}>
+      <div className={styles["pagination"]}>
+        <Button className={styles["pagination__button"]} isInverted={true}>
           1
         </Button>
-        <Button className="pagination__button" isInverted={true}>
+        <Button className={styles["pagination__button"]} isInverted={true}>
           2
         </Button>
-        <Button className="pagination__button" isInverted={true}>
+        <Button className={styles["pagination__button"]} isInverted={true}>
           3
         </Button>
       </div>

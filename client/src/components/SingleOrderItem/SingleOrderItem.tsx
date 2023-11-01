@@ -9,9 +9,8 @@ interface SingleOrderItemProps {
   orderItem: OrderItem;
 }
 
+// TODO types
 const SingleOrderItem: FC<SingleOrderItemProps> = ({ orderItem }) => {
-  console.log("Orderitem", orderItem);
-
   return (
     <Link
       href={`/products/${orderItem.product.slug}`}

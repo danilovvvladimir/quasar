@@ -1,7 +1,8 @@
 "use client";
 
 import { FC, InputHTMLAttributes, useState } from "react";
-import "./Toggler.scss";
+import styles from "./Toggler.module.scss";
+import classNames from "classnames";
 
 interface TogglerProps extends InputHTMLAttributes<HTMLInputElement> {
   isToggle: boolean;
@@ -12,15 +13,15 @@ const Toggler: FC<TogglerProps> = ({ onToggle, isToggle, ...props }) => {
   const [isTogglerOn, setIsTogglerOn] = useState<boolean>(isToggle);
 
   const handleTogglerChange = () => {
-    onToggle(!isTogglerOn);
     setIsTogglerOn(!isTogglerOn);
+    onToggle(isTogglerOn);
   };
 
   return (
     <label
-      className={
-        isTogglerOn ? "custom-toggler custom-toggler--on" : "custom-toggler "
-      }
+      className={classNames(styles["custom-toggler"], {
+        [styles["custom-toggler--on"]]: isTogglerOn,
+      })}
     >
       <input
         className="checkbox"
@@ -29,7 +30,7 @@ const Toggler: FC<TogglerProps> = ({ onToggle, isToggle, ...props }) => {
         onChange={handleTogglerChange}
         {...props}
       ></input>
-      <span className="custom-toggler__thumb"></span>
+      <span className={styles["custom-toggler__thumb"]}></span>
     </label>
   );
 };

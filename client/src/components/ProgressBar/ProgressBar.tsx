@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "./ProgressBar.scss";
+import styles from "./ProgressBar.module.scss";
 
 interface ProgressBarProps {
   currentPercent: number;
@@ -7,9 +7,9 @@ interface ProgressBarProps {
 
 const ProgressBar: FC<ProgressBarProps> = ({ currentPercent }) => {
   return (
-    <div className="progress-bar">
+    <div className={styles["progress-bar"]}>
       <span
-        className="progress-bar__fill"
+        className={styles["progress-bar__fill"]}
         style={{ width: `${currentPercent}%` }}
       ></span>
     </div>

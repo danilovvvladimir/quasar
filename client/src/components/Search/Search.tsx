@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import Image from "next/image";

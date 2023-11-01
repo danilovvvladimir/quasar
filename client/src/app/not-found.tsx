@@ -8,13 +8,6 @@ import {
   NOTFOUNDPAGE_METADATA_DESCRIPTION,
   NOTFOUNDPAGE_METADATA_TITLE,
 } from "@/constants/metadata";
-import {
-  NOTFOUNDPAGE_IMAGE_HEIGHT,
-  NOTFOUNDPAGE_IMAGE_WIDTH,
-} from "@/constants/sizes";
-import { GO_BACK_BUTTON_MESSAGE } from "@/constants/messages";
-import { NOTFOUNDPAGE_IMAGE_ALT } from "@/constants/alt";
-import { NOTFOUNDPAGE_IMAGE_PATH } from "@/constants/path";
 
 export const metadata: Metadata = {
   title: NOTFOUNDPAGE_METADATA_TITLE,
@@ -26,10 +19,10 @@ const NotFoundPage: FC = () => {
     <section className={styles["not-found"]}>
       <div className={styles["not-found__wrapper"]}>
         <Image
-          src={NOTFOUNDPAGE_IMAGE_PATH}
-          alt={NOTFOUNDPAGE_IMAGE_ALT}
-          width={NOTFOUNDPAGE_IMAGE_WIDTH}
-          height={NOTFOUNDPAGE_IMAGE_HEIGHT}
+          src={"/not-found.svg"}
+          alt={"Ошибка #404"}
+          width={400}
+          height={400}
         />
         <CustomLink href="/" isButton className={styles["not-found__button"]}>
           На главную

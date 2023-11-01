@@ -22,6 +22,7 @@ interface ProductMediumProps {
   product: Product;
 }
 
+// TODO
 const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state.auth.user);
@@ -45,7 +46,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
   const onToggleFavorite = async () => {
     const userService = new UserService();
 
-    const response = await userService.toggleWishlistItem(user.id, id);
+    await userService.toggleWishlistItem(user.id, id);
 
     await dispatch(checkAuth());
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styles from "./Navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,10 +11,9 @@ import { useSelector } from "react-redux";
 import { checkIsAuth } from "@/store/auth/auth.slice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch } from "react-redux";
-import { checkAuth, logoutUser } from "@/store/auth/auth.actions";
+import { logoutUser } from "@/store/auth/auth.actions";
 import getIconByName from "@/utils/getIconByName";
 import { createNotify, notifyMode } from "@/utils/createNotify";
-import Loader from "../Loader/Loader";
 import Badge from "../Badge/Badge";
 
 const Navbar: FC = () => {
@@ -26,8 +25,6 @@ const Navbar: FC = () => {
     createNotify("Вы успешно вышли из аккаунта", notifyMode.SUCCESS);
     dispatch(logoutUser());
   };
-
-  console.log("user", user);
 
   return (
     <header className={styles["header"]}>

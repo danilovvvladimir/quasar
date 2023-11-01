@@ -3,11 +3,11 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./WishlistPage.module.scss";
 import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
-import ProductMedium from "@/components/Product/ProductMedium/ProductMedium";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import UserService from "@/services/user";
 import { ProductWishlist } from "@/types/product";
+import ProductMedium from "@/components/ProductMedium/ProductMedium";
 
 interface WishlistPageInnerProps {}
 

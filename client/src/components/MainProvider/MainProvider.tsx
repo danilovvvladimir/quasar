@@ -1,10 +1,10 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { AppDispatch, store } from "@/store/store";
+import { store } from "@/store/store";
 import AuthProvider from "../AuthProvider/AuthProvider";
 
 interface MainProviderProps {

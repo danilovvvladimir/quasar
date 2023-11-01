@@ -1,8 +1,9 @@
 "use client";
 
-import { FC, useState } from "react";
-import "./SizeList.scss";
+import { FC } from "react";
+import styles from "./SizeList.module.scss";
 import { ProductDetails } from "@/types/product";
+import classNames from "classnames";
 
 interface SizeListProps {
   productDetails: ProductDetails[];
@@ -18,24 +19,23 @@ const SizeList: FC<SizeListProps> = ({
   showExtraInfo = true,
 }) => {
   return (
-    <div className="sizes">
-      <ul className="sizes__list">
+    <div className={styles["sizes"]}>
+      <ul className={styles["sizes__list"]}>
         {productDetails.map((productDetails) => (
           <li
             onClick={() => handleSelectDetails(productDetails)}
             key={productDetails.id}
-            className={`sizes__list-item ${
-              productDetails.id === selectedDetails?.id
-                ? "sizes__list-item--selected"
-                : ""
-            }`}
+            className={classNames(styles["sizes__list-item"], {
+              [styles["sizes__list-item--selected"]]:
+                productDetails.id === selectedDetails?.id,
+            })}
           >
             {productDetails.size}
           </li>
         ))}
       </ul>
       {showExtraInfo && selectedDetails !== null && (
-        <div className="sizes__info">
+        <div className={styles["sizes__info"]}>
           Осталось на складе: {selectedDetails.quantity}
         </div>
       )}

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "./SingleReview.scss";
+import styles from "./SingleReview.module.scss";
 import { Review } from "@/types/review";
 import Rating from "../Rating/Rating";
 
@@ -12,24 +12,23 @@ const SingleReview: FC<SingleReviewProps> = ({
   updatedAt,
   user,
 }) => {
-  console.log("sr user", user);
-  console.log("sr createdAt", createdAt);
-
   return (
-    <div className="single-review">
-      <div className="single-review__wrapper">
-        <div className="single-review__info">
-          <div className="single-review__details">
-            <div className="single-review__username">{user.username}</div>
-            <div className="single-review__date">
+    <div className={styles["single-review"]}>
+      <div className={styles["single-review__wrapper"]}>
+        <div className={styles["single-review__info"]}>
+          <div className={styles["single-review__details"]}>
+            <div className={styles["single-review__username"]}>
+              {user.username}
+            </div>
+            <div className={styles["single-review__date"]}>
               / {new Date(createdAt).toLocaleDateString()}
             </div>
           </div>
-          <div className="single-review__rating">
+          <div className={styles["single-review__rating"]}>
             <Rating value={rating} />
           </div>
         </div>
-        <div className="single-review__text">{text}</div>
+        <div className={styles["single-review__text"]}>{text}</div>
       </div>
     </div>
   );

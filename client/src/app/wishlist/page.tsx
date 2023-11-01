@@ -1,7 +1,5 @@
 import { FC } from "react";
 import styles from "./WishlistPage.module.scss";
-import ProductMedium from "@/components/Product/ProductMedium/ProductMedium";
-import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import WishlistPageInner from "./WishlistPageInner";
 
 export const metadata = {

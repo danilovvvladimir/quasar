@@ -2,8 +2,7 @@
 
 import { FC, useState } from "react";
 import ReactSelect from "react-select";
-import "./Select.scss";
-import { IOption } from "@/components/HomePageInner/HomePageInner";
+import { IOption } from "@/hooks/useHomePageInner";
 
 interface SelectProps {
   options: IOption[];

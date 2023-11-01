@@ -8,11 +8,10 @@ import {
   useState,
 } from "react";
 import styles from "./DropZone.module.scss";
-import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import getIconByName from "@/utils/getIconByName";
 import classNames from "classnames";
-import { useFormContext } from "react-hook-form";
+import useDropZone from "@/hooks/useDropzone";
 
 interface DropZoneProps {
   name: string;
@@ -24,52 +23,14 @@ interface FileWithPreview extends File {
 }
 
 const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
-  const MAX_FILES_QUANTITY: number = 4;
-
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
-
-  const onDrop = useCallback(
-    (acceptedFiles: any[]) => {
-      if (files.length === MAX_FILES_QUANTITY) {
-        return;
-      }
-
-      if (acceptedFiles?.length) {
-        setFiles((previousFiles) => [
-          ...previousFiles,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, { preview: URL.createObjectURL(file) }),
-          ),
-        ]);
-
-        const updatedFiles = [...files, ...acceptedFiles];
-        onChange({ target: { name, value: updatedFiles } });
-      }
-    },
-    [files, name],
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: {
-      "image/jpeg": [],
-      "image/png": [],
-    },
-    maxFiles: MAX_FILES_QUANTITY,
-    onDrop,
-  });
-
-  useEffect(() => {
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
-
-  const removeFile = (name: string) => {
-    setFiles((files) => files.filter((file) => file.name !== name));
-    onChange({
-      target: { name, value: files.filter((item) => item.name !== name) },
-    });
-  };
-
-  console.log("files:", files);
+  const {
+    getRootProps,
+    isDragActive,
+    getInputProps,
+    MAX_FILES_QUANTITY,
+    files,
+    removeFile,
+  } = useDropZone({ name, onChange });
 
   return (
     <section>
