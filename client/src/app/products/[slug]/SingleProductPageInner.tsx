@@ -1,143 +1,39 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Image from "next/image";
-import { Product, ProductDetails } from "@/types/product";
-import { Review } from "@/types/review";
+import { Product } from "@/types/product";
 import Reviews from "@/components/Reviews/Reviews";
-import Button from "@/components/UI/Button/Button";
 import SizeList from "@/components/SizeList/SizeList";
-import { getDiscountPercent } from "@/utils/getDiscountPercent";
-import ExtendedPrice from "@/components/ExtendedPrice/ExtendedPrice";
-import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
 import GoHomeButton from "@/components/GoHomeButton/GoHomeButton";
 import styles from "./SingleProductPage.module.scss";
 import SingleProductAside from "@/components/SingleProductAside/SingleProductAside";
-import ProductService from "@/services/product";
 import classNames from "classnames";
-import { createNotify, notifyMode } from "@/utils/createNotify";
-import UserService from "@/services/user";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store/store";
-import { checkAuth } from "@/store/auth/auth.actions";
 import Modal from "@/components/UI/Modal/Modal";
 import CreateReviewModalInner from "@/components/CreateReviewModalInner/CreateReviewModalInner";
-import ReviewService from "@/services/review";
+import useSingleProductPageInner from "@/hooks/useSingleProductPageInner";
 
 interface SingleProductPageInnerProps {
   slug: string;
   product: Product;
 }
-
+// TODO types
 const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
-  const [userHasProduct, setUserHasProduct] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
-
-  const user = useSelector((state: RootState) => state.auth.user);
-  const userService = new UserService();
-  const reviewService = new ReviewService();
-
-  const [selectedImage, setSelectedImage] = useState<string>(
-    product.productImage[0].imagePath,
-  );
-
-  // const reviews: Review[] = [
-  //   {
-  //     id: "1",
-  //     createdAt: new Date(),
-  //     productId: "1",
-  //     rating: 4,
-  //     text: "good",
-  //     updatedAt: new Date(),
-  //     user: { id: "1", username: "megahypergava" },
-  //   },
-  //   {
-  //     id: "2",
-  //     createdAt: new Date(),
-  //     productId: "1",
-  //     rating: 3,
-  //     text: "good not good",
-  //     updatedAt: new Date(),
-  //     user: { id: "2", username: "yousmellliketeens" },
-  //   },
-  // ];
-
-  const [selectedDetails, setSelectedDetails] = useState<ProductDetails | null>(
-    null,
-  );
-
-  const handleSelectDetails = (newSelectedDetails: ProductDetails) => {
-    if (newSelectedDetails.id === selectedDetails?.id) {
-      setSelectedDetails(null);
-    } else {
-      setSelectedDetails(newSelectedDetails);
-    }
-  };
-
-  const userHasSameProductSize = () => {
-    const userHasProduct = user.cartItem.find(
-      (item) => item.productId === product.id,
-    );
-
-    if (userHasProduct && userHasProduct.size === selectedDetails?.size) {
-      createNotify("У вас уже есть этот товар в корзине", notifyMode.ERROR);
-      return true;
-    }
-
-    return false;
-  };
-
-  const handleSendToCart = async () => {
-    if (selectedDetails === null) {
-      createNotify("Размер не выбран!", notifyMode.ERROR);
-      return;
-    }
-
-    try {
-      await userService.createCartItem({
-        productId: product.id,
-        quantity: 1,
-        size: selectedDetails.size,
-        userId: user.id,
-      });
-
-      setSelectedDetails(null);
-
-      dispatch(checkAuth());
-      createNotify("Успешно добавлен в корзину", notifyMode.SUCCESS);
-    } catch (error) {
-      createNotify("Что-то пошло не так!", notifyMode.ERROR);
-    }
-  };
-
-  useEffect(() => {
-    const getReviews = async () => {
-      const data = await reviewService.getByProductId(product.id);
-      console.log("DATA", data);
-
-      setReviews(data);
-    };
-
-    if (
-      user &&
-      user.order.find((item) =>
-        item.orderItem.find((oi) => oi.productId === product.id),
-      )
-    ) {
-      console.log("users has this product", user);
-
-      setUserHasProduct(true);
-    } else {
-      setUserHasProduct(false);
-    }
-
-    getReviews();
-  }, []);
+  const {
+    selectedImage,
+    setSelectedImage,
+    handleSelectDetails,
+    selectedDetails,
+    userHasSameProductSize,
+    handleSendToCart,
+    reviews,
+    isModalVisible,
+    setIsModalVisible,
+    userHasProduct,
+  } = useSingleProductPageInner(product);
 
   return (
     <>
@@ -229,7 +125,6 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
         userHasProduct={userHasProduct}
       />
       <Modal active={isModalVisible} setActive={setIsModalVisible}>
-        {/* <CreateProductModal categories={categories} updateData={updateData} /> */}
         <CreateReviewModalInner productId={product.id} />
       </Modal>
     </>

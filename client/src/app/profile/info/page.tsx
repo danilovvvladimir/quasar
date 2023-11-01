@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "../ProfilePage.module.scss";
 
 interface ProfileInfoPageProps {}
-
+// todo Изменение данных пользователя
 const ProfileInfoPage: FC = () => {
   return (
     <div className={styles["profile-info"]}>

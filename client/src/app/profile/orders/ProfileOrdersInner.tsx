@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import ProfileSingleOrder from "@/components/ProfileSingleOrder/ProfileSingleOrder";
-import { Order, OrderItem, OrderStatus } from "@/types/order";
+import { Order } from "@/types/order";
 import styles from "../ProfilePage.module.scss";
 import OrderService from "@/services/order";
 import { useSelector } from "react-redux";
@@ -25,7 +25,7 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
   useEffect(() => {
     updateData();
   }, []);
-
+  //todo types
   return (
     <div className={styles["profile-orders__wrapper"]}>
       {orders.map((order) => (

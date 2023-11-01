@@ -17,15 +17,9 @@ const ProfileReviewsInner: FC<ProfileReviewsInnerProps> = () => {
   const reviewService = new ReviewService();
 
   const updateData = async () => {
-    const orders = await reviewService.getByUserId(user.id);
+    const reviews = await reviewService.getByUserId(user.id);
 
-    // const newCartItems = products.map((item) => ({
-    //   ...item,
-    //   ...item.product,
-    //   isSelected: false,
-    // }));
-
-    setReviews(orders);
+    setReviews(reviews);
   };
 
   useEffect(() => {

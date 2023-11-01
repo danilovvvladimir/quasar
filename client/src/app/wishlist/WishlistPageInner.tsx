@@ -20,10 +20,7 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
   const updateData = async () => {
     const products = await userService.getWishlistItems(user.id);
 
-    console.log("wishlistItems", products);
-
     setwishlistItems(products);
-    // setwishlistItems(newwishlistItems);
   };
 
   useEffect(() => {
@@ -37,7 +34,6 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
         <h1 className="title">Избранное</h1>
       </div>
       <div className={styles["wishlist__wrapper"]}>
-        {/* map по products в wishlist у current user */}
         {wishlistItems.map((item) => (
           <ProductMedium key={item.product.id} product={item.product} />
         ))}

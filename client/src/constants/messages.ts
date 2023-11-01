@@ -6,6 +6,10 @@ export const REVIEW_CREATE_NOTIFY_MESSAGE: string =
   "Вы успешно оставили отзыв!";
 export const CATEGORY_CREATE_NOTIFY_MESSAGE: string =
   "Категория успешно создана";
+export const ALREADY_HAS_PRODUCT_CART_NOTIFY_MESSAGE: string =
+  "У вас уже есть этот товар в корзине";
+export const SIZE_NOT_SELECTED_MESSAGE: string = "Размер не выбран!";
+export const ADD_TO_CART_MESSAGE: string = "Успешно добавлен в корзину";
 
 export const PRODUCT_CREATE_NOTIFY_MESSAGE: string = "Товар успешно создан";
 
