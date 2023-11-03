@@ -71,7 +71,17 @@ export class UserService {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    return user;
+    const { password, cartItem, review, order, wishlistItem, ...rest } = user;
+
+    const userWithRenamedFields = {
+      ...rest,
+      cartItems: cartItem,
+      reviews: review,
+      orders: order,
+      wishlistItems: wishlistItem,
+    };
+
+    return userWithRenamedFields;
   }
 
   async findByEmail(email: string) {
@@ -102,7 +112,17 @@ export class UserService {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    return user;
+    const { cartItem, review, order, wishlistItem, ...rest } = user;
+
+    const userWithRenamedFields = {
+      ...rest,
+      cartItems: cartItem,
+      reviews: review,
+      orders: order,
+      wishlistItems: wishlistItem,
+    };
+
+    return userWithRenamedFields;
   }
 
   async findOrders(userId: string) {
@@ -141,8 +161,6 @@ export class UserService {
     const wishlistItem = await this.prismaService.wishlistItem.findFirst({
       where: { userId, productId },
     });
-
-    console.log(wishlistItem);
 
     let response = {};
 

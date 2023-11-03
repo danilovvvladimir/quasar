@@ -91,6 +91,8 @@ export class AuthService {
       throw new NotFoundException(INVALID_PASSWORD_MESSAGE);
     }
 
-    return user;
+    const { password, ...rest } = user;
+
+    return rest;
   }
 }

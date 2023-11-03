@@ -32,15 +32,19 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
     product;
 
   const onToggleFavorite = async () => {
+    if (!user) {
+      return;
+    }
+
     const userService = new UserService();
 
     await userService.toggleWishlistItem(user.id, id);
 
     await dispatch(checkAuth());
   };
-  // todo
+
   const checkIsFavorite = () => {
-    if (user && user.wishlistItem.find((item) => item.productId === id)) {
+    if (user && user.wishlistItems.find((item) => item.productId === id)) {
       setIsFavorite(true);
     } else {
       setIsFavorite(false);

@@ -46,7 +46,7 @@ const useSingleProductPageInner = (product: Product) => {
       return false;
     }
 
-    const userHasProduct = user.cartItem.find(
+    const userHasProduct = user.cartItems.find(
       (item) => item.productId === product.id,
     );
 
@@ -59,6 +59,10 @@ const useSingleProductPageInner = (product: Product) => {
   };
 
   const handleSendToCart = async () => {
+    if (!user) {
+      return;
+    }
+
     if (selectedDetails === null) {
       createNotify(SIZE_NOT_SELECTED_MESSAGE, notifyMode.ERROR);
       return;
@@ -84,14 +88,13 @@ const useSingleProductPageInner = (product: Product) => {
   useEffect(() => {
     const getReviews = async () => {
       const data = await reviewService.getByProductId(product.id);
-      console.log("DATA", data);
 
       setReviews(data);
     };
 
     if (
       user &&
-      user.order.find((item) =>
+      user.orders.find((item) =>
         item.orderItem.find((oi) => oi.productId === product.id),
       )
     ) {

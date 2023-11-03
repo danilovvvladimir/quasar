@@ -83,21 +83,7 @@ export declare class AuthController {
     }>;
     login(dto: AuthLoginDTO): Promise<{
         user: {
-            wishlistItem: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
-            review: {
-                id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
-                userId: string;
-                productId: string;
-            }[];
-            cartItem: ({
+            cartItems: ({
                 product: {
                     productSize: {
                         id: string;
@@ -127,7 +113,16 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
-            order: ({
+            reviews: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
+            orders: ({
                 orderItem: {
                     id: string;
                     quantity: number;
@@ -145,10 +140,13 @@ export declare class AuthController {
                 updatedAt: Date;
                 userId: string;
             })[];
-        } & {
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             id: string;
             username: string;
-            password: string;
             email: string;
             createdAt: Date;
             updatedAt: Date;
@@ -161,21 +159,7 @@ export declare class AuthController {
     }>;
     getNewTokens(refreshToken: RefreshTokenDTO): Promise<{
         user: {
-            wishlistItem: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
-            review: {
-                id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
-                userId: string;
-                productId: string;
-            }[];
-            cartItem: ({
+            cartItems: ({
                 product: {
                     productSize: {
                         id: string;
@@ -205,7 +189,16 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
-            order: ({
+            reviews: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
+            orders: ({
                 orderItem: {
                     id: string;
                     quantity: number;
@@ -223,10 +216,13 @@ export declare class AuthController {
                 updatedAt: Date;
                 userId: string;
             })[];
-        } & {
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             id: string;
             username: string;
-            password: string;
             email: string;
             createdAt: Date;
             updatedAt: Date;

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export enum LoadingStatus {
   LOADING = "loading",
   SUCCESS = "success",
@@ -30,7 +32,7 @@ export interface IReviewCreateFields {
 export interface IAuthInitialState {
   loading: LoadingStatus | null;
   tokens: ITokens | null;
-  user: any | null;
+  user: User | null;
 }
 
 export interface ILoginRequest {

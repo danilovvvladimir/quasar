@@ -1,5 +1,4 @@
 import { Order } from "./order";
-import { Product } from "./product";
 import { Review } from "./review";
 
 export enum RoleName {
@@ -25,6 +24,21 @@ export interface UserPrivate {
   createdAt: Date;
 }
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  role: RoleName;
+
+  orders: Order[];
+  reviews: Review[];
+  cartItems: CartItem[];
+  wishlistItems: WishlistItem[];
+
+  updatedAt: Date;
+  createdAt: Date;
+}
+
 export interface CartItem {
   id: string;
   size: number;
@@ -34,3 +48,9 @@ export interface CartItem {
 }
 
 export interface CartItemCreate extends Omit<CartItem, "id"> {}
+
+export interface WishlistItem {
+  id: string;
+  productId: string;
+  userId: string;
+}

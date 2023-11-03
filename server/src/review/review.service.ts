@@ -85,7 +85,7 @@ export class ReviewService {
     await this.productService.findById(productId);
     // connect по review
 
-    const { review: userReviews, order: userOrders } =
+    const { reviews: userReviews, orders: userOrders } =
       await this.userService.findById(userId);
 
     // 1) Посмотреть, есть ли у пользователя order с этим продуктом

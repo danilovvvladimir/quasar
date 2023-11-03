@@ -18,7 +18,8 @@ import Badge from "../Badge/Badge";
 
 const Navbar: FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const isAuth = useSelector(checkIsAuth);
+  const isAuth = user;
+
   const dispatch = useDispatch<AppDispatch>();
 
   const handleLogout = () => {
@@ -47,19 +48,19 @@ const Navbar: FC = () => {
               iconName="heart"
               text="Избранное"
             />
-            {user.wishlistItem.length > 0 && (
+            {user.wishlistItems.length > 0 && (
               <Badge
                 className={styles["navigation__block-badge"]}
-                quantity={user.wishlistItem.length}
+                quantity={user.wishlistItems.length}
               />
             )}
           </div>
           <div className={styles["navigation__block"]}>
             <NavigationItem href="/cart" iconName="cart" text="Корзина" />
-            {user.cartItem.length > 0 && (
+            {user.cartItems.length > 0 && (
               <Badge
                 className={styles["navigation__block-badge"]}
-                quantity={user.cartItem.length}
+                quantity={user.cartItems.length}
               />
             )}
           </div>

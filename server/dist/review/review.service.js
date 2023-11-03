@@ -69,7 +69,7 @@ let ReviewService = class ReviewService {
     async create(dto) {
         const { productId, rating, text, userId } = dto;
         await this.productService.findById(productId);
-        const { review: userReviews, order: userOrders } = await this.userService.findById(userId);
+        const { reviews: userReviews, orders: userOrders } = await this.userService.findById(userId);
         const userOrderItemsWIthProduct = await this.prismaService.orderItem.findMany({
             where: {
                 AND: [
