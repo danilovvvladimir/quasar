@@ -3,23 +3,20 @@
 import { FC, useEffect, useState } from "react";
 import styles from "../AdminPage.module.scss";
 import AdminTableUsers from "@/components/AdminTable/AdminTableUsers/AdminTableUsers";
-import { RoleName, UserPrivate } from "@/types/user";
-import Search from "@/components/Search/Search";
+import { User, UserPrivate } from "@/types/user";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
 import UserService from "@/services/user";
-// todo types
+
 const AdminUsersPage: FC = () => {
-  const [users, setUsers] = useState<UserPrivate[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const userService = new UserService();
 
   const updateData = async () => {
     const users = await userService.getAll();
+    console.log("users1", users);
 
-    setUsers(
-      users.map((item) => ({ ...item, createdAt: new Date(item.createdAt) })),
-    );
-    console.log("users", users);
+    setUsers(users);
   };
 
   useEffect(() => {

@@ -2,11 +2,11 @@
 
 import { FC, use } from "react";
 import styles from "../AdminTable.module.scss";
-import { UserPrivate } from "@/types/user";
+import { User } from "@/types/user";
 import { getShortEmail } from "@/utils/getShortEmail";
 
 interface AdminTableUsersProps {
-  users: UserPrivate[];
+  users: User[];
 }
 
 const AdminTableUsers: FC<AdminTableUsersProps> = ({ users }) => {
@@ -38,10 +38,10 @@ const AdminTableUsers: FC<AdminTableUsersProps> = ({ users }) => {
               {user.createdAt.toLocaleDateString()}
             </div>
             <div className={styles["admin-table__users-row-orders"]}>
-              {user.ordersCount}
+              {user.orders.length}
             </div>
             <div className={styles["admin-table__users-row-reviews"]}>
-              {user.reviewsCount}
+              {user.reviews.length}
             </div>
             <div className={styles["admin-table__users-row-actions"]}>
               <div

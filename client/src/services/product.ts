@@ -41,7 +41,7 @@ class ProductService {
       queryParams.append("searchTerm", searchTerm);
     }
 
-    const response = await defaultAxios.get<Product[]>(
+    const response = await defaultAxios.get<any[]>(
       `${this.PRODUCT_BASE_API}?${queryParams.toString()}`,
     );
 

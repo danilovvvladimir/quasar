@@ -1,14 +1,13 @@
 import { API_URL } from "@/constants/api";
-import { CartItemCreate } from "@/types/user";
+import { CartItemCreate, User } from "@/types/user";
 import updatedAxios from "@/axios";
 
 class UserService {
   private readonly USER_BASE_API: string = `${API_URL}/users`;
 
   async getAll() {
-    const response = await updatedAxios.get(`${this.USER_BASE_API}`);
-
-    console.log("getAll response", response);
+    const response = await updatedAxios.get<User[]>(`${this.USER_BASE_API}`);
+    console.log("get all users response", response);
 
     return response.data;
   }
@@ -26,8 +25,6 @@ class UserService {
       },
     );
 
-    console.log("create cartitem response", response);
-
     return response.data;
   }
 
@@ -40,8 +37,6 @@ class UserService {
       },
     );
 
-    console.log("toggleWishlistItem", response);
-
     return response.data;
   }
 
@@ -49,8 +44,6 @@ class UserService {
     const response = await updatedAxios.delete(
       `${this.USER_BASE_API}/cart-item/${id}`,
     );
-
-    console.log("deleteCartItem response", response);
 
     return response.data;
   }
@@ -60,8 +53,6 @@ class UserService {
       `${this.USER_BASE_API}/${userId}/cart-items`,
     );
 
-    console.log("getCartItems cartitem response", response);
-
     return response.data;
   }
 
@@ -69,8 +60,6 @@ class UserService {
     const response = await updatedAxios.get(
       `${this.USER_BASE_API}/${userId}/wishlist-items`,
     );
-
-    console.log("getWishlistItems response", response);
 
     return response.data;
   }

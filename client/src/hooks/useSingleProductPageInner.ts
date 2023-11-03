@@ -14,7 +14,6 @@ import { createNotify, notifyMode } from "@/utils/createNotify";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-//todo Types
 const useSingleProductPageInner = (product: Product) => {
   const [userHasProduct, setUserHasProduct] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);

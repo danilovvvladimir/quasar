@@ -133,6 +133,8 @@ export class ProductService {
       return this.getProductWithRenamedFields(product);
     });
 
+    // console.log("renamedProducts", renamedProducts);
+
     return renamedProducts;
   }
 

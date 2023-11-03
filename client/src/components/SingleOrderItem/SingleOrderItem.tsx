@@ -9,7 +9,6 @@ interface SingleOrderItemProps {
   orderItem: OrderItem;
 }
 
-// TODO types
 const SingleOrderItem: FC<SingleOrderItemProps> = ({ orderItem }) => {
   return (
     <Link
@@ -18,7 +17,7 @@ const SingleOrderItem: FC<SingleOrderItemProps> = ({ orderItem }) => {
     >
       <Image
         className={styles["order-item__image"]}
-        src={"/" + orderItem.product.productImage[0].imagePath}
+        src={"/" + orderItem.product.productImages[0].imagePath}
         alt="product name"
         width={75}
         height={75}

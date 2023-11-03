@@ -17,6 +17,10 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
   const orderService = new OrderService();
 
   const updateData = async () => {
+    if (!user) {
+      return;
+    }
+
     const orders = await orderService.getByUser(user.id);
 
     setOrders(orders);
@@ -25,7 +29,7 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
   useEffect(() => {
     updateData();
   }, []);
-  //todo types
+
   return (
     <div className={styles["profile-orders__wrapper"]}>
       {orders.map((order) => (
@@ -33,7 +37,7 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
           key={order.id}
           orderStatus={order.orderStatus}
           orderDate={new Date(order.createdAt)}
-          orderItems={order.orderItem.map((oi) => ({
+          orderItems={order.orderItems.map((oi) => ({
             ...oi,
             totalPrice: +oi.totalPrice,
           }))}

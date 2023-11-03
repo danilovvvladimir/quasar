@@ -10,7 +10,6 @@ import DiscountBadge from "../DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
 import CurrentPrice from "../CurrentPrice/CurrentPrice";
 import Stepper from "../UI/Stepper/Stepper";
-import Link from "next/link";
 import UserService from "@/services/user";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -30,18 +29,8 @@ const CartItem: FC<CartItemProps> = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const { id, isSelected, product, productId, quantity, size } = productCart;
-  const {
-    createdAt,
-    currentPrice,
-    description,
-    name,
-    oldPrice,
-    productImage: productImages, // TODO: Поправить передачу параметров
-    productSize,
-    review,
-    slug,
-    updatedAt,
-  } = product;
+
+  const { currentPrice, name, oldPrice, productImages } = product;
 
   const onRemoveFromCart = async () => {
     const userService = new UserService();

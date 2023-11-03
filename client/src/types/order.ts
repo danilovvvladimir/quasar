@@ -1,3 +1,5 @@
+import { Product } from "./product";
+
 export interface AdminOrder {
   id: string;
   userId: string;
@@ -11,6 +13,7 @@ export interface AdminOrder {
 export interface Order {
   id: string;
   userId: string;
+  orderItems: OrderItem[];
   orderStatus: OrderStatus;
   createdAt: Date;
   updatedAt: Date;
@@ -25,6 +28,7 @@ export interface OrderItem {
   productId: string;
   createdAt: Date;
   updatedAt: Date;
+  product: Product;
 }
 
 export enum OrderStatus {

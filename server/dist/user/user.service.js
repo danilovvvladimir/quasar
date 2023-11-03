@@ -47,8 +47,34 @@ let UserService = class UserService {
         };
     }
     async findAll() {
-        const users = await this.prismaService.user.findMany();
-        return users;
+        const users = await this.prismaService.user.findMany({
+            include: {
+                review: true,
+                cartItem: {
+                    include: {
+                        product: {
+                            include: {
+                                productImage: true,
+                                productSize: true,
+                            },
+                        },
+                    },
+                },
+                wishlistItem: true,
+                order: {
+                    include: {
+                        orderItem: true,
+                    },
+                },
+            },
+        });
+        const usersWithFormattedFields = users.map((user) => {
+            const { password, cartItem, review, order, wishlistItem, createdAt, updatedAt } = user, rest = __rest(user, ["password", "cartItem", "review", "order", "wishlistItem", "createdAt", "updatedAt"]);
+            const userWithRenamedFields = Object.assign(Object.assign({}, rest), { createdAt: createdAt, updatedAt: updatedAt, cartItems: cartItem, reviews: review, orders: order, wishlistItems: wishlistItem });
+            console.log("userWithRenamedFields", userWithRenamedFields);
+            return userWithRenamedFields;
+        });
+        return usersWithFormattedFields;
     }
     async findById(id) {
         const user = await this.prismaService.user.findUnique({
@@ -138,7 +164,6 @@ let UserService = class UserService {
         const wishlistItem = await this.prismaService.wishlistItem.findFirst({
             where: { userId, productId },
         });
-        console.log(wishlistItem);
         let response = {};
         if (wishlistItem) {
             await this.prismaService.wishlistItem.delete({
@@ -192,7 +217,12 @@ let UserService = class UserService {
                 },
             },
         });
-        return cartItems;
+        const formattedCartItems = cartItems.map((cartItem) => {
+            const { product } = cartItem, rest = __rest(cartItem, ["product"]);
+            const { productImage, productSize } = product, productRest = __rest(product, ["productImage", "productSize"]);
+            return Object.assign(Object.assign({}, rest), { product: Object.assign(Object.assign({}, productRest), { productImages: productImage, productSizes: productSize }) });
+        });
+        return formattedCartItems;
     }
     async updateCartItem(id, newQuantity) {
         const cartItem = await this.prismaService.cartItem.findUnique({

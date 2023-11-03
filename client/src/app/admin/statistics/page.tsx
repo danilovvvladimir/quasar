@@ -2,16 +2,9 @@
 
 import { FC, useEffect, useState } from "react";
 import styles from "../AdminPage.module.scss";
-import AdminService from "@/services/admin";
+import AdminService, { AdminPanelStatistics } from "@/services/admin";
 import Loader from "@/components/Loader/Loader";
 
-export interface AdminPanelStatistics {
-  users: number;
-  reviews: number;
-  orders: number;
-  totalIncome: number;
-}
-// todo types
 const AdminStatiscticsPage: FC = () => {
   const adminService = new AdminService();
   const [isLoading, setIsLoading] = useState<boolean>(false);

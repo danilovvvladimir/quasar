@@ -38,9 +38,55 @@ export class UserService {
   }
 
   async findAll() {
-    const users = await this.prismaService.user.findMany();
+    const users = await this.prismaService.user.findMany({
+      include: {
+        review: true,
+        cartItem: {
+          include: {
+            product: {
+              include: {
+                productImage: true,
+                productSize: true,
+              },
+            },
+          },
+        },
+        wishlistItem: true,
+        order: {
+          include: {
+            orderItem: true,
+          },
+        },
+      },
+    });
 
-    return users;
+    const usersWithFormattedFields = users.map((user) => {
+      const {
+        password,
+        cartItem,
+        review,
+        order,
+        wishlistItem,
+        createdAt,
+        updatedAt,
+        ...rest
+      } = user;
+
+      const userWithRenamedFields = {
+        ...rest,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        cartItems: cartItem,
+        reviews: review,
+        orders: order,
+        wishlistItems: wishlistItem,
+      };
+      console.log("userWithRenamedFields", userWithRenamedFields);
+
+      return userWithRenamedFields;
+    });
+
+    return usersWithFormattedFields;
   }
 
   async findById(id: string) {
@@ -226,7 +272,22 @@ export class UserService {
       },
     });
 
-    return cartItems;
+    const formattedCartItems = cartItems.map((cartItem) => {
+      const { product, ...rest } = cartItem;
+
+      const { productImage, productSize, ...productRest } = product;
+
+      return {
+        ...rest,
+        product: {
+          ...productRest,
+          productImages: productImage,
+          productSizes: productSize,
+        },
+      };
+    });
+
+    return formattedCartItems;
   }
 
   async updateCartItem(id: string, newQuantity: number) {

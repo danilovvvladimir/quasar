@@ -64,7 +64,7 @@ export class OrderService {
   async findByUserId(userId: string) {
     // Проверка на существование юзера?
 
-    const products = await this.prismaService.order.findMany({
+    const orders = await this.prismaService.order.findMany({
       where: {
         userId,
       },
@@ -81,7 +81,20 @@ export class OrderService {
       },
     });
 
-    return products;
+    const formattedOrders = orders.map((order) => {
+      const { orderItem: orderItems, ...orderRest } = order;
+      const formattedOrderItems = orderItems.map((orderItem) => {
+        const { product, ...restOrderItem } = orderItem;
+
+        const { productImage: productImages, ...productRest } = product;
+
+        return { ...restOrderItem, product: { productRest, productImages } };
+      });
+
+      return { ...orderRest, orderItems: formattedOrderItems };
+    });
+
+    return formattedOrders;
   }
 
   async findByProductId(productId: string) {

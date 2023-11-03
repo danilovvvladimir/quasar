@@ -24,6 +24,7 @@ const useCartPageInner = () => {
       cartItems.map((cartItem) => {
         if (cartItem.id === id) {
           const previousIsSelected = cartItem.isSelected;
+
           if (previousIsSelected) {
             setIsAllSelected(false);
           }
@@ -44,6 +45,7 @@ const useCartPageInner = () => {
     setCartItems(
       cartItems.map((cartItem) => ({ ...cartItem, isSelected: false })),
     );
+
     setIsAllSelected(false);
   };
 
@@ -56,6 +58,10 @@ const useCartPageInner = () => {
   );
 
   const handlePayment = async () => {
+    if (!user) {
+      return;
+    }
+
     const userService = new UserService();
     const orderService = new OrderService();
 
@@ -74,7 +80,6 @@ const useCartPageInner = () => {
       };
     });
 
-    console.log("Оплачены товары orderItems:", orderItems);
     orderService.create({ userId: user.id, orderItems });
 
     const deletedItems = selectedItems.map((item) => {
@@ -83,23 +88,23 @@ const useCartPageInner = () => {
 
     await Promise.all(deletedItems);
 
-    // toast запустить
-    // setCartItems(cartItems.filter((item) => item.isSelected === false));
-
     updateData();
     dispatch(checkAuth());
   };
 
   const updateData = async () => {
+    if (!user) {
+      return;
+    }
+
     const products = await userService.getCartItems(user.id);
 
     const newCartItems = products.map((item) => ({
       ...item,
-      ...item.product,
       isSelected: false,
     }));
 
-    setCartItems(products);
+    setCartItems(newCartItems);
   };
 
   useEffect(() => {

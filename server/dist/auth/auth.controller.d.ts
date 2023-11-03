@@ -21,15 +21,15 @@ export declare class AuthController {
             }[];
             cartItem: ({
                 product: {
+                    productImage: {
+                        id: string;
+                        imagePath: string;
+                        productId: string;
+                    }[];
                     productSize: {
                         id: string;
                         size: number;
                         quantity: number;
-                        productId: string;
-                    }[];
-                    productImage: {
-                        id: string;
-                        imagePath: string;
                         productId: string;
                     }[];
                 } & {
@@ -85,15 +85,15 @@ export declare class AuthController {
         user: {
             cartItems: ({
                 product: {
+                    productImage: {
+                        id: string;
+                        imagePath: string;
+                        productId: string;
+                    }[];
                     productSize: {
                         id: string;
                         size: number;
                         quantity: number;
-                        productId: string;
-                    }[];
-                    productImage: {
-                        id: string;
-                        imagePath: string;
                         productId: string;
                     }[];
                 } & {
@@ -161,15 +161,15 @@ export declare class AuthController {
         user: {
             cartItems: ({
                 product: {
+                    productImage: {
+                        id: string;
+                        imagePath: string;
+                        productId: string;
+                    }[];
                     productSize: {
                         id: string;
                         size: number;
                         quantity: number;
-                        productId: string;
-                    }[];
-                    productImage: {
-                        id: string;
-                        imagePath: string;
                         productId: string;
                     }[];
                 } & {
