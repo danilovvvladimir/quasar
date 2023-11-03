@@ -77,7 +77,25 @@ export class UserService {
   async findByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
-      include: { cartItem: true, wishlistItem: true },
+      include: {
+        review: true,
+        cartItem: {
+          include: {
+            product: {
+              include: {
+                productImage: true,
+                productSize: true,
+              },
+            },
+          },
+        },
+        wishlistItem: true,
+        order: {
+          include: {
+            orderItem: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -230,6 +248,25 @@ export class UserService {
         email,
         username,
         password: passwordHash,
+      },
+      include: {
+        review: true,
+        cartItem: {
+          include: {
+            product: {
+              include: {
+                productImage: true,
+                productSize: true,
+              },
+            },
+          },
+        },
+        wishlistItem: true,
+        order: {
+          include: {
+            orderItem: true,
+          },
+        },
       },
     });
 

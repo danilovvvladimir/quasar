@@ -8,6 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
@@ -71,11 +82,14 @@ let ProductService = class ProductService {
                 } });
         }
         const products = await this.prismaService.product.findMany({
-            include: { productImage: true, review: true },
+            include: { productImage: true, review: true, productSize: true },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
         });
-        return products;
+        const renamedProducts = products.map((product) => {
+            return this.getProductWithRenamedFields(product);
+        });
+        return renamedProducts;
     }
     getProductOrderBy(sorting) {
         let orderBy = {};
@@ -113,26 +127,36 @@ let ProductService = class ProductService {
             include: {
                 productImage: true,
                 productSize: true,
+                review: true,
             },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return product;
+        return this.getProductWithRenamedFields(product);
     }
     async findBySlug(slug) {
         const product = await this.prismaService.product.findUnique({
             where: { slug },
-            include: { productImage: true, productSize: true },
+            include: { productImage: true, productSize: true, review: true },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return product;
+        return this.getProductWithRenamedFields(product);
+    }
+    getProductWithRenamedFields(product) {
+        const { productImage, review, productSize } = product, rest = __rest(product, ["productImage", "review", "productSize"]);
+        const productImages = productImage;
+        const reviews = review;
+        const productSizes = productSize;
+        const renamedProduct = Object.assign(Object.assign({}, rest), { productImages, reviews, productSizes });
+        return renamedProduct;
     }
     async findByCategoryId(categoryId) {
         await this.categoryService.findById(categoryId);
         const products = await this.prismaService.product.findMany({
+            include: { productImage: true, productSize: true, review: true },
             where: {
                 categories: {
                     some: {
@@ -141,7 +165,10 @@ let ProductService = class ProductService {
                 },
             },
         });
-        return products;
+        const renamedProducts = products.map((product) => {
+            return this.getProductWithRenamedFields(product);
+        });
+        return renamedProducts;
     }
     async findSizeQuantiy(id) {
         await this.findById(id);
@@ -219,7 +246,7 @@ let ProductService = class ProductService {
     }
     async createProductCategories(id, dto) {
         const { categoryIds } = dto;
-        const categories = categoryIds.map((categoryId) => this.categoryService.findById(categoryId));
+        await categoryIds.map((categoryId) => this.categoryService.findById(categoryId));
         const productCategoriesPromises = categoryIds.map((categoryId) => this.prismaService.productCategory.create({
             data: {
                 productId: id,

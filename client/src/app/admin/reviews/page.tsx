@@ -2,13 +2,13 @@
 
 import { FC, useState, useEffect } from "react";
 import styles from "../AdminPage.module.scss";
-import { Order } from "@/types/order";
 import ReviewService from "@/services/review";
 import AdminTableReviews from "@/components/AdminTable/AdminTableReviews/AdminTableReviews";
+import { Review } from "@/types/review";
 
 const AdminReviewsPage: FC = () => {
   const reviewService = new ReviewService();
-  const [reviews, setReviews] = useState<Order[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const updateData = async () => {
     const reviews = await reviewService.getAll();

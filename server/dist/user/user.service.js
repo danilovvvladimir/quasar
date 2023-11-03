@@ -70,7 +70,25 @@ let UserService = class UserService {
     async findByEmail(email) {
         const user = await this.prismaService.user.findUnique({
             where: { email },
-            include: { cartItem: true, wishlistItem: true },
+            include: {
+                review: true,
+                cartItem: {
+                    include: {
+                        product: {
+                            include: {
+                                productImage: true,
+                                productSize: true,
+                            },
+                        },
+                    },
+                },
+                wishlistItem: true,
+                order: {
+                    include: {
+                        orderItem: true,
+                    },
+                },
+            },
         });
         if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
@@ -187,6 +205,25 @@ let UserService = class UserService {
                 email,
                 username,
                 password: passwordHash,
+            },
+            include: {
+                review: true,
+                cartItem: {
+                    include: {
+                        product: {
+                            include: {
+                                productImage: true,
+                                productSize: true,
+                            },
+                        },
+                    },
+                },
+                wishlistItem: true,
+                order: {
+                    include: {
+                        orderItem: true,
+                    },
+                },
             },
         });
         return user;

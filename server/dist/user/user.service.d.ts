@@ -26,17 +26,26 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItem: ({
             product: {
-                productImage: {
-                    id: string;
-                    imagePath: string;
-                    productId: string;
-                }[];
                 productSize: {
                     id: string;
                     size: number;
                     quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
                     productId: string;
                 }[];
             } & {
@@ -56,15 +65,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        review: {
-            id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
         order: ({
             orderItem: {
                 id: string;
@@ -98,13 +98,63 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
-        cartItem: {
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+        cartItem: ({
+            product: {
+                productSize: {
+                    id: string;
+                    size: number;
+                    quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
+            } & {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
             id: string;
             size: number;
             quantity: number;
             userId: string;
             productId: string;
-        }[];
+        })[];
+        order: ({
+            orderItem: {
+                id: string;
+                quantity: number;
+                size: number;
+                totalPrice: import("@prisma/client/runtime/library").Decimal;
+                orderId: string;
+                productId: string;
+                createdAt: Date;
+                updatedAt: Date;
+            }[];
+        } & {
+            id: string;
+            orderStatus: import(".prisma/client").$Enums.OrderStatus;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+        })[];
     } & {
         id: string;
         username: string;
@@ -123,11 +173,6 @@ export declare class UserService {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            productImage: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             review: {
                 id: string;
                 text: string;
@@ -135,6 +180,11 @@ export declare class UserService {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -169,15 +219,15 @@ export declare class UserService {
     }>;
     findCartItems(userId: string): Promise<({
         product: {
-            productImage: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             productSize: {
                 id: string;
                 size: number;
                 quantity: number;
+                productId: string;
+            }[];
+            productImage: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -205,6 +255,69 @@ export declare class UserService {
         productId: string;
     }>;
     create(email: string, username: string, passwordHash: string): Promise<{
+        wishlistItem: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
+        review: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+        cartItem: ({
+            product: {
+                productSize: {
+                    id: string;
+                    size: number;
+                    quantity: number;
+                    productId: string;
+                }[];
+                productImage: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
+            } & {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            size: number;
+            quantity: number;
+            userId: string;
+            productId: string;
+        })[];
+        order: ({
+            orderItem: {
+                id: string;
+                quantity: number;
+                size: number;
+                totalPrice: import("@prisma/client/runtime/library").Decimal;
+                orderId: string;
+                productId: string;
+                createdAt: Date;
+                updatedAt: Date;
+            }[];
+        } & {
+            id: string;
+            orderStatus: import(".prisma/client").$Enums.OrderStatus;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+        })[];
+    } & {
         id: string;
         username: string;
         password: string;

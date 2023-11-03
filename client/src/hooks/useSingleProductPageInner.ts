@@ -26,7 +26,7 @@ const useSingleProductPageInner = (product: Product) => {
   const reviewService = new ReviewService();
 
   const [selectedImage, setSelectedImage] = useState<string>(
-    product.productImage[0].imagePath,
+    product.productImages[0].imagePath,
   );
 
   const [selectedDetails, setSelectedDetails] = useState<ProductDetails | null>(
@@ -42,6 +42,10 @@ const useSingleProductPageInner = (product: Product) => {
   };
 
   const userHasSameProductSize = () => {
+    if (!user) {
+      return false;
+    }
+
     const userHasProduct = user.cartItem.find(
       (item) => item.productId === product.id,
     );
@@ -91,8 +95,6 @@ const useSingleProductPageInner = (product: Product) => {
         item.orderItem.find((oi) => oi.productId === product.id),
       )
     ) {
-      console.log("users has this product", user);
-
       setUserHasProduct(true);
     } else {
       setUserHasProduct(false);

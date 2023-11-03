@@ -124,12 +124,16 @@ export class ProductService {
     // console.log("ag", ag);
 
     const products = await this.prismaService.product.findMany({
-      include: { productImage: true, review: true },
+      include: { productImage: true, review: true, productSize: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
     });
 
-    return products;
+    const renamedProducts = products.map((product) => {
+      return this.getProductWithRenamedFields(product);
+    });
+
+    return renamedProducts;
   }
 
   private getProductOrderBy(sorting?: string) {
@@ -166,6 +170,7 @@ export class ProductService {
       include: {
         productImage: true,
         productSize: true,
+        review: true,
       },
     });
 
@@ -173,26 +178,39 @@ export class ProductService {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
 
-    return product;
+    return this.getProductWithRenamedFields(product);
   }
 
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: { slug },
-      include: { productImage: true, productSize: true },
+      include: { productImage: true, productSize: true, review: true },
     });
 
     if (!product) {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
 
-    return product;
+    return this.getProductWithRenamedFields(product);
+  }
+
+  private getProductWithRenamedFields(product: any) {
+    const { productImage, review, productSize, ...rest } = product;
+
+    const productImages = productImage;
+    const reviews = review;
+    const productSizes = productSize;
+
+    const renamedProduct = { ...rest, productImages, reviews, productSizes };
+
+    return renamedProduct;
   }
 
   async findByCategoryId(categoryId: string) {
     await this.categoryService.findById(categoryId);
 
     const products = await this.prismaService.product.findMany({
+      include: { productImage: true, productSize: true, review: true },
       where: {
         categories: {
           some: {
@@ -202,7 +220,11 @@ export class ProductService {
       },
     });
 
-    return products;
+    const renamedProducts = products.map((product) => {
+      return this.getProductWithRenamedFields(product);
+    });
+
+    return renamedProducts;
   }
 
   async findSizeQuantiy(id: string) {
@@ -327,7 +349,7 @@ export class ProductService {
   ) {
     const { categoryIds } = dto;
 
-    const categories = categoryIds.map((categoryId) =>
+    await categoryIds.map((categoryId) =>
       this.categoryService.findById(categoryId),
     );
 

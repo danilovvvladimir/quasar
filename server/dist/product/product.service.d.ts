@@ -11,86 +11,12 @@ export declare class ProductService {
         min: Prisma.Decimal;
         max: Prisma.Decimal;
     }>;
-    findAll(config: AllProductsConfig): Promise<({
-        productImage: {
-            id: string;
-            imagePath: string;
-            productId: string;
-        }[];
-        review: {
-            id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
-    } & {
-        id: string;
-        name: string;
-        slug: string;
-        description: string;
-        oldPrice: Prisma.Decimal;
-        currentPrice: Prisma.Decimal;
-        createdAt: Date;
-        updatedAt: Date;
-    })[]>;
+    findAll(config: AllProductsConfig): Promise<any[]>;
     private getProductOrderBy;
-    findById(id: string): Promise<{
-        productImage: {
-            id: string;
-            imagePath: string;
-            productId: string;
-        }[];
-        productSize: {
-            id: string;
-            size: number;
-            quantity: number;
-            productId: string;
-        }[];
-    } & {
-        id: string;
-        name: string;
-        slug: string;
-        description: string;
-        oldPrice: Prisma.Decimal;
-        currentPrice: Prisma.Decimal;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    findBySlug(slug: string): Promise<{
-        productImage: {
-            id: string;
-            imagePath: string;
-            productId: string;
-        }[];
-        productSize: {
-            id: string;
-            size: number;
-            quantity: number;
-            productId: string;
-        }[];
-    } & {
-        id: string;
-        name: string;
-        slug: string;
-        description: string;
-        oldPrice: Prisma.Decimal;
-        currentPrice: Prisma.Decimal;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    findByCategoryId(categoryId: string): Promise<{
-        id: string;
-        name: string;
-        slug: string;
-        description: string;
-        oldPrice: Prisma.Decimal;
-        currentPrice: Prisma.Decimal;
-        createdAt: Date;
-        updatedAt: Date;
-    }[]>;
+    findById(id: string): Promise<any>;
+    findBySlug(slug: string): Promise<any>;
+    private getProductWithRenamedFields;
+    findByCategoryId(categoryId: string): Promise<any[]>;
     findSizeQuantiy(id: string): Promise<{
         id: string;
         size: number;

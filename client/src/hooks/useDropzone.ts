@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, ChangeEventHandler } from "react";
+import { useDropzone } from "react-dropzone";
 
 interface FileWithPreview extends File {
   preview: string;

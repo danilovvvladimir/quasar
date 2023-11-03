@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_URL } from "./constants/api";
 import { IAuthResponse } from "./types/auth";
 import Cookies from "js-cookie";
+import { LOCALSTORAGE_ACCESS_TOKEN_KEY } from "./constants/localStorage";
 
 const instance = axios.create({
   withCredentials: true,
@@ -12,7 +13,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem(LOCALSTORAGE_ACCESS_TOKEN_KEY);
   if (config.headers && accessToken)
     config.headers.Authorization = `Bearer ${accessToken}`;
 
@@ -42,10 +43,12 @@ instance.interceptors.response.use(
           },
         );
 
-        localStorage.setItem("accessToken", response.data.tokens.accessToken);
+        localStorage.setItem(
+          LOCALSTORAGE_ACCESS_TOKEN_KEY,
+          response.data.tokens.accessToken,
+        );
         return instance.request(originalRequest);
       } catch (e) {
-        console.log("НЕ АВТОРИЗОВАН");
         console.log(e);
       }
     }

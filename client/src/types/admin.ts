@@ -1,1 +1,1 @@
-export interface AdminProduct
+export interface AdminProduct {}

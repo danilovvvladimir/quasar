@@ -69,6 +69,7 @@ const useHomePageInner = () => {
       sorting,
       searchTerm,
     });
+
     setProducts(products);
   };
 

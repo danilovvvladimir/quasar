@@ -11,7 +11,7 @@ import ProductService from "@/services/product";
 import CreateProductModal from "@/components/CreateProductForm/CreateProductModal";
 import { Category } from "@/types/category";
 import CategoryService from "@/services/category";
-
+// todo types
 const AdminProductsPage: FC = () => {
   const productService = new ProductService();
   const categoryService = new CategoryService();

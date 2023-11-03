@@ -2,7 +2,7 @@ import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
 import { IFilters, ISorting } from "@/hooks/useHomePageInner";
-import { IUploadedFile, ProductCreateDTO, Product } from "@/types/product";
+import { ProductCreateDTO, Product, UploadedFile } from "@/types/product";
 
 export interface AllProductsConfig {
   filters?: IFilters;
@@ -10,7 +10,7 @@ export interface AllProductsConfig {
   searchTerm?: string;
 }
 
-interface IMinMaxPrice {
+interface MinMaxPrice {
   min: number;
   max: number;
 }
@@ -41,24 +41,22 @@ class ProductService {
       queryParams.append("searchTerm", searchTerm);
     }
 
-    const response = await defaultAxios.get<any>(
+    const response = await defaultAxios.get<Product[]>(
       `${this.PRODUCT_BASE_API}?${queryParams.toString()}`,
     );
-
-    console.log("Get all products response", response);
 
     return response.data;
   }
 
   async getAllAdminProducts() {
-    const response = await defaultAxios.get<any[]>(`${this.PRODUCT_BASE_API}`);
-
-    console.log("Get all products response", response);
+    const response = await defaultAxios.get<Product[]>(
+      `${this.PRODUCT_BASE_API}`,
+    );
 
     return response.data;
   }
   async getMinMaxPrices() {
-    const response = await defaultAxios.get<IMinMaxPrice>(
+    const response = await defaultAxios.get<MinMaxPrice>(
       `${this.PRODUCT_BASE_API}/min-max`,
     );
 
@@ -69,7 +67,7 @@ class ProductService {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await updatedAxios.post<IUploadedFile>(
+    const response = await updatedAxios.post<UploadedFile>(
       `${API_URL}/files`,
       formData,
       {
@@ -78,7 +76,6 @@ class ProductService {
         },
       },
     );
-    console.log("Get uploadImage response", response);
 
     return response.data;
   }
@@ -106,8 +103,6 @@ class ProductService {
       oldPrice,
     });
 
-    console.log("Get create response", response);
-
     return response.data;
   }
 
@@ -116,8 +111,6 @@ class ProductService {
       `${this.PRODUCT_BASE_API}/by-slug/${slug}`,
     );
 
-    console.log("Get getBySlug response", response);
-
     return response.data;
   }
 
@@ -125,8 +118,6 @@ class ProductService {
     const response = await updatedAxios.delete<Product>(
       `${this.PRODUCT_BASE_API}/${id}`,
     );
-
-    console.log("Get deleteProduct response", response);
 
     return response.data;
   }

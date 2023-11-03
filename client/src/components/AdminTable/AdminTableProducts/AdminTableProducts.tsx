@@ -5,9 +5,10 @@ import styles from "../AdminTable.module.scss";
 import { AdminProduct, Product } from "@/types/product";
 import ProductService from "@/services/product";
 import { createNotify, notifyMode } from "@/utils/createNotify";
+import { calculateAverageRating } from "@/utils/calculateAverageRating";
 
 interface AdminTableProductsProps {
-  products: AdminProduct[];
+  products: Product[];
   updateData(): void;
 }
 
@@ -36,12 +37,6 @@ const AdminTableProducts: FC<AdminTableProductsProps> = ({
         <div className={styles["admin-table__products-header-rating"]}>
           Rating
         </div>
-        <div className={styles["admin-table__products-header-orders"]}>
-          Orders
-        </div>
-        <div className={styles["admin-table__products-header-reviews"]}>
-          Reviews
-        </div>
         <div className={styles["admin-table__products-header-actions"]}>
           Actions
         </div>
@@ -56,13 +51,7 @@ const AdminTableProducts: FC<AdminTableProductsProps> = ({
               {product.slug}
             </div>
             <div className={styles["admin-table__products-row-rating"]}>
-              {product.rating}
-            </div>
-            <div className={styles["admin-table__products-row-orders"]}>
-              {product.ordersCount}
-            </div>
-            <div className={styles["admin-table__products-row-reviews"]}>
-              {product.reviewsCount}
+              {calculateAverageRating(product.reviews).toFixed(2)}
             </div>
             <div className={styles["admin-table__products-row-actions"]}>
               <div

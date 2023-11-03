@@ -2,6 +2,10 @@ export const BASE_LAYOUT_METADATA_TITLE: string = "QUASAR |";
 export const BASE_LAYOUT_METADATA_DESCRIPTION: string = "Quasar";
 export const HOMEPAGE_METADATA_TITLE: string = "QUASAR | Главная";
 export const HOMEPAGE_METADATA_DESCRIPTION: string = "Quasar Главная";
+export const LOGIN_PAGE_METADATA_TITLE: string = "QUASAR | Авторизация";
+export const LOGIN_PAGE_METADATA_DESCRIPTION: string = "Quasar Авторизация";
+export const REGISTER_PAGE_METADATA_TITLE: string = "QUASAR | Регистрация";
+export const REGISTER_PAGE_METADATA_DESCRIPTION: string = "Quasar Регистрация";
 export const NOTFOUNDPAGE_METADATA_TITLE: string =
   "QUASAR | Страница не найдена";
 export const NOTFOUNDPAGE_METADATA_DESCRIPTION: string =
@@ -15,3 +19,5 @@ export const PROFILE_PAGE_ORDERS_METADATA_TITLE: string = "QUASAR | Заказы
 export const PROFILE_PAGE_ORDERS_METADATA_DESCRIPTION: string = "Quasar Заказы";
 export const CART_PAGE_METADATA_TITLE: string = "QUASAR | Корзина";
 export const CART_PAGE_METADATA_DESCRIPTION: string = "Quasar Корзина";
+export const ADMIN_PAGE_METADATA_TITLE: string = "QUASAR | Управление";
+export const ADMIN_PAGE_METADATA_DESCRIPTION: string = "Quasar Управление";

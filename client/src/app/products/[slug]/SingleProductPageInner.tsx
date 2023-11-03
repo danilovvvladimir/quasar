@@ -17,7 +17,7 @@ interface SingleProductPageInnerProps {
   slug: string;
   product: Product;
 }
-// TODO types
+
 const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
@@ -48,7 +48,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
           <div className={styles["single-product__about-wrapper"]}>
             <div className={styles["single-product__gallery"]}>
               <div className={styles["single-product__gallery-list"]}>
-                {product.productImage.map((productImage) => (
+                {product.productImages.map((productImage) => (
                   <Image
                     key={productImage.id}
                     className={classNames(
@@ -94,7 +94,7 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
             </h2>
             <div className={styles["single-product__sizes-list"]}>
               <SizeList
-                productDetails={product.productSize.sort((a, b) => {
+                productDetails={product.productSizes.sort((a, b) => {
                   if (a.size < b.size) {
                     return -1;
                   }

@@ -7,7 +7,7 @@ import { RoleName, UserPrivate } from "@/types/user";
 import Search from "@/components/Search/Search";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
 import UserService from "@/services/user";
-
+// todo types
 const AdminUsersPage: FC = () => {
   const [users, setUsers] = useState<UserPrivate[]>([]);
 

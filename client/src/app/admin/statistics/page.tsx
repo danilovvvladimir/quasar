@@ -11,16 +11,11 @@ export interface AdminPanelStatistics {
   orders: number;
   totalIncome: number;
 }
-
+// todo types
 const AdminStatiscticsPage: FC = () => {
   const adminService = new AdminService();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [statistics, setStatistics] = useState<AdminPanelStatistics>();
-
-  // const usersCount = 100;
-  // const reviewsCount = 50;
-  // const ordersCount = 30;
-  // const totalIncome = 100500;
 
   const updateData = async () => {
     setIsLoading(true);

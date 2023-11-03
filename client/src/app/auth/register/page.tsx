@@ -1,5 +1,5 @@
 import { FC } from "react";
-import styles from "./LoginPage.module.scss";
+import styles from "./RegisterPage.module.scss";
 import RegisterForm from "@/components/AuthForm/RegisterForm";
 import { Metadata } from "next";
 import classNames from "classnames";

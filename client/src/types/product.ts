@@ -1,6 +1,6 @@
 import { Review } from "./review";
 
-export interface IUploadedFile {
+export interface UploadedFile {
   filename: string;
   originalname: string;
 }
@@ -24,9 +24,9 @@ export interface Product {
   oldPrice: number;
   createdAt: Date;
   updatedAt: Date;
-  productImage: ProductImage[];
-  productSize: ProductDetails[];
-  review: Review[];
+  productImages: ProductImage[];
+  productSizes: ProductDetails[];
+  reviews: Review[];
 }
 
 export interface AdminProduct extends Product {
