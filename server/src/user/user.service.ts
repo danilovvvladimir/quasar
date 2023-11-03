@@ -40,74 +40,48 @@ export class UserService {
   async findAll() {
     const users = await this.prismaService.user.findMany({
       include: {
-        review: true,
-        cartItem: {
+        reviews: true,
+        cartItems: {
           include: {
             product: {
               include: {
-                productImage: true,
-                productSize: true,
+                productImages: true,
+                productSizes: true,
               },
             },
           },
         },
-        wishlistItem: true,
-        order: {
+        wishlistItems: true,
+        orders: {
           include: {
-            orderItem: true,
+            orderItems: true,
           },
         },
       },
     });
 
-    const usersWithFormattedFields = users.map((user) => {
-      const {
-        password,
-        cartItem,
-        review,
-        order,
-        wishlistItem,
-        createdAt,
-        updatedAt,
-        ...rest
-      } = user;
-
-      const userWithRenamedFields = {
-        ...rest,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        cartItems: cartItem,
-        reviews: review,
-        orders: order,
-        wishlistItems: wishlistItem,
-      };
-      console.log("userWithRenamedFields", userWithRenamedFields);
-
-      return userWithRenamedFields;
-    });
-
-    return usersWithFormattedFields;
+    return users;
   }
 
   async findById(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id },
       include: {
-        review: true,
-        cartItem: {
+        reviews: true,
+        cartItems: {
           include: {
             product: {
               include: {
-                productImage: true,
-                productSize: true,
+                productImages: true,
+                productSizes: true,
               },
             },
           },
         },
-        wishlistItem: true,
-        order: {
+        wishlistItems: true,
+        orders: {
           include: {
-            orderItem: true,
+            orderItems: true,
           },
         },
       },
@@ -117,38 +91,38 @@ export class UserService {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    const { password, cartItem, review, order, wishlistItem, ...rest } = user;
+    const { password, ...rest } = user;
 
-    const userWithRenamedFields = {
-      ...rest,
-      cartItems: cartItem,
-      reviews: review,
-      orders: order,
-      wishlistItems: wishlistItem,
-    };
+    // const userWithRenamedFields = {
+    //   ...rest,
+    //   cartItems: cartItem,
+    //   reviews: review,
+    //   orders: order,
+    //   wishlistItems: wishlistItem,
+    // };
 
-    return userWithRenamedFields;
+    return rest;
   }
 
   async findByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
       include: {
-        review: true,
-        cartItem: {
+        reviews: true,
+        cartItems: {
           include: {
             product: {
               include: {
-                productImage: true,
-                productSize: true,
+                productImages: true,
+                productSizes: true,
               },
             },
           },
         },
-        wishlistItem: true,
-        order: {
+        wishlistItems: true,
+        orders: {
           include: {
-            orderItem: true,
+            orderItems: true,
           },
         },
       },
@@ -158,17 +132,15 @@ export class UserService {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
 
-    const { cartItem, review, order, wishlistItem, ...rest } = user;
+    // const userWithRenamedFields = {
+    //   ...rest,
+    //   cartItems: cartItem,
+    //   reviews: review,
+    //   orders: order,
+    //   wishlistItems: wishlistItem,
+    // };
 
-    const userWithRenamedFields = {
-      ...rest,
-      cartItems: cartItem,
-      reviews: review,
-      orders: order,
-      wishlistItems: wishlistItem,
-    };
-
-    return userWithRenamedFields;
+    return user;
   }
 
   async findOrders(userId: string) {
@@ -189,8 +161,8 @@ export class UserService {
       include: {
         product: {
           include: {
-            productImage: true,
-            review: true,
+            productImages: true,
+            reviews: true,
           },
         },
       },
@@ -265,29 +237,29 @@ export class UserService {
       include: {
         product: {
           include: {
-            productImage: true,
-            productSize: true,
+            productImages: true,
+            productSizes: true,
           },
         },
       },
     });
 
-    const formattedCartItems = cartItems.map((cartItem) => {
-      const { product, ...rest } = cartItem;
+    // const formattedCartItems = cartItems.map((cartItem) => {
+    //   const { product, ...rest } = cartItem;
 
-      const { productImage, productSize, ...productRest } = product;
+    //   const { productImage, productSize, ...productRest } = product;
 
-      return {
-        ...rest,
-        product: {
-          ...productRest,
-          productImages: productImage,
-          productSizes: productSize,
-        },
-      };
-    });
+    //   return {
+    //     ...rest,
+    //     product: {
+    //       ...productRest,
+    //       productImages: productImage,
+    //       productSizes: productSize,
+    //     },
+    //   };
+    // });
 
-    return formattedCartItems;
+    return cartItems;
   }
 
   async updateCartItem(id: string, newQuantity: number) {
@@ -329,21 +301,21 @@ export class UserService {
         password: passwordHash,
       },
       include: {
-        review: true,
-        cartItem: {
+        reviews: true,
+        cartItems: {
           include: {
             product: {
               include: {
-                productImage: true,
-                productSize: true,
+                productImages: true,
+                productSizes: true,
               },
             },
           },
         },
-        wishlistItem: true,
-        order: {
+        wishlistItems: true,
+        orders: {
           include: {
-            orderItem: true,
+            orderItems: true,
           },
         },
       },

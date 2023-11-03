@@ -3,17 +3,24 @@ import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
-    findAll(): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
+    findAll(): Promise<({
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -36,17 +43,13 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -63,16 +66,15 @@ export declare class UserController {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
+    } & {
         id: string;
         username: string;
+        password: string;
         email: string;
+        createdAt: Date;
+        updatedAt: Date;
         role: import(".prisma/client").$Enums.RoleName;
-    }[]>;
+    })[]>;
     getStatistics(): Promise<{
         users: number;
         reviews: number;
@@ -80,14 +82,23 @@ export declare class UserController {
         totalIncome: number;
     }>;
     getProfile(id: string): Promise<{
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -110,17 +121,13 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -137,11 +144,6 @@ export declare class UserController {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         id: string;
         username: string;
         email: string;
@@ -150,14 +152,23 @@ export declare class UserController {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findById(id: string): Promise<{
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -180,17 +191,13 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -207,11 +214,6 @@ export declare class UserController {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         id: string;
         username: string;
         email: string;
@@ -220,14 +222,23 @@ export declare class UserController {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -250,17 +261,13 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -277,11 +284,7 @@ export declare class UserController {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
+    } & {
         id: string;
         username: string;
         password: string;
@@ -299,18 +302,18 @@ export declare class UserController {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            review: {
+            productImages: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+            reviews: {
                 id: string;
                 text: string;
                 rating: number;
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
-                productId: string;
-            }[];
-            productImage: {
-                id: string;
-                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -328,7 +331,7 @@ export declare class UserController {
         userId: string;
         productId: string;
     })[]>;
-    findCartItems(userId: string): Promise<{
+    findCartItems(userId: string): Promise<({
         product: {
             productImages: {
                 id: string;
@@ -341,6 +344,7 @@ export declare class UserController {
                 quantity: number;
                 productId: string;
             }[];
+        } & {
             id: string;
             name: string;
             slug: string;
@@ -350,12 +354,13 @@ export declare class UserController {
             createdAt: Date;
             updatedAt: Date;
         };
+    } & {
         id: string;
         size: number;
         quantity: number;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     createCartItem(dto: CartItemCreateDTO): Promise<{
         id: string;
         size: number;

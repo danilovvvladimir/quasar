@@ -71,7 +71,7 @@ export class ReviewService {
       },
       include: {
         product: {
-          include: { productImage: true },
+          include: { productImages: true },
         },
       },
     });
@@ -83,12 +83,9 @@ export class ReviewService {
     const { productId, rating, text, userId } = dto;
 
     await this.productService.findById(productId);
-    // connect по review
 
     const { reviews: userReviews, orders: userOrders } =
       await this.userService.findById(userId);
-
-    // 1) Посмотреть, есть ли у пользователя order с этим продуктом
 
     const userOrderItemsWIthProduct =
       await this.prismaService.orderItem.findMany({
@@ -107,8 +104,6 @@ export class ReviewService {
     if (!userOrderItemsWIthProduct.length) {
       throw new ConflictException(REVIEW_CREATE_NO_ORDER_MESSAGE);
     }
-
-    // 2) Посмотреть, есть ли у пользователя уже review с этим продуктом
 
     if (userReviews.filter((r) => r.productId === productId).length) {
       throw new ConflictException(REVIEW_CREATE_DUBLICATE_MESSAGE);

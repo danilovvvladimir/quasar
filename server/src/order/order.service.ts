@@ -33,7 +33,7 @@ export class OrderService {
 
   async findAll() {
     const orders = await this.prismaService.order.findMany({
-      include: { orderItem: true, user: true },
+      include: { orderItems: true, user: true },
     });
 
     const orderPromises = orders.map(async (item) => ({
@@ -51,7 +51,7 @@ export class OrderService {
   async findById(id: string) {
     const order = await this.prismaService.order.findUnique({
       where: { id },
-      include: { orderItem: true },
+      include: { orderItems: true },
     });
 
     if (!order) {
@@ -69,11 +69,11 @@ export class OrderService {
         userId,
       },
       include: {
-        orderItem: {
+        orderItems: {
           include: {
             product: {
               include: {
-                productImage: true,
+                productImages: true,
               },
             },
           },
@@ -81,20 +81,7 @@ export class OrderService {
       },
     });
 
-    const formattedOrders = orders.map((order) => {
-      const { orderItem: orderItems, ...orderRest } = order;
-      const formattedOrderItems = orderItems.map((orderItem) => {
-        const { product, ...restOrderItem } = orderItem;
-
-        const { productImage: productImages, ...productRest } = product;
-
-        return { ...restOrderItem, product: { productRest, productImages } };
-      });
-
-      return { ...orderRest, orderItems: formattedOrderItems };
-    });
-
-    return formattedOrders;
+    return orders;
   }
 
   async findByProductId(productId: string) {
@@ -102,7 +89,7 @@ export class OrderService {
 
     const products = await this.prismaService.order.findMany({
       where: {
-        orderItem: {
+        orderItems: {
           some: {
             productId,
           },

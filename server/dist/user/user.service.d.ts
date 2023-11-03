@@ -11,17 +11,24 @@ export declare class UserService {
         orders: number;
         totalIncome: number;
     }>;
-    findAll(): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
+    findAll(): Promise<({
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -44,17 +51,13 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -71,25 +74,33 @@ export declare class UserService {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
+    } & {
         id: string;
         username: string;
+        password: string;
         email: string;
+        createdAt: Date;
+        updatedAt: Date;
         role: import(".prisma/client").$Enums.RoleName;
-    }[]>;
+    })[]>;
     findById(id: string): Promise<{
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -112,17 +123,13 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -139,11 +146,6 @@ export declare class UserService {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         id: string;
         username: string;
         email: string;
@@ -152,14 +154,23 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
         cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -182,17 +193,13 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        reviews: {
+        wishlistItems: {
             id: string;
-            text: string;
-            rating: number;
-            createdAt: Date;
-            updatedAt: Date;
             userId: string;
             productId: string;
         }[];
         orders: ({
-            orderItem: {
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;
@@ -209,11 +216,7 @@ export declare class UserService {
             updatedAt: Date;
             userId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
+    } & {
         id: string;
         username: string;
         password: string;
@@ -231,18 +234,18 @@ export declare class UserService {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            review: {
+            productImages: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+            reviews: {
                 id: string;
                 text: string;
                 rating: number;
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
-                productId: string;
-            }[];
-            productImage: {
-                id: string;
-                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -275,7 +278,7 @@ export declare class UserService {
         userId: string;
         productId: string;
     }>;
-    findCartItems(userId: string): Promise<{
+    findCartItems(userId: string): Promise<({
         product: {
             productImages: {
                 id: string;
@@ -288,6 +291,7 @@ export declare class UserService {
                 quantity: number;
                 productId: string;
             }[];
+        } & {
             id: string;
             name: string;
             slug: string;
@@ -297,12 +301,13 @@ export declare class UserService {
             createdAt: Date;
             updatedAt: Date;
         };
+    } & {
         id: string;
         size: number;
         quantity: number;
         userId: string;
         productId: string;
-    }[]>;
+    })[]>;
     updateCartItem(id: string, newQuantity: number): Promise<{
         id: string;
         size: number;
@@ -311,12 +316,7 @@ export declare class UserService {
         productId: string;
     }>;
     create(email: string, username: string, passwordHash: string): Promise<{
-        wishlistItem: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
-        review: {
+        reviews: {
             id: string;
             text: string;
             rating: number;
@@ -325,14 +325,14 @@ export declare class UserService {
             userId: string;
             productId: string;
         }[];
-        cartItem: ({
+        cartItems: ({
             product: {
-                productImage: {
+                productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
-                productSize: {
+                productSizes: {
                     id: string;
                     size: number;
                     quantity: number;
@@ -355,8 +355,13 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        order: ({
-            orderItem: {
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
+        orders: ({
+            orderItems: {
                 id: string;
                 quantity: number;
                 size: number;

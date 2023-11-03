@@ -49,52 +49,46 @@ let UserService = class UserService {
     async findAll() {
         const users = await this.prismaService.user.findMany({
             include: {
-                review: true,
-                cartItem: {
+                reviews: true,
+                cartItems: {
                     include: {
                         product: {
                             include: {
-                                productImage: true,
-                                productSize: true,
+                                productImages: true,
+                                productSizes: true,
                             },
                         },
                     },
                 },
-                wishlistItem: true,
-                order: {
+                wishlistItems: true,
+                orders: {
                     include: {
-                        orderItem: true,
+                        orderItems: true,
                     },
                 },
             },
         });
-        const usersWithFormattedFields = users.map((user) => {
-            const { password, cartItem, review, order, wishlistItem, createdAt, updatedAt } = user, rest = __rest(user, ["password", "cartItem", "review", "order", "wishlistItem", "createdAt", "updatedAt"]);
-            const userWithRenamedFields = Object.assign(Object.assign({}, rest), { createdAt: createdAt, updatedAt: updatedAt, cartItems: cartItem, reviews: review, orders: order, wishlistItems: wishlistItem });
-            console.log("userWithRenamedFields", userWithRenamedFields);
-            return userWithRenamedFields;
-        });
-        return usersWithFormattedFields;
+        return users;
     }
     async findById(id) {
         const user = await this.prismaService.user.findUnique({
             where: { id },
             include: {
-                review: true,
-                cartItem: {
+                reviews: true,
+                cartItems: {
                     include: {
                         product: {
                             include: {
-                                productImage: true,
-                                productSize: true,
+                                productImages: true,
+                                productSizes: true,
                             },
                         },
                     },
                 },
-                wishlistItem: true,
-                order: {
+                wishlistItems: true,
+                orders: {
                     include: {
-                        orderItem: true,
+                        orderItems: true,
                     },
                 },
             },
@@ -102,29 +96,28 @@ let UserService = class UserService {
         if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
         }
-        const { password, cartItem, review, order, wishlistItem } = user, rest = __rest(user, ["password", "cartItem", "review", "order", "wishlistItem"]);
-        const userWithRenamedFields = Object.assign(Object.assign({}, rest), { cartItems: cartItem, reviews: review, orders: order, wishlistItems: wishlistItem });
-        return userWithRenamedFields;
+        const { password } = user, rest = __rest(user, ["password"]);
+        return rest;
     }
     async findByEmail(email) {
         const user = await this.prismaService.user.findUnique({
             where: { email },
             include: {
-                review: true,
-                cartItem: {
+                reviews: true,
+                cartItems: {
                     include: {
                         product: {
                             include: {
-                                productImage: true,
-                                productSize: true,
+                                productImages: true,
+                                productSizes: true,
                             },
                         },
                     },
                 },
-                wishlistItem: true,
-                order: {
+                wishlistItems: true,
+                orders: {
                     include: {
-                        orderItem: true,
+                        orderItems: true,
                     },
                 },
             },
@@ -132,9 +125,7 @@ let UserService = class UserService {
         if (!user) {
             throw new common_1.NotFoundException(user_1.USER_NOT_FOUND_MESSAGE);
         }
-        const { cartItem, review, order, wishlistItem } = user, rest = __rest(user, ["cartItem", "review", "order", "wishlistItem"]);
-        const userWithRenamedFields = Object.assign(Object.assign({}, rest), { cartItems: cartItem, reviews: review, orders: order, wishlistItems: wishlistItem });
-        return userWithRenamedFields;
+        return user;
     }
     async findOrders(userId) {
         await this.findById(userId);
@@ -150,8 +141,8 @@ let UserService = class UserService {
             include: {
                 product: {
                     include: {
-                        productImage: true,
-                        review: true,
+                        productImages: true,
+                        reviews: true,
                     },
                 },
             },
@@ -211,18 +202,13 @@ let UserService = class UserService {
             include: {
                 product: {
                     include: {
-                        productImage: true,
-                        productSize: true,
+                        productImages: true,
+                        productSizes: true,
                     },
                 },
             },
         });
-        const formattedCartItems = cartItems.map((cartItem) => {
-            const { product } = cartItem, rest = __rest(cartItem, ["product"]);
-            const { productImage, productSize } = product, productRest = __rest(product, ["productImage", "productSize"]);
-            return Object.assign(Object.assign({}, rest), { product: Object.assign(Object.assign({}, productRest), { productImages: productImage, productSizes: productSize }) });
-        });
-        return formattedCartItems;
+        return cartItems;
     }
     async updateCartItem(id, newQuantity) {
         const cartItem = await this.prismaService.cartItem.findUnique({
@@ -252,21 +238,21 @@ let UserService = class UserService {
                 password: passwordHash,
             },
             include: {
-                review: true,
-                cartItem: {
+                reviews: true,
+                cartItems: {
                     include: {
                         product: {
                             include: {
-                                productImage: true,
-                                productSize: true,
+                                productImages: true,
+                                productSizes: true,
                             },
                         },
                     },
                 },
-                wishlistItem: true,
-                order: {
+                wishlistItems: true,
+                orders: {
                     include: {
-                        orderItem: true,
+                        orderItems: true,
                     },
                 },
             },

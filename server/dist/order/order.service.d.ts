@@ -16,7 +16,7 @@ export declare class OrderService {
             updatedAt: Date;
             role: import(".prisma/client").$Enums.RoleName;
         };
-        orderItem: {
+        orderItems: {
             id: string;
             quantity: number;
             size: number;
@@ -33,7 +33,7 @@ export declare class OrderService {
         userId: string;
     }[]>;
     findById(id: string): Promise<{
-        orderItem: {
+        orderItems: {
             id: string;
             quantity: number;
             size: number;
@@ -50,25 +50,25 @@ export declare class OrderService {
         updatedAt: Date;
         userId: string;
     }>;
-    findByUserId(userId: string): Promise<{
-        orderItems: {
+    findByUserId(userId: string): Promise<({
+        orderItems: ({
             product: {
-                productRest: {
-                    id: string;
-                    name: string;
-                    slug: string;
-                    description: string;
-                    oldPrice: import("@prisma/client/runtime/library").Decimal;
-                    currentPrice: import("@prisma/client/runtime/library").Decimal;
-                    createdAt: Date;
-                    updatedAt: Date;
-                };
                 productImages: {
                     id: string;
                     imagePath: string;
                     productId: string;
                 }[];
+            } & {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
             };
+        } & {
             id: string;
             quantity: number;
             size: number;
@@ -77,13 +77,14 @@ export declare class OrderService {
             productId: string;
             createdAt: Date;
             updatedAt: Date;
-        }[];
+        })[];
+    } & {
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-    }[]>;
+    })[]>;
     findByProductId(productId: string): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

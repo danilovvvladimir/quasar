@@ -124,18 +124,12 @@ export class ProductService {
     // console.log("ag", ag);
 
     const products = await this.prismaService.product.findMany({
-      include: { productImage: true, review: true, productSize: true },
+      include: { productImages: true, reviews: true, productSizes: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
     });
 
-    const renamedProducts = products.map((product) => {
-      return this.getProductWithRenamedFields(product);
-    });
-
-    // console.log("renamedProducts", renamedProducts);
-
-    return renamedProducts;
+    return products;
   }
 
   private getProductOrderBy(sorting?: string) {
@@ -170,9 +164,9 @@ export class ProductService {
     const product = await this.prismaService.product.findUnique({
       where: { id },
       include: {
-        productImage: true,
-        productSize: true,
-        review: true,
+        productImages: true,
+        productSizes: true,
+        reviews: true,
       },
     });
 
@@ -186,7 +180,7 @@ export class ProductService {
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: { slug },
-      include: { productImage: true, productSize: true, review: true },
+      include: { productImages: true, productSizes: true, reviews: true },
     });
 
     if (!product) {
@@ -212,7 +206,7 @@ export class ProductService {
     await this.categoryService.findById(categoryId);
 
     const products = await this.prismaService.product.findMany({
-      include: { productImage: true, productSize: true, review: true },
+      include: { productImages: true, productSizes: true, reviews: true },
       where: {
         categories: {
           some: {

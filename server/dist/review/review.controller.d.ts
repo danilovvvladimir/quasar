@@ -60,7 +60,7 @@ export declare class ReviewController {
     })[]>;
     findByUserId(userId: string): Promise<({
         product: {
-            productImage: {
+            productImages: {
                 id: string;
                 imagePath: string;
                 productId: string;

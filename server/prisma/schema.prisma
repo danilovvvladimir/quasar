@@ -28,10 +28,10 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
   role      RoleName @default(USER)
 
-  wishlistItem WishlistItem[]
-  review       Review[]
-  cartItem     CartItem[]
-  order        Order[]
+  wishlistItems WishlistItem[]
+  reviews       Review[]
+  cartItems     CartItem[]
+  orders        Order[]
 }
 
 model WishlistItem {
@@ -64,13 +64,13 @@ model Product {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  categories   ProductCategory[]
-  productImage ProductImage[]
-  productSize  ProductSize[]
-  review       Review[]
-  cartItem     CartItem[]
-  orderItem    OrderItem[]
-  wishlistItem WishlistItem[]
+  categories    ProductCategory[]
+  productImages ProductImage[]
+  productSizes  ProductSize[]
+  reviews       Review[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  wishlistItems WishlistItem[]
 }
 
 model ProductImage {
@@ -131,7 +131,7 @@ model Order {
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id])
 
-  orderItem OrderItem[]
+  orderItems OrderItem[]
 }
 
 model OrderItem {

@@ -5,12 +5,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(dto: AuthRegisterDTO): Promise<{
         user: {
-            wishlistItem: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
-            review: {
+            reviews: {
                 id: string;
                 text: string;
                 rating: number;
@@ -19,14 +14,14 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             }[];
-            cartItem: ({
+            cartItems: ({
                 product: {
-                    productImage: {
+                    productImages: {
                         id: string;
                         imagePath: string;
                         productId: string;
                     }[];
-                    productSize: {
+                    productSizes: {
                         id: string;
                         size: number;
                         quantity: number;
@@ -49,8 +44,13 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
-            order: ({
-                orderItem: {
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
+            orders: ({
+                orderItems: {
                     id: string;
                     quantity: number;
                     size: number;
@@ -83,14 +83,23 @@ export declare class AuthController {
     }>;
     login(dto: AuthLoginDTO): Promise<{
         user: {
+            reviews: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
             cartItems: ({
                 product: {
-                    productImage: {
+                    productImages: {
                         id: string;
                         imagePath: string;
                         productId: string;
                     }[];
-                    productSize: {
+                    productSizes: {
                         id: string;
                         size: number;
                         quantity: number;
@@ -113,17 +122,13 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
-            reviews: {
+            wishlistItems: {
                 id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
                 userId: string;
                 productId: string;
             }[];
             orders: ({
-                orderItem: {
+                orderItems: {
                     id: string;
                     quantity: number;
                     size: number;
@@ -140,11 +145,6 @@ export declare class AuthController {
                 updatedAt: Date;
                 userId: string;
             })[];
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             id: string;
             username: string;
             email: string;
@@ -159,14 +159,23 @@ export declare class AuthController {
     }>;
     getNewTokens(refreshToken: RefreshTokenDTO): Promise<{
         user: {
+            reviews: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
             cartItems: ({
                 product: {
-                    productImage: {
+                    productImages: {
                         id: string;
                         imagePath: string;
                         productId: string;
                     }[];
-                    productSize: {
+                    productSizes: {
                         id: string;
                         size: number;
                         quantity: number;
@@ -189,17 +198,13 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
-            reviews: {
+            wishlistItems: {
                 id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
                 userId: string;
                 productId: string;
             }[];
             orders: ({
-                orderItem: {
+                orderItems: {
                     id: string;
                     quantity: number;
                     size: number;
@@ -216,11 +221,6 @@ export declare class AuthController {
                 updatedAt: Date;
                 userId: string;
             })[];
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             id: string;
             username: string;
             email: string;

@@ -60,7 +60,7 @@ let ReviewService = class ReviewService {
             },
             include: {
                 product: {
-                    include: { productImage: true },
+                    include: { productImages: true },
                 },
             },
         });

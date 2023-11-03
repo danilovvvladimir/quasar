@@ -82,14 +82,11 @@ let ProductService = class ProductService {
                 } });
         }
         const products = await this.prismaService.product.findMany({
-            include: { productImage: true, review: true, productSize: true },
+            include: { productImages: true, reviews: true, productSizes: true },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
         });
-        const renamedProducts = products.map((product) => {
-            return this.getProductWithRenamedFields(product);
-        });
-        return renamedProducts;
+        return products;
     }
     getProductOrderBy(sorting) {
         let orderBy = {};
@@ -125,9 +122,9 @@ let ProductService = class ProductService {
         const product = await this.prismaService.product.findUnique({
             where: { id },
             include: {
-                productImage: true,
-                productSize: true,
-                review: true,
+                productImages: true,
+                productSizes: true,
+                reviews: true,
             },
         });
         if (!product) {
@@ -138,7 +135,7 @@ let ProductService = class ProductService {
     async findBySlug(slug) {
         const product = await this.prismaService.product.findUnique({
             where: { slug },
-            include: { productImage: true, productSize: true, review: true },
+            include: { productImages: true, productSizes: true, reviews: true },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
@@ -156,7 +153,7 @@ let ProductService = class ProductService {
     async findByCategoryId(categoryId) {
         await this.categoryService.findById(categoryId);
         const products = await this.prismaService.product.findMany({
-            include: { productImage: true, productSize: true, review: true },
+            include: { productImages: true, productSizes: true, reviews: true },
             where: {
                 categories: {
                     some: {
