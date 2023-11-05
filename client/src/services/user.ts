@@ -1,6 +1,7 @@
 import { API_URL } from "@/constants/api";
 import { CartItemCreate, User } from "@/types/user";
 import updatedAxios from "@/axios";
+import { Product, ProductCart } from "@/types/product";
 
 class UserService {
   private readonly USER_BASE_API: string = `${API_URL}/users`;
@@ -49,7 +50,7 @@ class UserService {
   }
 
   async getCartItems(userId: string) {
-    const response = await updatedAxios.get(
+    const response = await updatedAxios.get<ProductCart[]>(
       `${this.USER_BASE_API}/${userId}/cart-items`,
     );
 

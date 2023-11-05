@@ -22,6 +22,8 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
+  console.log("original product", product);
+
   const {
     selectedImage,
     setSelectedImage,

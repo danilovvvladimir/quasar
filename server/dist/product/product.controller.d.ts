@@ -34,12 +34,72 @@ export declare class ProductController {
         createdAt: Date;
         updatedAt: Date;
     })[]>;
-    findById(id: string): Promise<any>;
+    findById(id: string): Promise<{
+        productImages: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+        productSizes: {
+            id: string;
+            size: number;
+            quantity: number;
+            productId: string;
+        }[];
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+    } & {
+        id: string;
+        name: string;
+        slug: string;
+        description: string;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
     findMinMaxPrice(): Promise<{
         min: import("@prisma/client/runtime/library").Decimal;
         max: import("@prisma/client/runtime/library").Decimal;
     }>;
-    findBySlug(slug: string): Promise<any>;
+    findBySlug(slug: string): Promise<{
+        productImages: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+        productSizes: {
+            id: string;
+            size: number;
+            quantity: number;
+            productId: string;
+        }[];
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+    } & {
+        id: string;
+        name: string;
+        slug: string;
+        description: string;
+        oldPrice: import("@prisma/client/runtime/library").Decimal;
+        currentPrice: import("@prisma/client/runtime/library").Decimal;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
     findByCategoryId(categoryId: string): Promise<any[]>;
     findDetails(id: string): Promise<{
         id: string;

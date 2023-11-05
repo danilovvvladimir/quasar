@@ -174,7 +174,7 @@ export class ProductService {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
 
-    return this.getProductWithRenamedFields(product);
+    return product;
   }
 
   async findBySlug(slug: string) {
@@ -187,7 +187,7 @@ export class ProductService {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
 
-    return this.getProductWithRenamedFields(product);
+    return product;
   }
 
   private getProductWithRenamedFields(product: any) {

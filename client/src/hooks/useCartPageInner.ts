@@ -8,7 +8,6 @@ import { getTotalAndSalesCartAmount } from "@/utils/getTotalAndSalesCartAmount";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-//todo types
 const useCartPageInner = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const userService = new UserService();

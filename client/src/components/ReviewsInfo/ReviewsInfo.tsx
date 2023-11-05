@@ -11,10 +11,11 @@ import Separator from "../Separator/Separator";
 interface ReviewsInfoProps {
   reviews: Review[];
 }
-// TODO rating
 const ReviewsInfo: FC<ReviewsInfoProps> = ({ reviews }) => {
   const ratingSummeryMap = calculateRatingSummeries(reviews);
   const totalRating = calculateAverageRating(reviews);
+
+  const ratingItems = [5, 4, 3, 2, 1];
 
   return (
     <div className={styles["reviews-info"]}>
@@ -28,76 +29,23 @@ const ReviewsInfo: FC<ReviewsInfoProps> = ({ reviews }) => {
         <Separator />
       </div>
       <div className={styles["reviews-info__rating"]}>
-        <div className={styles["reviews-info__rating-item"]}>
-          <div className={styles["reviews-info__rating-item-title"]}>
-            5 звезд
+        {ratingItems.map((rating) => (
+          <div className={styles["reviews-info__rating-item"]} key={rating}>
+            <div className={styles["reviews-info__rating-item-title"]}>
+              {rating} звезд
+              {rating === 1 ? "а" : rating > 1 && rating < 5 ? "ы" : ""}
+            </div>
+            <ProgressBar
+              currentPercent={calculateRatingSummeryPercent(
+                reviews.length,
+                ratingSummeryMap.get(rating)!,
+              )}
+            />
+            <div className={styles["reviews-info__rating-item-quantity"]}>
+              {ratingSummeryMap.get(rating)}
+            </div>
           </div>
-          <ProgressBar
-            currentPercent={calculateRatingSummeryPercent(
-              reviews.length,
-              ratingSummeryMap.get(5)!,
-            )}
-          />
-          <div className={styles["reviews-info__rating-item-quantity"]}>
-            {ratingSummeryMap.get(5)}
-          </div>
-        </div>
-        <div className={styles["reviews-info__rating-item"]}>
-          <div className={styles["reviews-info__rating-item-title"]}>
-            4 звезды
-          </div>
-          <ProgressBar
-            currentPercent={calculateRatingSummeryPercent(
-              reviews.length,
-              ratingSummeryMap.get(4)!,
-            )}
-          />
-          <div className={styles["reviews-info__rating-item-quantity"]}>
-            {ratingSummeryMap.get(4)}
-          </div>
-        </div>
-        <div className={styles["reviews-info__rating-item"]}>
-          <div className={styles["reviews-info__rating-item-title"]}>
-            3 звезды
-          </div>
-          <ProgressBar
-            currentPercent={calculateRatingSummeryPercent(
-              reviews.length,
-              ratingSummeryMap.get(3)!,
-            )}
-          />
-          <div className={styles["reviews-info__rating-item-quantity"]}>
-            {ratingSummeryMap.get(3)}
-          </div>
-        </div>
-        <div className={styles["reviews-info__rating-item"]}>
-          <div className={styles["reviews-info__rating-item-title"]}>
-            2 звезды
-          </div>
-          <ProgressBar
-            currentPercent={calculateRatingSummeryPercent(
-              reviews.length,
-              ratingSummeryMap.get(2)!,
-            )}
-          />
-          <div className={styles["reviews-info__rating-item-quantity"]}>
-            {ratingSummeryMap.get(2)}
-          </div>
-        </div>
-        <div className={styles["reviews-info__rating-item"]}>
-          <div className={styles["reviews-info__rating-item-title"]}>
-            1 звезда
-          </div>
-          <ProgressBar
-            currentPercent={calculateRatingSummeryPercent(
-              reviews.length,
-              ratingSummeryMap.get(1)!,
-            )}
-          />
-          <div className={styles["reviews-info__rating-item-quantity"]}>
-            {ratingSummeryMap.get(1)}
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -25,7 +25,6 @@ const CategorySelect: FC<CategorySelectProps> = ({
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleSelectChange = (selectedOptions) => {
-    // TODO: Поправить передачу
     setSelectedOptions(selectedOptions);
     onChange(selectedOptions);
   };

@@ -4,7 +4,7 @@ import { useDropzone } from "react-dropzone";
 interface FileWithPreview extends File {
   preview: string;
 }
-// TODO types
+
 const useDropZone = ({
   name,
   onChange,

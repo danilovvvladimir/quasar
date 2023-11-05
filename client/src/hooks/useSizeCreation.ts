@@ -1,7 +1,7 @@
 import { ICreatingProductDetails } from "@/types/product";
 import { ChangeEventHandler, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-//TODO types
+
 const useSizeCreation = ({
   name,
   onChange,

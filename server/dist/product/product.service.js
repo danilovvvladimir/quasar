@@ -130,7 +130,7 @@ let ProductService = class ProductService {
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return this.getProductWithRenamedFields(product);
+        return product;
     }
     async findBySlug(slug) {
         const product = await this.prismaService.product.findUnique({
@@ -140,7 +140,7 @@ let ProductService = class ProductService {
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
-        return this.getProductWithRenamedFields(product);
+        return product;
     }
     getProductWithRenamedFields(product) {
         const { productImage, review, productSize } = product, rest = __rest(product, ["productImage", "review", "productSize"]);
