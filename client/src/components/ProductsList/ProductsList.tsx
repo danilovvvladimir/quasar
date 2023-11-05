@@ -8,7 +8,7 @@ interface ProductsListProps {
   products: Product[];
 }
 
-// TODO
+// TODO pagination
 const ProductsList: FC<ProductsListProps> = ({ products }) => {
   return (
     <>

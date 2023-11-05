@@ -10,9 +10,8 @@ interface ProfileSingleReviewProps {
   review: Review;
 }
 
-// TODO
 const ProfileSingleReview: FC<ProfileSingleReviewProps> = ({ review }) => {
-  const { createdAt, id, productId, rating, text, updatedAt, user } = review;
+  const { createdAt, rating, text, updatedAt } = review;
 
   return (
     <div className={styles["profile-single-review"]}>
@@ -41,7 +40,7 @@ const ProfileSingleReview: FC<ProfileSingleReviewProps> = ({ review }) => {
         >
           <Image
             className={styles["profile-single-review__product-image"]}
-            src={"/" + review.product.productImage[0].imagePath}
+            src={"/" + review.product.productImages[0].imagePath}
             alt={review.product.name}
             width={75}
             height={75}

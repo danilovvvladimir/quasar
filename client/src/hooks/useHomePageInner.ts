@@ -106,7 +106,6 @@ const useHomePageInner = () => {
     sorting,
     setSelectedOption,
     products,
-    fetchProducts,
   };
 };
 

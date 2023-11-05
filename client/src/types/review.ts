@@ -1,3 +1,4 @@
+import { Product } from "./product";
 import { UserPublic } from "./user";
 
 export interface Review {
@@ -8,6 +9,7 @@ export interface Review {
   productId: string;
   createdAt: Date;
   updatedAt: Date;
+  product: Product;
 }
 
 export interface RatingSummeryMap extends Map<number, number> {}

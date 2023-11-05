@@ -11,10 +11,8 @@ import useHomePageInner from "@/hooks/useHomePageInner";
 
 interface HomePageInnerProps {}
 
-// TODO
 const HomePageInner: FC<HomePageInnerProps> = () => {
   const {
-    fetchProducts,
     filters,
     isLoading,
     products,
@@ -41,7 +39,7 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
             setSelectedOption={setSelectedOption}
           />
         </div>
-        <ProductsList products={products} fetchProducts={fetchProducts} />
+        <ProductsList products={products} />
       </div>
     </div>
   );

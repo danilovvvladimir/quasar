@@ -9,7 +9,7 @@ interface RatingFilterProps {
   selectedRating: number;
   setRating: (rating: number) => void;
 }
-// TODO
+// TODO сократить код
 const RatingFilter: FC<RatingFilterProps> = ({ selectedRating, setRating }) => {
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newRating = parseInt(event.target.value);
