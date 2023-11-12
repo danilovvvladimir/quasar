@@ -47,6 +47,8 @@ const useDropZone = ({
   });
 
   useEffect(() => {
+    console.log("current files", files);
+
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [files]);
 

@@ -107,6 +107,7 @@ export declare class ProductService {
     }>;
     private getProductWithRenamedFields;
     findByCategoryId(categoryId: string): Promise<any[]>;
+>>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
     findSizeQuantiy(id: string): Promise<{
         id: string;
         size: number;

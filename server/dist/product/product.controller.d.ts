@@ -101,6 +101,7 @@ export declare class ProductController {
         updatedAt: Date;
     }>;
     findByCategoryId(categoryId: string): Promise<any[]>;
+>>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
     findDetails(id: string): Promise<{
         id: string;
         size: number;

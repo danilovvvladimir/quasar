@@ -41,7 +41,11 @@ const AdminProductsPage: FC = () => {
           <SearchAdmin />
           <Button onClick={() => setIsModalVisible(true)}>Создать</Button>
         </div>
-        <AdminTableProducts products={products} updateData={updateData} />
+        <AdminTableProducts
+          categories={categories}
+          products={products}
+          updateData={updateData}
+        />
       </div>
       <Modal active={isModalVisible} setActive={setIsModalVisible}>
         <CreateProductModal categories={categories} updateData={updateData} />

@@ -186,6 +186,9 @@ export class ProductService {
     if (!product) {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
+<<<<<<< HEAD
+    return product;
+=======
 
     return product;
   }
@@ -200,6 +203,7 @@ export class ProductService {
     const renamedProduct = { ...rest, productImages, reviews, productSizes };
 
     return renamedProduct;
+>>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
   }
 
   async findByCategoryId(categoryId: string) {
@@ -216,11 +220,7 @@ export class ProductService {
       },
     });
 
-    const renamedProducts = products.map((product) => {
-      return this.getProductWithRenamedFields(product);
-    });
-
-    return renamedProducts;
+    return products;
   }
 
   async findSizeQuantiy(id: string) {

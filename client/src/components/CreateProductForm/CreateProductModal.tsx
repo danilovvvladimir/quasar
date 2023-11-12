@@ -21,15 +21,18 @@ import {
   IMAGES_REQUIRED_MESSAGE,
   SIZES_REQUIRED_MESSAGE,
 } from "@/constants/validation";
+import { Product } from "@/types/product";
 
 export interface CreateProductModalProps {
   categories: Category[];
   updateData(): void;
+  product?: Product;
 }
 
 const CreateProductModal: FC<CreateProductModalProps> = ({
   categories,
   updateData,
+  product,
 }) => {
   const {
     getValues,
@@ -40,6 +43,8 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
     errors,
     control,
   } = useCreateProductModal(updateData);
+
+  console.log("CreateProductModal Product", product);
 
   return (
     <div className={styles["create-product-modal"]}>
@@ -66,6 +71,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                       message: NAME_REQUIRED_MESSAGE,
                     },
                   })}
+                  defaultValue={product ? product.name : ""}
                   type="text"
                 />
                 {errors.name && (
@@ -88,6 +94,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                       message: INVALID_SLUG_MESSAGE,
                     },
                   })}
+                  defaultValue={product ? product.slug : ""}
                   type="text"
                 />
                 {errors.slug && (
@@ -105,7 +112,11 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
             <div className={styles["create-product-modal__description"]}>
               <label className={styles["create-product-modal__label"]}>
                 <span>Описание</span>
-                <textarea className="textarea" {...register("description")} />
+                <textarea
+                  className="textarea"
+                  defaultValue={product ? product.description : ""}
+                  {...register("description")}
+                />
                 {errors.description && (
                   <ErrorValidationText text={errors.description.message!} />
                 )}
@@ -150,6 +161,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                       message: CURRENT_PRICE_REQUIRED_MESSAGE,
                     },
                   })}
+                  defaultValue={product ? product.currentPrice : ""}
                   type="number"
                 />
 
@@ -164,6 +176,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                 <input
                   className="input"
                   {...register("oldPrice")}
+                  defaultValue={product ? product.oldPrice : ""}
                   type="number"
                 />
 

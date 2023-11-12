@@ -14,7 +14,6 @@ const AdminUsersPage: FC = () => {
 
   const updateData = async () => {
     const users = await userService.getAll();
-    console.log("users1", users);
 
     setUsers(users);
   };

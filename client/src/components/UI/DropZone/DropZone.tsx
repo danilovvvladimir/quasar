@@ -18,10 +18,6 @@ interface DropZoneProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-interface FileWithPreview extends File {
-  preview: string;
-}
-
 const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
   const {
     getRootProps,
