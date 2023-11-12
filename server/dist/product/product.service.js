@@ -70,11 +70,28 @@ let ProductService = class ProductService {
                     },
                 } });
         }
+        if (rating > 0) {
+            const result = await this.prismaService.review.groupBy({
+                by: ["productId"],
+                having: {
+                    rating: {
+                        _avg: {
+                            gte: +rating,
+                        },
+                    },
+                },
+            });
+            options = Object.assign(Object.assign({}, options), { AND: {
+                    id: {
+                        in: result.map((item) => item.productId),
+                    },
+                } });
+        }
         const products = await this.prismaService.product.findMany({
             include: { productImages: true, reviews: true, productSizes: true },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
-            skip: +skip,
+            skip: skip ? +skip : 0,
             take: +take,
         });
         const allProductsLength = await this.prismaService.product.count({

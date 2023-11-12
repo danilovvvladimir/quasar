@@ -82,6 +82,10 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
                 value: MAX_RATING,
                 message: MAX_RATING_MESSAGE,
               },
+              pattern: {
+                value: /^[0-9]*$/,
+                message: "Введите целое число",
+              },
             })}
             type="number"
             className={classNames("input", styles["crmi__input"])}

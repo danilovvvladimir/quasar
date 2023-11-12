@@ -43,7 +43,7 @@ const useHomePageInner = () => {
     maxPrice: 1,
     categories: [],
     selectedCategories: [],
-    rating: 1,
+    rating: 0,
     isDiscount: false,
     take: MAX_PRODUCTS_PER_PAGE,
     skip: 0,

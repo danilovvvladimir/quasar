@@ -38,9 +38,12 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
         <div className={styles["home-page__top-filters"]}>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <Select
+            placeholder="Сортировка"
+            classNamePrefix="custom-select"
             options={sorting.options}
             selectedOption={sorting.selectedOption}
             setSelectedOption={setSelectedOption}
+            isSearchable={false}
           />
         </div>
         <ProductsList

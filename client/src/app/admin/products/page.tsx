@@ -26,7 +26,7 @@ const AdminProductsPage: FC = () => {
     const products = await productService.getAllAdminProducts();
     const categories = await categoryService.getAll();
 
-    setProducts(products);
+    setProducts(products.products);
     setCategories(categories);
   };
 

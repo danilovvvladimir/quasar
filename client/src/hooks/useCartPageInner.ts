@@ -4,6 +4,7 @@ import { checkAuth } from "@/store/auth/auth.actions";
 import { RootState, AppDispatch } from "@/store/store";
 import { OrderItemCreateDTO } from "@/types/order";
 import { ProductCart } from "@/types/product";
+import { createNotify, notifyMode } from "@/utils/createNotify";
 import { getTotalAndSalesCartAmount } from "@/utils/getTotalAndSalesCartAmount";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -89,6 +90,8 @@ const useCartPageInner = () => {
 
     updateData();
     dispatch(checkAuth());
+
+    createNotify("Вы успешно создали заказ", notifyMode.SUCCESS);
   };
 
   const updateData = async () => {

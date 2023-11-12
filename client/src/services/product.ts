@@ -58,7 +58,7 @@ class ProductService {
   }
 
   async getAllAdminProducts() {
-    const response = await defaultAxios.get<Product[]>(
+    const response = await defaultAxios.get<ProductsWithCount>(
       `${this.PRODUCT_BASE_API}`,
     );
 

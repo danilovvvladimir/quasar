@@ -133,3 +133,7 @@ input[type="checkbox"] {
     border-color: rgba($text-description-color, 1);
   }
 }
+
+.custom-select__control {
+  width: 200px;
+}

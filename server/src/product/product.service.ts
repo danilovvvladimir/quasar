@@ -125,11 +125,45 @@ export class ProductService {
 
     // console.log("ag", ag);
 
+    // const result = await this.prismaService.review.groupBy({
+    //   by: ["product_id"],
+    //   _avg: {
+    //     rating: true,
+    //   },
+    //   having: {
+    //     rating: {
+    //       gte: 4,
+    //     },
+    //   },
+    // });
+
+    if (rating > 0) {
+      const result = await this.prismaService.review.groupBy({
+        by: ["productId"],
+        having: {
+          rating: {
+            _avg: {
+              gte: +rating,
+            },
+          },
+        },
+      });
+
+      options = {
+        ...options,
+        AND: {
+          id: {
+            in: result.map((item) => item.productId),
+          },
+        },
+      };
+    }
+
     const products = await this.prismaService.product.findMany({
       include: { productImages: true, reviews: true, productSizes: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
-      skip: +skip,
+      skip: skip ? +skip : 0,
       take: +take,
     });
 
@@ -137,7 +171,6 @@ export class ProductService {
       where: options,
     });
 
-    // return products;
     return { products: products, count: allProductsLength };
   }
 

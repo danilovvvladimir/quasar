@@ -9,15 +9,6 @@ export declare class ReviewService {
     private readonly prismaService;
     constructor(userService: UserService, productService: ProductService, prismaService: PrismaService);
     findAll(): Promise<({
-        user: {
-            id: string;
-            username: string;
-            password: string;
-            email: string;
-            createdAt: Date;
-            updatedAt: Date;
-            role: $Enums.RoleName;
-        };
         product: {
             id: string;
             name: string;
@@ -27,6 +18,15 @@ export declare class ReviewService {
             currentPrice: import("@prisma/client/runtime/library").Decimal;
             createdAt: Date;
             updatedAt: Date;
+        };
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: $Enums.RoleName;
         };
     } & {
         id: string;
