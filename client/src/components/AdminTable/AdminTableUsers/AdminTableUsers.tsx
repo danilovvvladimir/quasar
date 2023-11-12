@@ -35,7 +35,7 @@ const AdminTableUsers: FC<AdminTableUsersProps> = ({ users }) => {
               {getShortEmail(user.email)}
             </div>
             <div className={styles["admin-table__users-row-register"]}>
-              {user.createdAt.toLocaleDateString()}
+              {new Date(user.createdAt).toLocaleDateString()}
             </div>
             <div className={styles["admin-table__users-row-orders"]}>
               {user.orders.length}

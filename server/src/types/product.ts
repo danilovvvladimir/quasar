@@ -30,4 +30,6 @@ export interface AllProductsConfig {
   isDiscount?: boolean;
   sorting?: string;
   searchTerm?: string;
+  take?: number;
+  skip?: number;
 }

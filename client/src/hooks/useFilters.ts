@@ -32,8 +32,8 @@ const useFilters = ({ filters, setFilters }: FiltersProps) => {
     setFilters({ ...filters, rating: newRating });
   };
 
-  const toggleDiscount = (newIsDiscount: boolean): void => {
-    setFilters({ ...filters, isDiscount: newIsDiscount });
+  const toggleDiscount = (): void => {
+    setFilters({ ...filters, isDiscount: !isDiscount });
   };
 
   const selectCategory = (category: string) => {

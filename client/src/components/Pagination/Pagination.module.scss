@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: $step * 2;
+  &__button {
+    padding: $step * 3 $step * 4 !important;
+  }
+}

@@ -7,7 +7,9 @@ import ProductsList from "../ProductsList/ProductsList";
 import Search from "../Search/Search";
 import Select from "../UI/Select/Select";
 import Loader from "../Loader/Loader";
-import useHomePageInner from "@/hooks/useHomePageInner";
+import useHomePageInner, {
+  MAX_PRODUCTS_PER_PAGE,
+} from "@/hooks/useHomePageInner";
 
 interface HomePageInnerProps {}
 
@@ -21,6 +23,8 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
     setSearchTerm,
     setSelectedOption,
     sorting,
+    allProductsCount,
+    changePage,
   } = useHomePageInner();
 
   if (isLoading) {
@@ -39,7 +43,14 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
             setSelectedOption={setSelectedOption}
           />
         </div>
-        <ProductsList products={products} />
+        <ProductsList
+          products={products}
+          paginationConfig={{
+            numberPages: Math.ceil(allProductsCount / MAX_PRODUCTS_PER_PAGE),
+            currentPage: filters.skip / MAX_PRODUCTS_PER_PAGE + 1,
+            changePage: changePage,
+          }}
+        />
       </div>
     </div>
   );

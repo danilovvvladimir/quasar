@@ -36,7 +36,7 @@ let ProductService = class ProductService {
         };
     }
     async findAll(config) {
-        const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, } = config;
+        const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, skip, take, } = config;
         let options = {};
         if (searchTerm) {
             options = {
@@ -74,8 +74,13 @@ let ProductService = class ProductService {
             include: { productImages: true, reviews: true, productSizes: true },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
+            skip: +skip,
+            take: +take,
         });
-        return products;
+        const allProductsLength = await this.prismaService.product.count({
+            where: options,
+        });
+        return { products: products, count: allProductsLength };
     }
     getProductOrderBy(sorting) {
         let orderBy = {};
@@ -130,15 +135,6 @@ let ProductService = class ProductService {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
         }
         return product;
-    }
-    getProductWithRenamedFields(product) {
-        const { productImage, review, productSize } = product, rest = __rest(product, ["productImage", "review", "productSize"]);
-        const productImages = productImage;
-        const reviews = review;
-        const productSizes = productSize;
-        const renamedProduct = Object.assign(Object.assign({}, rest), { productImages, reviews, productSizes });
-        return renamedProduct;
->>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
     }
     async findByCategoryId(categoryId) {
         await this.categoryService.findById(categoryId);
@@ -204,7 +200,6 @@ let ProductService = class ProductService {
         return product;
     }
     async createProductDetails(id, dto) {
-        await this.findById(id);
         const { details } = dto;
         const detailsPromises = details.map((detail) => this.prismaService.productSize.create({
             data: {
@@ -217,7 +212,6 @@ let ProductService = class ProductService {
         return detailsPromises;
     }
     async createProductImages(id, dto) {
-        await this.findById(id);
         const { imagePaths } = dto;
         const imagesPromises = imagePaths.map((imagePath) => this.prismaService.productImage.create({
             data: {

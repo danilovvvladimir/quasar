@@ -8,8 +8,8 @@ import Toggler from "../UI/Toggler/Toggler";
 import RatingFilter from "./RatingFilter/RatingFilter";
 import styles from "./Filters.module.scss";
 import classNames from "classnames";
-import { IFilters } from "../HomePageInner/HomePageInner";
 import useFilters from "@/hooks/useFilters";
+import { IFilters } from "@/hooks/useHomePageInner";
 
 interface FiltersProps {
   filters: IFilters;

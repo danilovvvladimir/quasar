@@ -15,8 +15,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useSingleProductPageInner = (product: Product) => {
-  console.log("product", product);
-
   const [userHasProduct, setUserHasProduct] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Review[]>([]);

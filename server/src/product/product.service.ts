@@ -57,6 +57,8 @@ export class ProductService {
       selectedCategories,
       searchTerm,
       sorting,
+      skip,
+      take,
     } = config;
 
     let options: Prisma.ProductWhereInput = {};
@@ -127,9 +129,16 @@ export class ProductService {
       include: { productImages: true, reviews: true, productSizes: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
+      skip: +skip,
+      take: +take,
     });
 
-    return products;
+    const allProductsLength = await this.prismaService.product.count({
+      where: options,
+    });
+
+    // return products;
+    return { products: products, count: allProductsLength };
   }
 
   private getProductOrderBy(sorting?: string) {
@@ -186,24 +195,8 @@ export class ProductService {
     if (!product) {
       throw new NotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
     }
-<<<<<<< HEAD
-    return product;
-=======
 
     return product;
-  }
-
-  private getProductWithRenamedFields(product: any) {
-    const { productImage, review, productSize, ...rest } = product;
-
-    const productImages = productImage;
-    const reviews = review;
-    const productSizes = productSize;
-
-    const renamedProduct = { ...rest, productImages, reviews, productSizes };
-
-    return renamedProduct;
->>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
   }
 
   async findByCategoryId(categoryId: string) {
@@ -301,8 +294,6 @@ export class ProductService {
   }
 
   private async createProductDetails(id: string, dto: ProductDetailsCreateDTO) {
-    await this.findById(id);
-
     const { details } = dto;
 
     const detailsPromises = details.map((detail) =>
@@ -321,8 +312,6 @@ export class ProductService {
   }
 
   private async createProductImages(id: string, dto: ProductImagesCreateDTO) {
-    await this.findById(id);
-
     const { imagePaths } = dto;
 
     const imagesPromises = imagePaths.map((imagePath) =>

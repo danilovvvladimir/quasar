@@ -12,19 +12,6 @@ interface AdminTableOrdersProps {
 }
 
 const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
-  // const handleDeleteProduct = async (id: string) => {
-  //   const orderService = new OrderService();
-
-  //   try {
-  //     await orderService.delete(id);
-  //     createNotify("Вы успешно удалили товар!");
-  //     updateData();
-  //   } catch (error) {
-  //     const err = error as Error;
-  //     createNotify(`Что-то пошло не так...\n${err.message}`, notifyMode.ERROR);
-  //   }
-  // };
-
   return (
     <div className={styles["admin-table__orders"]}>
       <div className={styles["admin-table__orders-header"]}>
@@ -56,7 +43,7 @@ const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
               {order.orderStatus}
             </div>
             <div className={styles["admin-table__orders-row-items"]}>
-              {order.orderItem.length}
+              {order.orderItems.length}
             </div>
             <div className={styles["admin-table__orders-row-total-price"]}>
               {order.totalPrice}

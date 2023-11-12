@@ -10,6 +10,11 @@ export interface AllProductsConfig {
   searchTerm?: string;
 }
 
+export interface ProductsWithCount {
+  products: Product[];
+  count: number;
+}
+
 interface MinMaxPrice {
   min: number;
   max: number;
@@ -31,6 +36,8 @@ class ProductService {
       queryParams.append("currentMaxPrice", filters.currentMaxPrice.toString());
       queryParams.append("isDiscount", `${filters.isDiscount}`);
       queryParams.append("rating", filters.rating.toString());
+      queryParams.append("take", filters.take.toString());
+      queryParams.append("skip", filters.skip.toString());
     }
 
     if (sorting) {
@@ -41,7 +48,7 @@ class ProductService {
       queryParams.append("searchTerm", searchTerm);
     }
 
-    const response = await defaultAxios.get<any[]>(
+    const response = await defaultAxios.get<ProductsWithCount>(
       `${this.PRODUCT_BASE_API}?${queryParams.toString()}`,
     );
 

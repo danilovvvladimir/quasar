@@ -11,37 +11,40 @@ export declare class ProductService {
         min: Prisma.Decimal;
         max: Prisma.Decimal;
     }>;
-    findAll(config: AllProductsConfig): Promise<({
-        productImages: {
+    findAll(config: AllProductsConfig): Promise<{
+        products: ({
+            productImages: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+            productSizes: {
+                id: string;
+                size: number;
+                quantity: number;
+                productId: string;
+            }[];
+            reviews: {
+                id: string;
+                text: string;
+                rating: number;
+                createdAt: Date;
+                updatedAt: Date;
+                userId: string;
+                productId: string;
+            }[];
+        } & {
             id: string;
-            imagePath: string;
-            productId: string;
-        }[];
-        productSizes: {
-            id: string;
-            size: number;
-            quantity: number;
-            productId: string;
-        }[];
-        reviews: {
-            id: string;
-            text: string;
-            rating: number;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: Prisma.Decimal;
+            currentPrice: Prisma.Decimal;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
-            productId: string;
-        }[];
-    } & {
-        id: string;
-        name: string;
-        slug: string;
-        description: string;
-        oldPrice: Prisma.Decimal;
-        currentPrice: Prisma.Decimal;
-        createdAt: Date;
-        updatedAt: Date;
-    })[]>;
+        })[];
+        count: number;
+    }>;
     private getProductOrderBy;
     findById(id: string): Promise<{
         productImages: {
@@ -105,9 +108,37 @@ export declare class ProductService {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    private getProductWithRenamedFields;
-    findByCategoryId(categoryId: string): Promise<any[]>;
->>>>>>> dce3811eca35642d6e68f03bc822b02fa7dcaaa8
+    findByCategoryId(categoryId: string): Promise<({
+        productImages: {
+            id: string;
+            imagePath: string;
+            productId: string;
+        }[];
+        productSizes: {
+            id: string;
+            size: number;
+            quantity: number;
+            productId: string;
+        }[];
+        reviews: {
+            id: string;
+            text: string;
+            rating: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
+    } & {
+        id: string;
+        name: string;
+        slug: string;
+        description: string;
+        oldPrice: Prisma.Decimal;
+        currentPrice: Prisma.Decimal;
+        createdAt: Date;
+        updatedAt: Date;
+    })[]>;
     findSizeQuantiy(id: string): Promise<{
         id: string;
         size: number;

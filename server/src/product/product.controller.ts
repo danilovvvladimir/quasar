@@ -34,7 +34,9 @@ export class ProductController {
     @Query("currentMaxPrice") currentMaxPrice?: number,
     @Query("selectedCategories") selectedCategories?: string,
     @Query("rating") rating?: number,
-    @Query("isDiscount") isDiscount?: string, // костыль
+    @Query("isDiscount") isDiscount?: string,
+    @Query("take") take?: number,
+    @Query("skip") skip?: number,
   ) {
     let allProductsConfig: AllProductsConfig = {};
     if (sorting) {
@@ -47,6 +49,8 @@ export class ProductController {
           selectedCategories === "" ? [] : selectedCategories.split(";"),
         rating,
         isDiscount: isDiscount === "true",
+        skip,
+        take,
       };
     }
 

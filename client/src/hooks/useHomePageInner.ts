@@ -17,6 +17,8 @@ export interface IFilters {
   selectedCategories: string[];
   rating: number;
   isDiscount: boolean;
+  take: number;
+  skip: number;
 }
 
 export interface ISorting {
@@ -24,12 +26,15 @@ export interface ISorting {
   selectedOption: IOption;
 }
 
+export const MAX_PRODUCTS_PER_PAGE: number = 8;
+
 const useHomePageInner = () => {
   const productService = new ProductService();
   const categoryService = new CategoryService();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [allProductsCount, setAllProductsCount] = useState<number>(0);
 
   const [filters, setFilters] = useState<IFilters>({
     currentMinPrice: 500,
@@ -40,6 +45,8 @@ const useHomePageInner = () => {
     selectedCategories: [],
     rating: 1,
     isDiscount: false,
+    take: MAX_PRODUCTS_PER_PAGE,
+    skip: 0,
   });
 
   const [sorting, setSorting] = useState<ISorting>({
@@ -70,7 +77,15 @@ const useHomePageInner = () => {
       searchTerm,
     });
 
-    setProducts(products);
+    setProducts(products.products);
+    setAllProductsCount(products.count);
+  };
+
+  const changePage = (newPageNumber: number) => {
+    setFilters({
+      ...filters,
+      skip: (newPageNumber - 1) * MAX_PRODUCTS_PER_PAGE,
+    });
   };
 
   const fetchCategories = async () => {
@@ -98,6 +113,8 @@ const useHomePageInner = () => {
   }, []);
 
   return {
+    allProductsCount,
+    changePage,
     isLoading,
     filters,
     setFilters,
