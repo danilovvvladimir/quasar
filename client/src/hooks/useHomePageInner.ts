@@ -51,13 +51,12 @@ const useHomePageInner = () => {
 
   const [sorting, setSorting] = useState<ISorting>({
     options: [
-      { value: "by-rating", label: "По рейтингу -" },
       { value: "price-asc", label: "По цене +" },
       { value: "price-desc", label: "По цене -" },
       { value: "date-asc", label: "По новизне +" },
       { value: "date-desc", label: "По новизне -" },
     ],
-    selectedOption: { value: "by-rating", label: "По рейтингу -" },
+    selectedOption: { value: "price-asc", label: "По цене +" },
   });
 
   const [searchTerm, setSearchTerm] = useState<string>("");

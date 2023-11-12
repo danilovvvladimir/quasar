@@ -70,9 +70,10 @@ let ProductService = class ProductService {
                     },
                 } });
         }
-        if (rating > 0) {
+        if (rating > 0 || sorting === "by-rating") {
             const result = await this.prismaService.review.groupBy({
                 by: ["productId"],
+                _avg: { rating: true },
                 having: {
                     rating: {
                         _avg: {
@@ -87,24 +88,21 @@ let ProductService = class ProductService {
                     },
                 } });
         }
+        const allProductsLength = await this.prismaService.product.count({
+            where: options,
+        });
         const products = await this.prismaService.product.findMany({
             include: { productImages: true, reviews: true, productSizes: true },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
             skip: skip ? +skip : 0,
-            take: +take,
-        });
-        const allProductsLength = await this.prismaService.product.count({
-            where: options,
+            take: take ? take : allProductsLength,
         });
         return { products: products, count: allProductsLength };
     }
     getProductOrderBy(sorting) {
         let orderBy = {};
-        if (sorting === "by-rating") {
-            orderBy = {};
-        }
-        else if (sorting === "price-asc") {
+        if (sorting === "price-asc") {
             orderBy = {
                 currentPrice: "asc",
             };

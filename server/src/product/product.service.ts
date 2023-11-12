@@ -108,38 +108,10 @@ export class ProductService {
       };
     }
 
-    // if (rating) {
-    //   options = {
-    //     ...options,
-    //     AND: {
-    //       review: {
-    //         some: {
-    //           rating: {
-    //             gte: +rating,
-    //           },
-    //         },
-    //       },
-    //     },
-    //   };
-    // }
-
-    // console.log("ag", ag);
-
-    // const result = await this.prismaService.review.groupBy({
-    //   by: ["product_id"],
-    //   _avg: {
-    //     rating: true,
-    //   },
-    //   having: {
-    //     rating: {
-    //       gte: 4,
-    //     },
-    //   },
-    // });
-
-    if (rating > 0) {
+    if (rating > 0 || sorting === "by-rating") {
       const result = await this.prismaService.review.groupBy({
         by: ["productId"],
+        _avg: { rating: true },
         having: {
           rating: {
             _avg: {
@@ -159,16 +131,16 @@ export class ProductService {
       };
     }
 
+    const allProductsLength = await this.prismaService.product.count({
+      where: options,
+    });
+
     const products = await this.prismaService.product.findMany({
       include: { productImages: true, reviews: true, productSizes: true },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
       skip: skip ? +skip : 0,
-      take: +take,
-    });
-
-    const allProductsLength = await this.prismaService.product.count({
-      where: options,
+      take: take ? take : allProductsLength,
     });
 
     return { products: products, count: allProductsLength };
@@ -177,9 +149,7 @@ export class ProductService {
   private getProductOrderBy(sorting?: string) {
     let orderBy: Prisma.ProductOrderByWithAggregationInput = {};
 
-    if (sorting === "by-rating") {
-      orderBy = {};
-    } else if (sorting === "price-asc") {
+    if (sorting === "price-asc") {
       orderBy = {
         currentPrice: "asc",
       };
