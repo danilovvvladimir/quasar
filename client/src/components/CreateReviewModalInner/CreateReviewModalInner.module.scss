@@ -21,4 +21,9 @@
   &__input {
     max-width: 250px;
   }
+
+  &__controls {
+    display: flex;
+    gap: $step * 2;
+  }
 }

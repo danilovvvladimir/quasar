@@ -2,7 +2,7 @@ import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
 
-import { IReviewRequest } from "@/types/common";
+import { IReviewRequest, ReviewUpdateRequest } from "@/types/common";
 
 class ReviewService {
   private readonly REVIEW_BASE_API: string = `${API_URL}/reviews`;
@@ -26,6 +26,27 @@ class ReviewService {
     });
 
     console.log("review create response", response);
+
+    return response.data;
+  }
+
+  async delete(id: string) {
+    const response = await updatedAxios.delete(`${this.REVIEW_BASE_API}/${id}`);
+
+    console.log("review delete response", response);
+
+    return response.data;
+  }
+
+  async update(dto: ReviewUpdateRequest, id: string) {
+    const { rating, text } = dto;
+
+    const response = await updatedAxios.put(`${this.REVIEW_BASE_API}/${id}`, {
+      rating,
+      text,
+    });
+
+    console.log("review update response", response);
 
     return response.data;
   }

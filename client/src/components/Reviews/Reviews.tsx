@@ -9,11 +9,17 @@ import styles from "./Reviews.module.scss";
 
 interface ReviewsProps {
   reviews: Review[];
-  openModal: () => void;
+  openCreateReviewModal: () => void;
   userHasProduct: boolean;
+  userHasReview: boolean;
 }
 
-const Reviews: FC<ReviewsProps> = ({ reviews, openModal, userHasProduct }) => {
+const Reviews: FC<ReviewsProps> = ({
+  reviews,
+  openCreateReviewModal,
+  userHasProduct,
+  userHasReview,
+}) => {
   return (
     <div className={styles["reviews"]}>
       <h2 className={`title ${styles["reviews__title"]}`}>Отзывы</h2>
@@ -30,8 +36,11 @@ const Reviews: FC<ReviewsProps> = ({ reviews, openModal, userHasProduct }) => {
             честный рейтинг
           </div>
           {userHasProduct && (
-            <Button onClick={openModal} className={styles["reviews__button"]}>
-              Написать отзыв
+            <Button
+              onClick={openCreateReviewModal}
+              className={styles["reviews__button"]}
+            >
+              {userHasReview ? "Редактировать отзыв" : "Написать отзыв"}
             </Button>
           )}
         </div>

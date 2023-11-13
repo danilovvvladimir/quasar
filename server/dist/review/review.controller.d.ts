@@ -4,6 +4,15 @@ export declare class ReviewController {
     private readonly reviewService;
     constructor(reviewService: ReviewService);
     findAll(): Promise<({
+        user: {
+            id: string;
+            username: string;
+            password: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date;
+            role: import(".prisma/client").$Enums.RoleName;
+        };
         product: {
             id: string;
             name: string;
@@ -13,15 +22,6 @@ export declare class ReviewController {
             currentPrice: import("@prisma/client/runtime/library").Decimal;
             createdAt: Date;
             updatedAt: Date;
-        };
-        user: {
-            id: string;
-            username: string;
-            password: string;
-            email: string;
-            createdAt: Date;
-            updatedAt: Date;
-            role: import(".prisma/client").$Enums.RoleName;
         };
     } & {
         id: string;
@@ -34,10 +34,12 @@ export declare class ReviewController {
     })[]>;
     findById(id: string): Promise<{
         id: string;
-        orderStatus: import(".prisma/client").$Enums.OrderStatus;
+        text: string;
+        rating: number;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
+        productId: string;
     }>;
     findByProductId(productId: string): Promise<({
         user: {
@@ -104,9 +106,11 @@ export declare class ReviewController {
     }>;
     delete(id: string, userId: string, userRole: string): Promise<{
         id: string;
-        orderStatus: import(".prisma/client").$Enums.OrderStatus;
+        text: string;
+        rating: number;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
+        productId: string;
     }>;
 }

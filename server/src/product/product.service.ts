@@ -140,7 +140,7 @@ export class ProductService {
       where: options,
       orderBy: this.getProductOrderBy(sorting),
       skip: skip ? +skip : 0,
-      take: take ? take : allProductsLength,
+      take: take ? +take : allProductsLength,
     });
 
     return { products: products, count: allProductsLength };

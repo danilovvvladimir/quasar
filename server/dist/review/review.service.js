@@ -32,7 +32,7 @@ let ReviewService = class ReviewService {
         return reviews;
     }
     async findById(id) {
-        const review = await this.prismaService.order.findUnique({
+        const review = await this.prismaService.review.findUnique({
             where: { id },
         });
         if (!review) {

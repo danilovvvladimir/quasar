@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const useSingleProductPageInner = (product: Product) => {
   const [userHasProduct, setUserHasProduct] = useState<boolean>(false);
+  const [userHasReview, setUserHasReview] = useState<boolean>(false);
+  const [existingReview, setExistingReview] = useState<Review | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const dispatch = useDispatch<AppDispatch>();
@@ -102,8 +104,24 @@ const useSingleProductPageInner = (product: Product) => {
       setUserHasProduct(false);
     }
 
+    if (
+      userHasProduct &&
+      user &&
+      user.reviews.find((item) => item.productId === product.id)
+    ) {
+      console.log("Есть этот товар");
+      setExistingReview(
+        user.reviews.find((item) => item.productId === product.id)!,
+      );
+      setUserHasReview(true);
+    } else {
+      setUserHasReview(false);
+      setExistingReview(null);
+      console.log("А товара то нет");
+    }
+
     getReviews();
-  }, []);
+  }, [userHasProduct]);
 
   return {
     selectedImage,
@@ -116,6 +134,8 @@ const useSingleProductPageInner = (product: Product) => {
     isModalVisible,
     setIsModalVisible,
     userHasProduct,
+    userHasReview,
+    existingReview,
   };
 };
 

@@ -36,7 +36,7 @@ export class ReviewService {
   }
 
   async findById(id: string) {
-    const review = await this.prismaService.order.findUnique({
+    const review = await this.prismaService.review.findUnique({
       where: { id },
     });
 

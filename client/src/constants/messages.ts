@@ -4,6 +4,9 @@ export const REGISTER_SUCCESS_NOTIFY_MESSAGE: string =
 export const ERROR_NOTIFY_MESSAGE: string = "Что-то пошло не так...";
 export const REVIEW_CREATE_NOTIFY_MESSAGE: string =
   "Вы успешно оставили отзыв!";
+export const REVIEW_UPDATE_NOTIFY_MESSAGE: string =
+  "Вы успешно обновили отзыв!";
+export const REVIEW_DELETE_NOTIFY_MESSAGE: string = "Вы успешно удалили отзыв!";
 export const CATEGORY_CREATE_NOTIFY_MESSAGE: string =
   "Категория успешно создана";
 export const ALREADY_HAS_PRODUCT_CART_NOTIFY_MESSAGE: string =

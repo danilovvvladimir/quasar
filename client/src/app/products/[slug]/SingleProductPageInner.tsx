@@ -35,6 +35,8 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
     isModalVisible,
     setIsModalVisible,
     userHasProduct,
+    userHasReview,
+    existingReview,
   } = useSingleProductPageInner(product);
 
   return (
@@ -123,12 +125,19 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
 
       <Reviews
         reviews={reviews}
-        openModal={() => setIsModalVisible(true)}
+        openCreateReviewModal={() => setIsModalVisible(true)}
         userHasProduct={userHasProduct}
+        userHasReview={userHasReview}
       />
-      <Modal active={isModalVisible} setActive={setIsModalVisible}>
-        <CreateReviewModalInner productId={product.id} />
-      </Modal>
+      {isModalVisible && (
+        <Modal active={isModalVisible} setActive={setIsModalVisible}>
+          <CreateReviewModalInner
+            productId={product.id}
+            review={existingReview ? existingReview : undefined}
+            closeModal={() => setIsModalVisible(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 };

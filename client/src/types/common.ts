@@ -24,6 +24,11 @@ export interface IReviewRequest {
   productId: string;
 }
 
+export interface ReviewUpdateRequest {
+  text: string;
+  rating: number;
+}
+
 export interface IReviewCreateFields {
   text: string;
   rating: number;
