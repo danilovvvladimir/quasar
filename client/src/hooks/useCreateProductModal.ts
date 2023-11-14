@@ -27,6 +27,8 @@ const useCreateProductModal = (updateData: () => void) => {
 
   const onSubmit: SubmitHandler<ICreatingProduct> = async (values) => {
     try {
+      console.log("Create Product values", values);
+
       const responses: string[] = [];
 
       for (let i = 0; i < values.images.length; i++) {

@@ -31,13 +31,26 @@ const useSizeCreation = ({
     onChange({ target: { name, value: [] } });
   };
 
-  const onChangeDetail = (updatedDetail: ICreatingProductDetails) => {
-    setProductDetails([
-      ...productDetails.filter((item) => item.id !== updatedDetail.id),
-      updatedDetail,
-    ]);
+  // const onChangeDetail = (updatedDetail: ICreatingProductDetails) => {
+  //   setProductDetails([
+  //     ...productDetails.filter((item) => item.id !== updatedDetail.id),
+  //     updatedDetail,
+  //   ]);
 
-    onChange({ target: { name, value: productDetails } });
+  //   console.log("Detail changed, current:", productDetails);
+  //   onChange({ target: { name, value: productDetails } });
+  // };
+
+  const onChangeDetail = (updatedDetail: ICreatingProductDetails) => {
+    setProductDetails((prevDetails) => {
+      const updatedDetails = [
+        ...prevDetails.filter((item) => item.id !== updatedDetail.id),
+        updatedDetail,
+      ];
+      console.log("Detail changed, current:", updatedDetails);
+      onChange({ target: { name, value: updatedDetails } });
+      return updatedDetails;
+    });
   };
 
   return { productDetails, onChangeDetail, clearDetails, createDetail };

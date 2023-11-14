@@ -14,6 +14,7 @@ interface SizeCreationProps {
 const SizeCreation: FC<SizeCreationProps> = ({ name, onChange }) => {
   const { productDetails, onChangeDetail, clearDetails, createDetail } =
     useSizeCreation({ name, onChange });
+  console.log("productDetails", productDetails);
 
   return (
     <div className={styles["size-creation"]}>
