@@ -1,32 +1,27 @@
 "use client";
 
-import {
-  ChangeEventHandler,
-  FC,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEventHandler, FC } from "react";
 import styles from "./DropZone.module.scss";
 import Image from "next/image";
 import getIconByName from "@/utils/getIconByName";
 import classNames from "classnames";
-import useDropZone from "@/hooks/useDropzone";
+import useDropZone, { FileWithPreview } from "@/hooks/useDropzone";
 
 interface DropZoneProps {
   name: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  files: FileWithPreview[];
+  setFiles: (files: FileWithPreview[]) => void;
 }
 
-const DropZone: FC<DropZoneProps> = ({ onChange, name }) => {
+const DropZone: FC<DropZoneProps> = ({ onChange, name, files, setFiles }) => {
   const {
     getRootProps,
     isDragActive,
     getInputProps,
     MAX_FILES_QUANTITY,
-    files,
     removeFile,
-  } = useDropZone({ name, onChange });
+  } = useDropZone({ name, onChange, files, setFiles });
 
   return (
     <section>

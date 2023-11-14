@@ -9,12 +9,16 @@ interface CategorySelectProps {
   categories: Category[];
   name: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  selectedOptions: any[];
+  setSelectedOptions: (selectedOptions: any[]) => void;
 }
 
 const CategorySelect: FC<CategorySelectProps> = ({
   categories,
   onChange,
   name,
+  selectedOptions,
+  setSelectedOptions,
 }) => {
   const categoriesOptions = categories.map((category) => ({
     label: category.name,
@@ -22,9 +26,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
     id: category.id,
   }));
 
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
-  const handleSelectChange = (selectedOptions) => {
+  const handleSelectChange = (selectedOptions: any[]) => {
     setSelectedOptions(selectedOptions);
     onChange(selectedOptions);
   };

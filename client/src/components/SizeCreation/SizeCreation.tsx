@@ -5,16 +5,27 @@ import styles from "./SizeCreation.module.scss";
 import SizeControl from "../SizeControl/SizeControl";
 import Button from "../UI/Button/Button";
 import useSizeCreation from "@/hooks/useSizeCreation";
+import { CreatingProductDetails } from "@/types/product";
 
 interface SizeCreationProps {
   name: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  productDetails: CreatingProductDetails[];
+  setProductDetails: (details: CreatingProductDetails[]) => void;
 }
 
-const SizeCreation: FC<SizeCreationProps> = ({ name, onChange }) => {
-  const { productDetails, onChangeDetail, clearDetails, createDetail } =
-    useSizeCreation({ name, onChange });
-  console.log("productDetails", productDetails);
+const SizeCreation: FC<SizeCreationProps> = ({
+  name,
+  onChange,
+  productDetails,
+  setProductDetails,
+}) => {
+  const { onChangeDetail, clearDetails, createDetail } = useSizeCreation({
+    name,
+    onChange,
+    productDetails,
+    setProductDetails,
+  });
 
   return (
     <div className={styles["size-creation"]}>

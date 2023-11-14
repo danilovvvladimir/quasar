@@ -1,20 +1,24 @@
 import { useState, useCallback, useEffect, ChangeEventHandler } from "react";
 import { useDropzone } from "react-dropzone";
 
-interface FileWithPreview extends File {
+export interface FileWithPreview extends File {
   preview: string;
 }
 
 const useDropZone = ({
   name,
   onChange,
+  files,
+  setFiles,
 }: {
   name: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  files: FileWithPreview[];
+  setFiles: (files: FileWithPreview[]) => void;
 }) => {
   const MAX_FILES_QUANTITY: number = 4;
 
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  // const [files, setFiles] = useState<FileWithPreview[]>([]);
 
   const onDrop = useCallback(
     (acceptedFiles: any[]) => {
@@ -64,7 +68,6 @@ const useDropZone = ({
     isDragActive,
     getInputProps,
     MAX_FILES_QUANTITY,
-    files,
     removeFile,
   };
 };

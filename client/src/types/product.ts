@@ -11,7 +11,7 @@ export interface ICreatingProduct
     "createdAt" | "updatedAt" | "productImages" | "productDetails"
   > {
   images: File[];
-  details: ICreatingProductDetails[];
+  details: CreatingProductDetails[];
   categoryIds: ICategoryOption[];
 }
 
@@ -83,7 +83,7 @@ export interface IProductDetail {
   productId: string;
 }
 
-export interface ICreatingProductDetails
+export interface CreatingProductDetails
   extends Omit<IProductDetail, "productId"> {}
 
 export interface ICategoryOption {

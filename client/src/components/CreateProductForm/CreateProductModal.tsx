@@ -42,9 +42,13 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
     register,
     errors,
     control,
+    files,
+    setFiles,
+    productDetails,
+    setProductDetails,
+    selectedOptions,
+    setSelectedOptions,
   } = useCreateProductModal(updateData);
-
-  console.log("CreateProductModal Product", product);
 
   return (
     <div className={styles["create-product-modal"]}>
@@ -141,6 +145,8 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                       categories={categories}
                       name={name}
                       onChange={onChange}
+                      selectedOptions={selectedOptions}
+                      setSelectedOptions={setSelectedOptions}
                     />
                   )}
                 />
@@ -201,7 +207,12 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                     },
                   }}
                   render={({ field: { onChange, name } }) => (
-                    <DropZone name={name} onChange={onChange} />
+                    <DropZone
+                      name={name}
+                      onChange={onChange}
+                      files={files}
+                      setFiles={setFiles}
+                    />
                   )}
                 />
                 {errors.images && (
@@ -223,7 +234,12 @@ const CreateProductModal: FC<CreateProductModalProps> = ({
                     },
                   }}
                   render={({ field: { onChange, name } }) => (
-                    <SizeCreation name={name} onChange={onChange} />
+                    <SizeCreation
+                      name={name}
+                      onChange={onChange}
+                      productDetails={productDetails}
+                      setProductDetails={setProductDetails}
+                    />
                   )}
                 />
                 {errors.details && (

@@ -3,10 +3,12 @@ import {
   ERROR_NOTIFY_MESSAGE,
 } from "@/constants/messages";
 import ProductService from "@/services/product";
-import { ICreatingProduct } from "@/types/product";
+import { CreatingProductDetails, ICreatingProduct } from "@/types/product";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { createSlug } from "@/utils/createSlug";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { FileWithPreview } from "./useDropzone";
 
 const useCreateProductModal = (updateData: () => void) => {
   const {
@@ -18,6 +20,12 @@ const useCreateProductModal = (updateData: () => void) => {
     getValues,
     formState: { errors },
   } = useForm<ICreatingProduct>({ mode: "onChange" });
+
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
+  const [productDetails, setProductDetails] = useState<
+    CreatingProductDetails[]
+  >([]);
 
   const uploadImage = async (image: File) => {
     return await productService.uploadImage(image);
@@ -62,15 +70,16 @@ const useCreateProductModal = (updateData: () => void) => {
   };
 
   const resetCustomControllers = (): void => {
-    setValue("productImage", []);
-    setValue("categoryIds", []);
-    setValue("productSize", []);
+    setFiles([]);
+    setProductDetails([]);
+    setSelectedOptions([]);
   };
 
   const handleCreateSlug = (rawString: string) => {
     const slug = createSlug(rawString);
-
     setValue("slug", slug);
+
+    console.log(getValues());
   };
 
   return {
@@ -81,6 +90,12 @@ const useCreateProductModal = (updateData: () => void) => {
     handleCreateSlug,
     errors,
     control,
+    files,
+    setFiles,
+    productDetails,
+    setProductDetails,
+    selectedOptions,
+    setSelectedOptions,
   };
 };
 
