@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 
 .cart-item {
+  width: 800px;
   display: flex;
   align-items: flex-start;
   padding: $step * 4 0 $step * 6 0;

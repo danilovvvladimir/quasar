@@ -78,7 +78,7 @@ const CartItem: FC<CartItemProps> = ({
         <div className={styles["cart-item__current-price"]}>
           <CurrentPrice currentPrice={currentPrice} />
         </div>
-        {oldPrice && (
+        {oldPrice > 0 && (
           <div className={styles["cart-item__old-price"]}>
             <OldPrice oldPrice={oldPrice} />
             <DiscountBadge

@@ -26,7 +26,6 @@ let OrderService = class OrderService {
                 totalPrice: true,
             },
         });
-        console.log("orderWithTotalPrice", orderWithTotalPrice);
         return orderWithTotalPrice._sum.totalPrice;
     }
     async findAll() {
@@ -63,6 +62,9 @@ let OrderService = class OrderService {
                         },
                     },
                 },
+            },
+            orderBy: {
+                createdAt: "desc",
             },
         });
         return orders;

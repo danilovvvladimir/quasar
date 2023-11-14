@@ -1,10 +1,11 @@
 "use client";
 
 import { FC } from "react";
+import styles from "./Loader.module.scss";
 
 const Loader: FC = () => {
   return (
-    <div>
+    <div className={styles["loader"]}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"

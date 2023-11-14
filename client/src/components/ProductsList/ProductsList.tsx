@@ -10,20 +10,27 @@ interface ProductsListProps {
   paginationConfig: IPagination;
 }
 
-// TODO pagination
 const ProductsList: FC<ProductsListProps> = ({
   products,
   paginationConfig,
 }) => {
   return (
     <>
-      <div className={styles["product-list"]}>
-        {products.map((product) => (
-          <ProductMedium key={product.id} product={product} />
-        ))}
-      </div>
+      {products.length > 0 && (
+        <div className={styles["product-list"]}>
+          {products.map((product) => (
+            <ProductMedium key={product.id} product={product} />
+          ))}
+        </div>
+      )}
 
-      <Pagination {...paginationConfig} />
+      {products.length > 0 ? (
+        <Pagination {...paginationConfig} />
+      ) : (
+        <div className={styles["product-list__empty"]}>
+          Ничего не найдено :(
+        </div>
+      )}
     </>
   );
 };

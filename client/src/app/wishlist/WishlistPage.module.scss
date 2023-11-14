@@ -8,11 +8,19 @@
     align-items: center;
     gap: $step * 3;
     margin-bottom: $step * 4;
+
+    &--centered {
+      justify-content: center;
+    }
   }
 
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: $step * 6;
+  }
+
+  &__empty {
+    text-align: center;
   }
 }

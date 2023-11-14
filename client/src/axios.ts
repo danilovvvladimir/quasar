@@ -33,12 +33,24 @@ instance.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await axios.get<IAuthResponse>(
+        // const response = await axios.get<IAuthResponse>(
+        //   `${API_URL}/auth/refresh`,
+        //   {
+        //     withCredentials: true,
+        //     headers: {
+        //       Authorization: `Bearer ${Cookies.get("refreshToken")}`,
+        //     },
+        //   },
+        // );
+        const refreshToken = Cookies.get("refreshToken");
+
+        const response = await axios.post<IAuthResponse>(
           `${API_URL}/auth/refresh`,
+          { refreshToken },
           {
             withCredentials: true,
             headers: {
-              Authorization: `Bearer ${Cookies.get("refreshToken")}`,
+              Authorization: `Bearer ${refreshToken}`,
             },
           },
         );

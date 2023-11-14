@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import UserService from "@/services/user";
 import { ProductWishlist } from "@/types/product";
 import ProductMedium from "@/components/ProductMedium/ProductMedium";
+import classNames from "classnames";
 
 interface WishlistPageInnerProps {}
 
@@ -18,7 +19,7 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
   const [wishlistItems, setwishlistItems] = useState<ProductWishlist[]>([]);
 
   const updateData = async () => {
-    const products = await userService.getWishlistItems(user.id);
+    const products = await userService.getWishlistItems(user!.id);
 
     setwishlistItems(products);
   };
@@ -29,15 +30,25 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
 
   return (
     <>
-      <div className={styles["wishlist__header"]}>
+      <div
+        className={classNames(styles["wishlist__header"], {
+          [styles["wishlist__header--centered"]]: wishlistItems.length == 0,
+        })}
+      >
         <GoHomeButton />
         <h1 className="title">Избранное</h1>
       </div>
-      <div className={styles["wishlist__wrapper"]}>
-        {wishlistItems.map((item) => (
-          <ProductMedium key={item.product.id} product={item.product} />
-        ))}
-      </div>
+      {wishlistItems.length > 0 ? (
+        <div className={styles["wishlist__wrapper"]}>
+          {wishlistItems.map((item) => (
+            <ProductMedium key={item.product.id} product={item.product} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles["wishlist__empty"]}>
+          Вы ещё ничего не добавили в избранное :(
+        </div>
+      )}
     </>
   );
 };

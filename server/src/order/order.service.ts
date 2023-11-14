@@ -26,8 +26,6 @@ export class OrderService {
       },
     });
 
-    console.log("orderWithTotalPrice", orderWithTotalPrice);
-
     return orderWithTotalPrice._sum.totalPrice;
   }
 
@@ -78,6 +76,9 @@ export class OrderService {
             },
           },
         },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 

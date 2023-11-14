@@ -57,7 +57,7 @@ const RegisterForm: FC = () => {
         <input
           {...register("password", {
             required: { value: true, message: PASSWORD_REQUIRED_MESSAGE },
-            min: {
+            minLength: {
               value: MIN_PASSWORD_LENGTH,
               message: MIN_PASSWORD_LENGTH_MESSAGE,
             },

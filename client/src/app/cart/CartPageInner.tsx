@@ -31,42 +31,50 @@ const CartPageInner: FC = () => {
         <h1 className="title">Корзина</h1>
       </div>
       <div className={styles["cart__wrapper"]}>
-        <div className={styles["cart__info"]}>
-          <div className={styles["cart__selection"]}>
-            <CheckBoxWithLabel
-              isChecked={isAllSelected}
-              handleCheckboxChange={handleCheckboxChange}
-              labelText={"Выбрать все"}
-              labelClassName={styles["cart__selection-all"]}
-              onClick={selectAll}
-            />
-            <span
-              className={styles["cart__selection-clear"]}
-              onClick={unselectAll}
-            >
-              Снять выделение
-            </span>
-          </div>
-          <div className={styles["cart__items"]}>
-            {cartItems.map((productCart) => (
-              <CartItem
-                key={productCart.id + productCart.id}
-                onSelectItem={onSelectItem}
-                productCart={productCart}
-                updateData={updateData}
+        {cartItems.length > 0 ? (
+          <div className={styles["cart__info"]}>
+            <div className={styles["cart__selection"]}>
+              <CheckBoxWithLabel
+                isChecked={isAllSelected}
+                handleCheckboxChange={handleCheckboxChange}
+                labelText={"Выбрать все"}
+                labelClassName={styles["cart__selection-all"]}
+                onClick={selectAll}
               />
-            ))}
+              <span
+                className={styles["cart__selection-clear"]}
+                onClick={unselectAll}
+              >
+                Снять выделение
+              </span>
+            </div>
+            <div className={styles["cart__items"]}>
+              {cartItems.map((productCart) => (
+                <CartItem
+                  key={productCart.id + productCart.id}
+                  onSelectItem={onSelectItem}
+                  productCart={productCart}
+                  updateData={updateData}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles["cart__empty"]}>
+            Вы ещё ничего не добавили в корзину :(
+          </div>
+        )}
 
-        <CartAside
-          handlePayment={handlePayment}
-          cartItemsQuantity={
-            cartItems.filter((item) => item.isSelected === true).length
-          }
-          totalAmount={totalAmount}
-          salesAmount={salesAmount}
-        />
+        {cartItems.length > 0 && (
+          <CartAside
+            handlePayment={handlePayment}
+            cartItemsQuantity={
+              cartItems.filter((item) => item.isSelected === true).length
+            }
+            totalAmount={totalAmount}
+            salesAmount={salesAmount}
+          />
+        )}
       </div>
     </>
   );

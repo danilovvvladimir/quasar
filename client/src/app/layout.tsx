@@ -6,6 +6,7 @@ import {
   BASE_LAYOUT_METADATA_DESCRIPTION,
   BASE_LAYOUT_METADATA_TITLE,
 } from "@/constants/metadata";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: BASE_LAYOUT_METADATA_TITLE,
@@ -19,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
+      <Head>
+        <link rel="icon" href="/logo.svg" />
+      </Head>
       <body>
         <main className="main">
           <div className="container">
