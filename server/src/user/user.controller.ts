@@ -18,6 +18,7 @@ import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";
 import {
   CartItemCreateDTO,
+  UserToggleAdminDTO,
   UserUpdateDTO,
   WishlistItemToggleDTO,
 } from "./user.dto";
@@ -134,5 +135,14 @@ export class UserController {
   @UseGuards(AccessTokenGuard)
   async update(@CurrentUser("id") id: string, @Body() dto: UserUpdateDTO) {
     return this.userService.update(dto, id);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Put("/toggle-admin")
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles("SUPERADMIN")
+  async toggleAdminRole(@Body() dto: UserToggleAdminDTO) {
+    return this.userService.toggleAdminRole(dto);
   }
 }

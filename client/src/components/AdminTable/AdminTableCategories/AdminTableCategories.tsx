@@ -15,13 +15,13 @@ const AdminTableCategories: FC<AdminTableCategoriesProps> = ({
     <div className={styles["admin-table__categories"]}>
       <div className={styles["admin-table__categories-header"]}>
         <div className={styles["admin-table__categories-header-name"]}>
-          Name
+          Название
         </div>
         <div className={styles["admin-table__categories-header-slug"]}>
           Slug
         </div>
         <div className={styles["admin-table__categories-header-actions"]}>
-          Actions
+          Действия
         </div>
       </div>
       <div className={styles["admin-table__categories-rows"]}>

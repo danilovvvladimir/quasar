@@ -76,6 +76,18 @@ class UserService {
 
     return response.data;
   }
+
+  async toggleAdminRole(isAdmin: boolean, userId: string) {
+    const response = await updatedAxios.put<User>(
+      `${this.USER_BASE_API}/toggle-admin`,
+      {
+        userId,
+        isAdmin,
+      },
+    );
+
+    return response.data;
+  }
 }
 
 export default UserService;

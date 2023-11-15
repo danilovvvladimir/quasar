@@ -52,16 +52,16 @@ const AdminTableProducts: FC<AdminTableProductsProps> = ({
       <div className={styles["admin-table__products"]}>
         <div className={styles["admin-table__products-header"]}>
           <div className={styles["admin-table__products-header-name"]}>
-            Name
+            Название
           </div>
           <div className={styles["admin-table__products-header-slug"]}>
             Slug
           </div>
           <div className={styles["admin-table__products-header-rating"]}>
-            Rating
+            Рейтинг
           </div>
           <div className={styles["admin-table__products-header-actions"]}>
-            Actions
+            Действия
           </div>
         </div>
         <div className={styles["admin-table__products-rows"]}>

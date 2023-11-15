@@ -6,21 +6,43 @@ import classNames from "classnames";
 
 interface TogglerProps extends InputHTMLAttributes<HTMLInputElement> {
   isToggle: boolean;
-  onToggle: (toggle: boolean) => void;
+  onToggleOn?: () => void;
+  onToggleOff?: () => void;
+  accented?: boolean;
 }
 
-const Toggler: FC<TogglerProps> = ({ onToggle, isToggle, ...props }) => {
+const Toggler: FC<TogglerProps> = ({
+  isToggle,
+  onToggleOn,
+  onToggleOff,
+  accented,
+  ...props
+}) => {
   const [isTogglerOn, setIsTogglerOn] = useState<boolean>(isToggle);
 
   const handleTogglerChange = () => {
-    setIsTogglerOn(!isTogglerOn);
-    onToggle(isTogglerOn);
+    setIsTogglerOn((prevIsTogglerOn) => {
+      const newIsTogglerOn = !prevIsTogglerOn;
+
+      console.log("current toggle:", newIsTogglerOn);
+
+      if (newIsTogglerOn && onToggleOn) {
+        onToggleOn();
+      }
+
+      if (!newIsTogglerOn && onToggleOff) {
+        onToggleOff();
+      }
+
+      return newIsTogglerOn;
+    });
   };
 
   return (
     <label
       className={classNames(styles["custom-toggler"], {
         [styles["custom-toggler--on"]]: isTogglerOn,
+        [styles["custom-toggler--accented"]]: accented,
       })}
     >
       <input

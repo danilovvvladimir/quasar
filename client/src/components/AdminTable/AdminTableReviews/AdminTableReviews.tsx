@@ -17,31 +17,18 @@ const AdminTableReviews: FC<AdminTableReviewsProps> = ({
   reviews,
   updateData,
 }) => {
-  // const handleDeleteReview = async (id: string) => {
-  //   const reviewService = new ReviewService();
-
-  //   try {
-  //     await reviewService.delete(id);
-  //     createNotify("Вы успешно удалили отзыв!");
-  //     updateData();
-  //   } catch (error) {
-  //     const err = error as Error;
-  //     createNotify(`Что-то пошло не так...\n${err.message}`, notifyMode.ERROR);
-  //   }
-  // };
-
   return (
     <div className={styles["admin-table__reviews"]}>
       <div className={styles["admin-table__reviews-header"]}>
         <div className={styles["admin-table__reviews-header-product"]}>
-          Product Name
+          Название Товара
         </div>
         <div className={styles["admin-table__reviews-header-email"]}>Email</div>
         <div className={styles["admin-table__reviews-header-rating"]}>
-          Rating
+          Рейтинг
         </div>
         <div className={styles["admin-table__reviews-header-actions"]}>
-          Actions
+          Действия
         </div>
       </div>
       <div className={styles["admin-table__reviews-rows"]}>

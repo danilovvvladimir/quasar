@@ -13,6 +13,7 @@ import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
 import {
   CartItemCreateDTO,
+  UserToggleAdminDTO,
   UserUpdateDTO,
   WishlistItemToggleDTO,
 } from "./user.dto";
@@ -327,6 +328,21 @@ export class UserService {
             email,
             username,
           },
+    });
+
+    return updatedUser;
+  }
+
+  async toggleAdminRole(dto: UserToggleAdminDTO) {
+    const { userId, isAdmin } = dto;
+
+    const updatedUser = await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        role: isAdmin ? "ADMIN" : "USER",
+      },
     });
 
     return updatedUser;

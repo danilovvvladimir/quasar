@@ -1,4 +1,10 @@
-import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class UserUpdateDTO {
   @IsEmail()
@@ -11,6 +17,14 @@ export class UserUpdateDTO {
   @IsOptional()
   @IsString()
   username: string;
+}
+
+export class UserToggleAdminDTO {
+  @IsString()
+  userId: string;
+
+  @IsBoolean()
+  isAdmin: boolean;
 }
 
 export class CartItemCreateDTO {

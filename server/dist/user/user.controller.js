@@ -63,6 +63,9 @@ let UserController = class UserController {
     async update(id, dto) {
         return this.userService.update(dto, id);
     }
+    async toggleAdminRole(dto) {
+        return this.userService.toggleAdminRole(dto);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -198,6 +201,17 @@ __decorate([
     __metadata("design:paramtypes", [String, user_dto_1.UserUpdateDTO]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Put)("/toggle-admin"),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
+    (0, role_1.Roles)("SUPERADMIN"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserToggleAdminDTO]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "toggleAdminRole", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [user_service_1.UserService])

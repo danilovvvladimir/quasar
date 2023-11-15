@@ -17,7 +17,7 @@ const ProfileReviewsInner: FC<ProfileReviewsInnerProps> = () => {
   const reviewService = new ReviewService();
 
   const updateData = async () => {
-    const reviews = await reviewService.getByUserId(user.id);
+    const reviews = await reviewService.getByUserId(user!.id);
 
     setReviews(reviews);
   };

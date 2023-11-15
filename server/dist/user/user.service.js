@@ -288,6 +288,18 @@ let UserService = class UserService {
         });
         return updatedUser;
     }
+    async toggleAdminRole(dto) {
+        const { userId, isAdmin } = dto;
+        const updatedUser = await this.prismaService.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                role: isAdmin ? "ADMIN" : "USER",
+            },
+        });
+        return updatedUser;
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

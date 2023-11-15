@@ -6,6 +6,9 @@ import ProductService from "@/services/order";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import OrderService from "@/services/order";
 import { getShortEmail } from "@/utils/getShortEmail";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import Loader from "@/components/Loader/Loader";
 
 interface AdminTableOrdersProps {
   orders: any[];
@@ -17,17 +20,17 @@ const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
       <div className={styles["admin-table__orders-header"]}>
         <div className={styles["admin-table__orders-header-email"]}>Email</div>
         <div className={styles["admin-table__orders-header-status"]}>
-          Status
+          Статус
         </div>
-        <div className={styles["admin-table__orders-header-items"]}>Items</div>
+        <div className={styles["admin-table__orders-header-items"]}>Кол-во</div>
         <div className={styles["admin-table__orders-header-total-price"]}>
-          Total Price
+          Потрачено
         </div>
         <div className={styles["admin-table__orders-header-order-date"]}>
-          Order Date
+          Дата Заказа
         </div>
         <div className={styles["admin-table__orders-header-actions"]}>
-          Actions
+          Действия
         </div>
       </div>
       <div className={styles["admin-table__orders-rows"]}>

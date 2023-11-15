@@ -27,4 +27,8 @@
       right: 2px;
     }
   }
+
+  &--accented {
+    background-color: rgba($main-accent-color, 0.4);
+  }
 }

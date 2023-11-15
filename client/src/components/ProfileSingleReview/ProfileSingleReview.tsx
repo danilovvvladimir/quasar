@@ -28,9 +28,6 @@ const ProfileSingleReview: FC<ProfileSingleReviewProps> = ({ review }) => {
             </span>
           )}
         </div>
-        <Button className={styles["profile-single-review__button-edit"]}>
-          Редактировать
-        </Button>
       </div>
 
       <div className={styles["profile-single-review__main"]}>
