@@ -7,11 +7,6 @@ export declare class AuthService {
     constructor(jwtService: JwtService, userService: UserService);
     register(registerDTO: AuthRegisterDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -51,6 +46,11 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;
@@ -85,11 +85,6 @@ export declare class AuthService {
     }>;
     login(loginDTO: AuthLoginDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -129,6 +124,11 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;
@@ -161,11 +161,6 @@ export declare class AuthService {
     }>;
     getNewTokens(dto: RefreshTokenDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -205,6 +200,11 @@ export declare class AuthService {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;

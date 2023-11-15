@@ -7,6 +7,8 @@ export const REVIEW_CREATE_NOTIFY_MESSAGE: string =
 export const REVIEW_UPDATE_NOTIFY_MESSAGE: string =
   "Вы успешно обновили отзыв!";
 export const REVIEW_DELETE_NOTIFY_MESSAGE: string = "Вы успешно удалили отзыв!";
+export const USER_UPDATE_NOTIFY_MESSAGE: string =
+  "Вы успешно отредактировали профиль!";
 export const CATEGORY_CREATE_NOTIFY_MESSAGE: string =
   "Категория успешно создана";
 export const ALREADY_HAS_PRODUCT_CART_NOTIFY_MESSAGE: string =

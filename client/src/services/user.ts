@@ -68,7 +68,7 @@ class UserService {
   async update(dto: UserUpdateDTO) {
     const { email, password, username } = dto;
 
-    const response = await updatedAxios.put(`${this.USER_BASE_API}`, {
+    const response = await updatedAxios.put<User>(`${this.USER_BASE_API}`, {
       email,
       username,
       password,

@@ -5,11 +5,6 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(dto: AuthRegisterDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -49,6 +44,11 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;
@@ -83,11 +83,6 @@ export declare class AuthController {
     }>;
     login(dto: AuthLoginDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -127,6 +122,11 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;
@@ -159,11 +159,6 @@ export declare class AuthController {
     }>;
     getNewTokens(refreshToken: RefreshTokenDTO): Promise<{
         user: {
-            wishlistItems: {
-                id: string;
-                userId: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -203,6 +198,11 @@ export declare class AuthController {
                 userId: string;
                 productId: string;
             })[];
+            wishlistItems: {
+                id: string;
+                userId: string;
+                productId: string;
+            }[];
             orders: ({
                 orderItems: {
                     id: string;
