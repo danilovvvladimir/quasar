@@ -1,28 +1,31 @@
 import { IsEmail, MinLength, IsString, MaxLength } from "class-validator";
 import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
   REGISTER_PASSWORD_MAX_MESSAGE,
   REGISTER_PASSWORD_MIN_MESSAGE,
   REGISTER_USERNAME_MAX_MESSAGE,
   REGISTER_USERNAME_MIN_MESSAGE,
+  USERNAME_MIN_LENGTH,
 } from "src/constants/auth";
 
 export class AuthRegisterDTO {
   @IsEmail()
   email: string;
 
-  @MinLength(4, {
+  @MinLength(USERNAME_MIN_LENGTH, {
     message: REGISTER_USERNAME_MIN_MESSAGE,
   })
-  @MaxLength(50, {
+  @MaxLength(PASSWORD_MAX_LENGTH, {
     message: REGISTER_USERNAME_MAX_MESSAGE,
   })
   @IsString()
   username: string;
 
-  @MinLength(8, {
+  @MinLength(PASSWORD_MIN_LENGTH, {
     message: REGISTER_PASSWORD_MIN_MESSAGE,
   })
-  @MaxLength(50, {
+  @MaxLength(PASSWORD_MAX_LENGTH, {
     message: REGISTER_PASSWORD_MAX_MESSAGE,
   })
   @IsString()
@@ -33,10 +36,10 @@ export class AuthLoginDTO {
   @IsEmail()
   email: string;
 
-  @MinLength(8, {
+  @MinLength(PASSWORD_MIN_LENGTH, {
     message: REGISTER_PASSWORD_MIN_MESSAGE,
   })
-  @MaxLength(50, {
+  @MaxLength(PASSWORD_MAX_LENGTH, {
     message: REGISTER_PASSWORD_MAX_MESSAGE,
   })
   @IsString()

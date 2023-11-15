@@ -49,19 +49,19 @@ export class OrderController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
+  @Post()
+  @UseGuards(AccessTokenGuard)
+  async create(@Body() dto: OrderCreateDTO) {
+    return this.orderService.create(dto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
   @Get("by-product/:productId")
   @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles("ADMIN", "SUPERADMIN")
   async findByProductId(@Param("productId") productId: string) {
     return this.orderService.findByProductId(productId);
-  }
-
-  @UsePipes(new ValidationPipe())
-  @HttpCode(200)
-  @Post()
-  @UseGuards(AccessTokenGuard)
-  async create(@Body() dto: OrderCreateDTO) {
-    return this.orderService.create(dto);
   }
 
   @UsePipes(new ValidationPipe())

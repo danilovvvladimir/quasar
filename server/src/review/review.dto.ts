@@ -1,13 +1,4 @@
-import { ProductSize } from "@prisma/client";
-import {
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsNumber,
-  IsString,
-  Max,
-  Min,
-} from "class-validator";
+import { IsNumber, IsString, Max, Min } from "class-validator";
 
 export class ReviewCreateDTO {
   @IsString()

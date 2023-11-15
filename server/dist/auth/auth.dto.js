@@ -20,20 +20,20 @@ __decorate([
     __metadata("design:type", String)
 ], AuthRegisterDTO.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.MinLength)(4, {
+    (0, class_validator_1.MinLength)(auth_1.USERNAME_MIN_LENGTH, {
         message: auth_1.REGISTER_USERNAME_MIN_MESSAGE,
     }),
-    (0, class_validator_1.MaxLength)(50, {
+    (0, class_validator_1.MaxLength)(auth_1.PASSWORD_MAX_LENGTH, {
         message: auth_1.REGISTER_USERNAME_MAX_MESSAGE,
     }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], AuthRegisterDTO.prototype, "username", void 0);
 __decorate([
-    (0, class_validator_1.MinLength)(8, {
+    (0, class_validator_1.MinLength)(auth_1.PASSWORD_MIN_LENGTH, {
         message: auth_1.REGISTER_PASSWORD_MIN_MESSAGE,
     }),
-    (0, class_validator_1.MaxLength)(50, {
+    (0, class_validator_1.MaxLength)(auth_1.PASSWORD_MAX_LENGTH, {
         message: auth_1.REGISTER_PASSWORD_MAX_MESSAGE,
     }),
     (0, class_validator_1.IsString)(),
@@ -47,10 +47,10 @@ __decorate([
     __metadata("design:type", String)
 ], AuthLoginDTO.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.MinLength)(8, {
+    (0, class_validator_1.MinLength)(auth_1.PASSWORD_MIN_LENGTH, {
         message: auth_1.REGISTER_PASSWORD_MIN_MESSAGE,
     }),
-    (0, class_validator_1.MaxLength)(50, {
+    (0, class_validator_1.MaxLength)(auth_1.PASSWORD_MAX_LENGTH, {
         message: auth_1.REGISTER_PASSWORD_MAX_MESSAGE,
     }),
     (0, class_validator_1.IsString)(),

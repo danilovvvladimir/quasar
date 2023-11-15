@@ -83,13 +83,6 @@ export declare class OrderController {
         updatedAt: Date;
         userId: string;
     })[]>;
-    findByProductId(productId: string): Promise<{
-        id: string;
-        orderStatus: import(".prisma/client").$Enums.OrderStatus;
-        createdAt: Date;
-        updatedAt: Date;
-        userId: string;
-    }[]>;
     create(dto: OrderCreateDTO): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
@@ -97,6 +90,13 @@ export declare class OrderController {
         updatedAt: Date;
         userId: string;
     }>;
+    findByProductId(productId: string): Promise<{
+        id: string;
+        orderStatus: import(".prisma/client").$Enums.OrderStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+    }[]>;
     updateStatus(dto: UpdateStatusDTO): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

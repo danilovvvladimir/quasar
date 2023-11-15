@@ -32,11 +32,11 @@ let OrderController = class OrderController {
     async findByUserId(userId) {
         return this.orderService.findByUserId(userId);
     }
-    async findByProductId(productId) {
-        return this.orderService.findByProductId(productId);
-    }
     async create(dto) {
         return this.orderService.create(dto);
+    }
+    async findByProductId(productId) {
+        return this.orderService.findByProductId(productId);
     }
     async updateStatus(dto) {
         return this.orderService.updateStatus(dto);
@@ -76,6 +76,16 @@ __decorate([
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
+    (0, common_1.Post)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [order_dto_1.OrderCreateDTO]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "create", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
     (0, common_1.Get)("by-product/:productId"),
     (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
     (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
@@ -84,16 +94,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "findByProductId", null);
-__decorate([
-    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
-    (0, common_1.HttpCode)(200),
-    (0, common_1.Post)(),
-    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [order_dto_1.OrderCreateDTO]),
-    __metadata("design:returntype", Promise)
-], OrderController.prototype, "create", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

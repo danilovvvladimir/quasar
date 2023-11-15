@@ -35,7 +35,6 @@ let OrderService = class OrderService {
         });
         const orderPromises = orders.map(async (item) => (Object.assign(Object.assign({}, item), { totalPrice: +(await this.getOrderTotalPrice(item.id)) })));
         const ordersWithTotalPrices = await Promise.all(orderPromises);
-        console.log("ordersWithTotalPrices", ordersWithTotalPrices);
         return ordersWithTotalPrices;
     }
     async findById(id) {
@@ -84,7 +83,7 @@ let OrderService = class OrderService {
     }
     async create(dto) {
         const { orderItems, userId } = dto;
-        let order = undefined;
+        let order;
         try {
             order = await this.prismaService.$transaction(async (prisma) => {
                 const createdOrder = await prisma.order.create({
@@ -92,12 +91,10 @@ let OrderService = class OrderService {
                         userId,
                     },
                 });
-                console.log("1 зашло");
                 this.createOrderItems(createdOrder.id, {
                     orderItems,
                 });
                 this.updateOrderedItems({ orderItems });
-                console.log("2 зашло");
                 return createdOrder;
             });
         }

@@ -45,7 +45,6 @@ export class ReviewController {
     return this.reviewService.findByProductId(productId);
   }
 
-  // @CurrentUser("id") userId: string,@CurrentUser("role") userRole: string,
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get("by-user/:userId")

@@ -255,10 +255,9 @@ export class ProductService {
       oldPrice,
     } = dto;
 
-    let product: Product = undefined;
+    let product: Product;
 
     try {
-      // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
         const createdProduct = await prisma.product.create({
           data: {
@@ -286,7 +285,6 @@ export class ProductService {
       const err = error as Error;
       console.log(err.message);
 
-      // Обработка ошибок транзакции
       throw new HttpException(
         PRODUCT_CREATE_ERROR_MESSAGE,
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -366,9 +364,10 @@ export class ProductService {
       slug,
     } = dto;
     await this.findById(id);
-    let product: Product = undefined;
+
+    let product: Product;
+
     try {
-      // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
         this.deleteProductCategories(id);
         this.deleteProductImages(id);
@@ -391,7 +390,6 @@ export class ProductService {
         return updatedProduct;
       });
     } catch (error) {
-      // Обработка ошибок транзакции
       throw new HttpException(
         PRODUCT_UPDATE_ERROR_MESSAGE,
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -403,10 +401,9 @@ export class ProductService {
   async delete(id: string) {
     await this.findById(id);
 
-    let product: Product = undefined;
+    let product: Product;
 
     try {
-      // Начало транзакции
       product = await this.prismaService.$transaction(async (prisma) => {
         await this.deleteProductCategories(id);
 
@@ -421,7 +418,6 @@ export class ProductService {
         return deletedProduct;
       });
     } catch (error) {
-      // Обработка ошибок транзакции
       throw new HttpException(
         PRODUCT_DELETE_ERROR_MESSAGE,
         HttpStatus.INTERNAL_SERVER_ERROR,

@@ -85,7 +85,6 @@ export class ProductController {
     return this.productService.findByCategoryId(categoryId);
   }
 
-  // Или засунуть в findByID
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":id/details")
@@ -93,7 +92,6 @@ export class ProductController {
     return this.productService.findSizeQuantiy(id);
   }
 
-  // Или засунуть в findByID
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Get(":id/images")

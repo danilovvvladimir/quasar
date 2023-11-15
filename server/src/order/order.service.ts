@@ -46,8 +46,6 @@ export class OrderService {
 
     const ordersWithTotalPrices = await Promise.all(orderPromises);
 
-    console.log("ordersWithTotalPrices", ordersWithTotalPrices);
-
     return ordersWithTotalPrices;
   }
 
@@ -65,8 +63,6 @@ export class OrderService {
   }
 
   async findByUserId(userId: string) {
-    // Проверка на существование юзера?
-
     const orders = await this.prismaService.order.findMany({
       where: {
         userId,
@@ -91,8 +87,6 @@ export class OrderService {
   }
 
   async findByProductId(productId: string) {
-    // Проверка на существование product?
-
     const products = await this.prismaService.order.findMany({
       where: {
         orderItems: {
@@ -109,25 +103,21 @@ export class OrderService {
   async create(dto: OrderCreateDTO) {
     const { orderItems, userId } = dto;
 
-    let order: Order = undefined;
+    let order: Order;
 
     try {
-      // Начало транзакции
       order = await this.prismaService.$transaction(async (prisma) => {
         const createdOrder = await prisma.order.create({
           data: {
             userId,
           },
         });
-        console.log("1 зашло");
 
         this.createOrderItems(createdOrder.id, {
           orderItems,
         });
 
         this.updateOrderedItems({ orderItems });
-
-        console.log("2 зашло");
 
         return createdOrder;
       });
