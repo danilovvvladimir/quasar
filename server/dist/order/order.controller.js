@@ -16,7 +16,6 @@ exports.OrderController = void 0;
 const common_1 = require("@nestjs/common");
 const order_service_1 = require("./order.service");
 const order_dto_1 = require("./order.dto");
-const client_1 = require("@prisma/client");
 const role_1 = require("../decorators/role");
 const accessToken_1 = require("../guard/accessToken");
 const roles_1 = require("../guard/roles");
@@ -39,8 +38,8 @@ let OrderController = class OrderController {
     async create(dto) {
         return this.orderService.create(dto);
     }
-    async updateStatus(id, newOrderStatus) {
-        return this.orderService.updateStatus(id, newOrderStatus);
+    async updateStatus(dto) {
+        return this.orderService.updateStatus(dto);
     }
 };
 exports.OrderController = OrderController;
@@ -98,13 +97,12 @@ __decorate([
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
-    (0, common_1.Put)("status/:id"),
+    (0, common_1.Put)("status"),
     (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard, roles_1.RolesGuard),
     (0, role_1.Roles)("ADMIN", "SUPERADMIN"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [order_dto_1.UpdateStatusDTO]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "updateStatus", null);
 exports.OrderController = OrderController = __decorate([

@@ -10,7 +10,11 @@ import {
   ORDER_NOT_FOUND_MESSAGE,
 } from "src/constants/order";
 import { PrismaService } from "src/database/prisma.service";
-import { OrderCreateDTO, OrderItemsCreateDTO } from "./order.dto";
+import {
+  OrderCreateDTO,
+  OrderItemsCreateDTO,
+  UpdateStatusDTO,
+} from "./order.dto";
 
 @Injectable()
 export class OrderService {
@@ -32,6 +36,7 @@ export class OrderService {
   async findAll() {
     const orders = await this.prismaService.order.findMany({
       include: { orderItems: true, user: true },
+      orderBy: { createdAt: "desc" },
     });
 
     const orderPromises = orders.map(async (item) => ({
@@ -181,7 +186,9 @@ export class OrderService {
     return detailsPromises;
   }
 
-  async updateStatus(id: string, newOrderStatus: OrderStatus) {
+  async updateStatus(dto: UpdateStatusDTO) {
+    const { newOrderStatus, id } = dto;
+
     await this.findById(id);
 
     const order = await this.prismaService.order.update({

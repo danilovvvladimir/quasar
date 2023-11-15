@@ -12,11 +12,6 @@ export declare class UserService {
         totalIncome: number;
     }>;
     findAll(): Promise<({
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         reviews: {
             id: string;
             text: string;
@@ -56,6 +51,11 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -84,11 +84,6 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     })[]>;
     findById(id: string): Promise<{
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         reviews: {
             id: string;
             text: string;
@@ -128,6 +123,11 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -154,11 +154,6 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         reviews: {
             id: string;
             text: string;
@@ -198,6 +193,11 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -234,6 +234,11 @@ export declare class UserService {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
+            productImages: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -241,11 +246,6 @@ export declare class UserService {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
-                productId: string;
-            }[];
-            productImages: {
-                id: string;
-                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -316,11 +316,6 @@ export declare class UserService {
         productId: string;
     }>;
     create(email: string, username: string, passwordHash: string): Promise<{
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         reviews: {
             id: string;
             text: string;
@@ -360,6 +355,11 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         orders: ({
             orderItems: {
                 id: string;

@@ -2,12 +2,10 @@
 
 import { FC, useEffect, useState } from "react";
 import Button from "@/components/UI/Button/Button";
-import Input from "@/components/UI/Input/Input";
 import Image from "next/image";
 import styles from "../ProfilePage.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { register } from "module";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ErrorValidationText from "@/components/ErrorValidationText/ErrorValidationText";
 import {
@@ -16,7 +14,6 @@ import {
   MIN_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH_MESSAGE,
   NAME_REQUIRED_MESSAGE,
-  PASSWORD_REQUIRED_MESSAGE,
 } from "@/constants/validation";
 import { EMAIL_REGEX } from "@/constants/regex";
 import {
@@ -35,9 +32,8 @@ interface UpdateProfileValues {
   password?: string;
 }
 
-interface ProfileInfoPageProps {}
-
 const ProfileInfoPage: FC = () => {
+  const userService = new UserService();
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState<UpdateProfileValues>({
@@ -58,8 +54,6 @@ const ProfileInfoPage: FC = () => {
       username: user?.username || "",
     },
   });
-
-  const userService = new UserService();
 
   const onSubmit: SubmitHandler<UpdateProfileValues> = async (values) => {
     try {

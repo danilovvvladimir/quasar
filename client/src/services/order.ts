@@ -36,6 +36,20 @@ class OrderService {
 
     return response.data;
   }
+
+  async changeUserOrderStatus(newOrderStatus: string, id: string) {
+    const response = await updatedAxios.put<Order>(
+      `${this.ORDER_BASE_API}/status`,
+      {
+        newOrderStatus,
+        id,
+      },
+    );
+
+    console.log("response changeUserOrderStatus", response);
+
+    return response.data;
+  }
 }
 
 export default OrderService;

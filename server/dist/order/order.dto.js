@@ -9,7 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrderItemsCreateDTO = exports.OrderCreateDTO = void 0;
+exports.UpdateStatusDTO = exports.OrderItemsCreateDTO = exports.OrderCreateDTO = void 0;
+const client_1 = require("@prisma/client");
 const class_validator_1 = require("class-validator");
 class OrderCreateDTO {
 }
@@ -33,4 +34,15 @@ __decorate([
     (0, class_validator_1.ValidateNested)({ each: true }),
     __metadata("design:type", Array)
 ], OrderItemsCreateDTO.prototype, "orderItems", void 0);
+class UpdateStatusDTO {
+}
+exports.UpdateStatusDTO = UpdateStatusDTO;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateStatusDTO.prototype, "id", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(client_1.OrderStatus),
+    __metadata("design:type", String)
+], UpdateStatusDTO.prototype, "newOrderStatus", void 0);
 //# sourceMappingURL=order.dto.js.map

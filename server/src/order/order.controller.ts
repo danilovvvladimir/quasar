@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { Auth } from "src/decorators/auth";
-import { OrderCreateDTO } from "./order.dto";
+import { OrderCreateDTO, UpdateStatusDTO } from "./order.dto";
 import { OrderStatus } from "@prisma/client";
 import { Roles } from "src/decorators/role";
 import { AccessTokenGuard } from "src/guard/accessToken";
@@ -66,13 +66,10 @@ export class OrderController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put("status/:id")
+  @Put("status")
   @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles("ADMIN", "SUPERADMIN")
-  async updateStatus(
-    @Param("id") id: string,
-    @Body() newOrderStatus: OrderStatus,
-  ) {
-    return this.orderService.updateStatus(id, newOrderStatus);
+  async updateStatus(@Body() dto: UpdateStatusDTO) {
+    return this.orderService.updateStatus(dto);
   }
 }

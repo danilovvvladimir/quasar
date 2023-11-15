@@ -1,9 +1,10 @@
-import { OrderItem } from "@prisma/client";
+import { OrderItem, OrderStatus } from "@prisma/client";
 import {
   IsArray,
   ArrayMinSize,
   ValidateNested,
   IsString,
+  IsEnum,
 } from "class-validator";
 
 export class OrderCreateDTO {
@@ -27,4 +28,12 @@ export class OrderItemsCreateDTO {
     OrderItem,
     "productId" | "quantity" | "totalPrice" | "size"
   >[];
+}
+
+export class UpdateStatusDTO {
+  @IsString()
+  id: string;
+
+  @IsEnum(OrderStatus)
+  newOrderStatus: OrderStatus;
 }

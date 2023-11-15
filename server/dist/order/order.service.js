@@ -31,6 +31,7 @@ let OrderService = class OrderService {
     async findAll() {
         const orders = await this.prismaService.order.findMany({
             include: { orderItems: true, user: true },
+            orderBy: { createdAt: "desc" },
         });
         const orderPromises = orders.map(async (item) => (Object.assign(Object.assign({}, item), { totalPrice: +(await this.getOrderTotalPrice(item.id)) })));
         const ordersWithTotalPrices = await Promise.all(orderPromises);
@@ -141,7 +142,8 @@ let OrderService = class OrderService {
         await Promise.all(detailsPromises);
         return detailsPromises;
     }
-    async updateStatus(id, newOrderStatus) {
+    async updateStatus(dto) {
+        const { newOrderStatus, id } = dto;
         await this.findById(id);
         const order = await this.prismaService.order.update({
             where: { id },

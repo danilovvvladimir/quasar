@@ -1,6 +1,5 @@
 import { OrderService } from "./order.service";
-import { OrderCreateDTO } from "./order.dto";
-import { OrderStatus } from "@prisma/client";
+import { OrderCreateDTO, UpdateStatusDTO } from "./order.dto";
 export declare class OrderController {
     private readonly orderService;
     constructor(orderService: OrderService);
@@ -98,7 +97,7 @@ export declare class OrderController {
         updatedAt: Date;
         userId: string;
     }>;
-    updateStatus(id: string, newOrderStatus: OrderStatus): Promise<{
+    updateStatus(dto: UpdateStatusDTO): Promise<{
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;

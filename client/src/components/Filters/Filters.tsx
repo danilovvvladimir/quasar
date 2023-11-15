@@ -98,7 +98,11 @@ const Filters: FC<FiltersProps> = ({ filters, setFilters }) => {
         <h3 className={`title ${styles["filters__item-title"]}`}>
           Товары со скидкой
         </h3>
-        <Toggler onToggle={toggleDiscount} isToggle={isDiscount} />
+        <Toggler
+          onToggleOn={toggleDiscount}
+          onToggleOff={toggleDiscount}
+          isToggle={isDiscount}
+        />
       </div>
     </div>
   );

@@ -2,19 +2,24 @@
 
 import { FC } from "react";
 import styles from "../AdminTable.module.scss";
-import ProductService from "@/services/order";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import OrderService from "@/services/order";
 import { getShortEmail } from "@/utils/getShortEmail";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import Loader from "@/components/Loader/Loader";
+import OrderStatusSelect from "@/components/OrderStatusSelect/OrderStatusSelect";
 
 interface AdminTableOrdersProps {
   orders: any[];
 }
 
 const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
+  const orderService = new OrderService();
+
+  const changeUserOrderStatus = async (newOrderStatus: string, id: string) => {
+    await orderService.changeUserOrderStatus(newOrderStatus, id);
+
+    createNotify("Статус заказа успешно изменён", notifyMode.SUCCESS);
+  };
+
   return (
     <div className={styles["admin-table__orders"]}>
       <div className={styles["admin-table__orders-header"]}>
@@ -43,7 +48,11 @@ const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
               {getShortEmail(order.user.email)}
             </div>
             <div className={styles["admin-table__orders-row-status"]}>
-              {order.orderStatus}
+              <OrderStatusSelect
+                orderId={order.id}
+                changeUserOrderStatus={changeUserOrderStatus}
+                currentOrderStatus={order.orderStatus}
+              />
             </div>
             <div className={styles["admin-table__orders-row-items"]}>
               {order.orderItems.length}
