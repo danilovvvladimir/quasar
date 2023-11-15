@@ -1,6 +1,6 @@
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
-import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
+import { CartItemCreateDTO, UserUpdateDTO, WishlistItemToggleDTO } from "./user.dto";
 export declare class UserService {
     private prismaService;
     private readonly productService;
@@ -12,6 +12,11 @@ export declare class UserService {
         totalIncome: number;
     }>;
     findAll(): Promise<({
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -51,11 +56,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -84,6 +84,11 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     })[]>;
     findById(id: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -123,11 +128,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -154,6 +154,11 @@ export declare class UserService {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -193,11 +198,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -234,11 +234,6 @@ export declare class UserService {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            productImages: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -246,6 +241,11 @@ export declare class UserService {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
+                productId: string;
+            }[];
+            productImages: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -316,6 +316,11 @@ export declare class UserService {
         productId: string;
     }>;
     create(email: string, username: string, passwordHash: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -355,11 +360,6 @@ export declare class UserService {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -379,6 +379,15 @@ export declare class UserService {
             userId: string;
         })[];
     } & {
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
+    }>;
+    update(dto: UserUpdateDTO, id: string): Promise<{
         id: string;
         username: string;
         password: string;

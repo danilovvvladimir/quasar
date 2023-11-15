@@ -16,7 +16,11 @@ import { CurrentUser } from "src/decorators/user";
 import { Roles } from "src/decorators/role";
 import { AccessTokenGuard } from "src/guard/accessToken";
 import { RolesGuard } from "src/guard/roles";
-import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
+import {
+  CartItemCreateDTO,
+  UserUpdateDTO,
+  WishlistItemToggleDTO,
+} from "./user.dto";
 
 @Controller("users")
 export class UserController {
@@ -114,7 +118,6 @@ export class UserController {
     return this.userService.deleteCartItem(id);
   }
 
-  // OriginalUserId check???
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Put("/cart-items/:id")
@@ -123,5 +126,13 @@ export class UserController {
     @Body() newQuantity: number,
   ) {
     return this.userService.updateCartItem(id, newQuantity);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
+  @Put()
+  @UseGuards(AccessTokenGuard)
+  async update(@CurrentUser("id") id: string, @Body() dto: UserUpdateDTO) {
+    return this.userService.update(dto, id);
   }
 }

@@ -25,6 +25,8 @@ const common_1 = require("@nestjs/common");
 const user_1 = require("../constants/user");
 const prisma_service_1 = require("../database/prisma.service");
 const product_service_1 = require("../product/product.service");
+const auth_1 = require("../constants/auth");
+const argon2_1 = require("argon2");
 let UserService = class UserService {
     constructor(prismaService, productService) {
         this.prismaService = prismaService;
@@ -258,6 +260,33 @@ let UserService = class UserService {
             },
         });
         return user;
+    }
+    async update(dto, id) {
+        const { email, password, username } = dto;
+        const userWithSameEmail = await this.prismaService.user.findUnique({
+            where: {
+                email,
+            },
+        });
+        if (userWithSameEmail && userWithSameEmail.id !== id) {
+            throw new common_1.BadRequestException(auth_1.USER_ALREADY_EXISTS_MESSAGE);
+        }
+        const updatedUser = await this.prismaService.user.update({
+            where: {
+                id: id,
+            },
+            data: password
+                ? {
+                    email,
+                    username,
+                    password: await (0, argon2_1.hash)(password),
+                }
+                : {
+                    email,
+                    username,
+                },
+        });
+        return updatedUser;
     }
 };
 exports.UserService = UserService;

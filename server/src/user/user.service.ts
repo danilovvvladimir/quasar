@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from "@nestjs/common";
 import {
   CART_ITEM_NOT_FOUND_MESSAGE,
@@ -10,7 +11,13 @@ import {
 } from "src/constants/user";
 import { PrismaService } from "src/database/prisma.service";
 import { ProductService } from "src/product/product.service";
-import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
+import {
+  CartItemCreateDTO,
+  UserUpdateDTO,
+  WishlistItemToggleDTO,
+} from "./user.dto";
+import { USER_ALREADY_EXISTS_MESSAGE } from "src/constants/auth";
+import { hash } from "argon2";
 
 @Injectable()
 export class UserService {
@@ -93,14 +100,6 @@ export class UserService {
 
     const { password, ...rest } = user;
 
-    // const userWithRenamedFields = {
-    //   ...rest,
-    //   cartItems: cartItem,
-    //   reviews: review,
-    //   orders: order,
-    //   wishlistItems: wishlistItem,
-    // };
-
     return rest;
   }
 
@@ -131,14 +130,6 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(USER_NOT_FOUND_MESSAGE);
     }
-
-    // const userWithRenamedFields = {
-    //   ...rest,
-    //   cartItems: cartItem,
-    //   reviews: review,
-    //   orders: order,
-    //   wishlistItems: wishlistItem,
-    // };
 
     return user;
   }
@@ -244,21 +235,6 @@ export class UserService {
       },
     });
 
-    // const formattedCartItems = cartItems.map((cartItem) => {
-    //   const { product, ...rest } = cartItem;
-
-    //   const { productImage, productSize, ...productRest } = product;
-
-    //   return {
-    //     ...rest,
-    //     product: {
-    //       ...productRest,
-    //       productImages: productImage,
-    //       productSizes: productSize,
-    //     },
-    //   };
-    // });
-
     return cartItems;
   }
 
@@ -322,5 +298,37 @@ export class UserService {
     });
 
     return user;
+  }
+
+  async update(dto: UserUpdateDTO, id: string) {
+    const { email, password, username } = dto;
+
+    const userWithSameEmail = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (userWithSameEmail && userWithSameEmail.id !== id) {
+      throw new BadRequestException(USER_ALREADY_EXISTS_MESSAGE);
+    }
+
+    const updatedUser = await this.prismaService.user.update({
+      where: {
+        id: id,
+      },
+      data: password
+        ? {
+            email,
+            username,
+            password: await hash(password),
+          }
+        : {
+            email,
+            username,
+          },
+    });
+
+    return updatedUser;
   }
 }

@@ -21,10 +21,12 @@ import {
   ERROR_NOTIFY_MESSAGE,
 } from "@/constants/messages";
 import { createNotify, notifyMode } from "@/utils/createNotify";
+import UserService from "@/services/user";
 
 interface UpdateProfileValues {
   username: string;
   email: string;
+  password?: string;
 }
 
 interface ProfileInfoPageProps {}
@@ -52,9 +54,13 @@ const ProfileInfoPage: FC = () => {
     },
   });
 
+  const userService = new UserService();
+
   const onSubmit: SubmitHandler<UpdateProfileValues> = async (values) => {
     try {
-      // user service
+      const { email, username, password } = values;
+      await userService.update({ email, username, password });
+
       console.log(values);
     } catch (error) {
       createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
@@ -68,7 +74,7 @@ const ProfileInfoPage: FC = () => {
       </h1>
       <Image
         src="/profile-mock.svg"
-        alt="Profile Mock"
+        alt={`${user!.username} profile image`}
         width={150}
         height={150}
       />

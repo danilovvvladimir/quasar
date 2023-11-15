@@ -60,6 +60,9 @@ let UserController = class UserController {
     async updateCartItemQuantity(id, newQuantity) {
         return this.userService.updateCartItem(id, newQuantity);
     }
+    async update(id, dto) {
+        return this.userService.update(dto, id);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -184,6 +187,17 @@ __decorate([
     __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateCartItemQuantity", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Put)(),
+    (0, common_1.UseGuards)(accessToken_1.AccessTokenGuard),
+    __param(0, (0, user_1.CurrentUser)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, user_dto_1.UserUpdateDTO]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "update", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [user_service_1.UserService])

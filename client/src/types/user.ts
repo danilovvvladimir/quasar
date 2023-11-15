@@ -54,3 +54,9 @@ export interface WishlistItem {
   productId: string;
   userId: string;
 }
+
+export interface UserUpdateDTO {
+  email: string;
+  username: string;
+  password?: string;
+}

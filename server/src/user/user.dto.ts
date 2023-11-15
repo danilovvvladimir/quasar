@@ -11,10 +11,6 @@ export class UserUpdateDTO {
   @IsOptional()
   @IsString()
   username: string;
-
-  @IsOptional()
-  @IsString()
-  phone: string;
 }
 
 export class CartItemCreateDTO {

@@ -1,9 +1,14 @@
 import { UserService } from "./user.service";
-import { CartItemCreateDTO, WishlistItemToggleDTO } from "./user.dto";
+import { CartItemCreateDTO, UserUpdateDTO, WishlistItemToggleDTO } from "./user.dto";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
     findAll(): Promise<({
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -43,11 +48,6 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -82,6 +82,11 @@ export declare class UserController {
         totalIncome: number;
     }>;
     getProfile(id: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -121,11 +126,6 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -152,6 +152,11 @@ export declare class UserController {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findById(id: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -191,11 +196,6 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -222,6 +222,11 @@ export declare class UserController {
         role: import(".prisma/client").$Enums.RoleName;
     }>;
     findByEmail(email: string): Promise<{
+        wishlistItems: {
+            id: string;
+            userId: string;
+            productId: string;
+        }[];
         reviews: {
             id: string;
             text: string;
@@ -261,11 +266,6 @@ export declare class UserController {
             userId: string;
             productId: string;
         })[];
-        wishlistItems: {
-            id: string;
-            userId: string;
-            productId: string;
-        }[];
         orders: ({
             orderItems: {
                 id: string;
@@ -302,11 +302,6 @@ export declare class UserController {
     }[]>;
     findWishlistItems(userId: string): Promise<({
         product: {
-            productImages: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
             reviews: {
                 id: string;
                 text: string;
@@ -314,6 +309,11 @@ export declare class UserController {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string;
+                productId: string;
+            }[];
+            productImages: {
+                id: string;
+                imagePath: string;
                 productId: string;
             }[];
         } & {
@@ -382,5 +382,14 @@ export declare class UserController {
         quantity: number;
         userId: string;
         productId: string;
+    }>;
+    update(id: string, dto: UserUpdateDTO): Promise<{
+        id: string;
+        username: string;
+        password: string;
+        email: string;
+        createdAt: Date;
+        updatedAt: Date;
+        role: import(".prisma/client").$Enums.RoleName;
     }>;
 }

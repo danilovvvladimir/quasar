@@ -1,5 +1,5 @@
 import { API_URL } from "@/constants/api";
-import { CartItemCreate, User } from "@/types/user";
+import { CartItemCreate, User, UserUpdateDTO } from "@/types/user";
 import updatedAxios from "@/axios";
 import { Product, ProductCart } from "@/types/product";
 
@@ -61,6 +61,18 @@ class UserService {
     const response = await updatedAxios.get(
       `${this.USER_BASE_API}/${userId}/wishlist-items`,
     );
+
+    return response.data;
+  }
+
+  async update(dto: UserUpdateDTO) {
+    const { email, password, username } = dto;
+
+    const response = await updatedAxios.put(`${this.USER_BASE_API}`, {
+      email,
+      username,
+      password,
+    });
 
     return response.data;
   }
