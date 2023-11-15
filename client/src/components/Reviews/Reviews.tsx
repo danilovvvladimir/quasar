@@ -25,9 +25,15 @@ const Reviews: FC<ReviewsProps> = ({
       <h2 className={`title ${styles["reviews__title"]}`}>Отзывы</h2>
       <div className={styles["reviews__wrapper"]}>
         <div className={styles["reviews__list"]}>
-          {reviews.map((review) => (
-            <SingleReview key={review.id} {...review} />
-          ))}
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <SingleReview key={review.id} {...review} />
+            ))
+          ) : (
+            <div className={styles["reviews__empty"]}>
+              Никто ещё не оставил отзыв на этот товар
+            </div>
+          )}
         </div>
         <div className={styles["reviews__info"]}>
           <ReviewsInfo reviews={reviews} />

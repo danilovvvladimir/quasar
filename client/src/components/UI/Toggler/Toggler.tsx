@@ -24,8 +24,6 @@ const Toggler: FC<TogglerProps> = ({
     setIsTogglerOn((prevIsTogglerOn) => {
       const newIsTogglerOn = !prevIsTogglerOn;
 
-      console.log("current toggle:", newIsTogglerOn);
-
       if (newIsTogglerOn && onToggleOn) {
         onToggleOn();
       }

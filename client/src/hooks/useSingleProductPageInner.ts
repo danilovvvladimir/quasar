@@ -109,7 +109,6 @@ const useSingleProductPageInner = (product: Product) => {
       user &&
       user.reviews.find((item) => item.productId === product.id)
     ) {
-      console.log("Есть этот товар");
       setExistingReview(
         user.reviews.find((item) => item.productId === product.id)!,
       );
@@ -117,7 +116,6 @@ const useSingleProductPageInner = (product: Product) => {
     } else {
       setUserHasReview(false);
       setExistingReview(null);
-      console.log("А товара то нет");
     }
 
     getReviews();

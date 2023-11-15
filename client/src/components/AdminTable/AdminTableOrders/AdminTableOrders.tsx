@@ -9,15 +9,24 @@ import OrderStatusSelect from "@/components/OrderStatusSelect/OrderStatusSelect"
 
 interface AdminTableOrdersProps {
   orders: any[];
+  setSelectedOrder: (newOrder: any) => void;
+  openModal: () => void;
+  updateData: () => void;
 }
 
-const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
+const AdminTableOrders: FC<AdminTableOrdersProps> = ({
+  orders,
+  setSelectedOrder,
+  openModal,
+  updateData,
+}) => {
   const orderService = new OrderService();
 
   const changeUserOrderStatus = async (newOrderStatus: string, id: string) => {
     await orderService.changeUserOrderStatus(newOrderStatus, id);
 
     createNotify("Статус заказа успешно изменён", notifyMode.SUCCESS);
+    updateData();
   };
 
   return (
@@ -66,7 +75,10 @@ const AdminTableOrders: FC<AdminTableOrdersProps> = ({ orders }) => {
             <div className={styles["admin-table__orders-row-actions"]}>
               <div
                 className={styles["admin-table__orders-action"]}
-                onClick={() => console.log(order.id)}
+                onClick={() => {
+                  setSelectedOrder(order);
+                  openModal();
+                }}
               >
                 <svg
                   width="25"

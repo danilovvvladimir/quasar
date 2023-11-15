@@ -48,6 +48,10 @@
       flex-direction: column;
       gap: $step * 8;
     }
+
+    &__empty {
+      text-align: center;
+    }
   }
 
   &-reviews {
@@ -60,6 +64,10 @@
       display: flex;
       flex-direction: column;
       gap: $step * 8;
+    }
+
+    &__empty {
+      text-align: center;
     }
   }
 }

@@ -15,9 +15,7 @@ class CategoryService {
 
   async checkSlugExists(slug: string): Promise<boolean> {
     try {
-      const response = await updatedAxios.get<any>(
-        `${this.CATEGORY_BASE_API}/by-slug/${slug}`,
-      );
+      await updatedAxios.get<any>(`${this.CATEGORY_BASE_API}/by-slug/${slug}`);
 
       return true;
     } catch (error) {
@@ -30,8 +28,6 @@ class CategoryService {
       name,
       slug,
     });
-
-    console.log("response createCategory", response);
 
     return response.data;
   }

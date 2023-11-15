@@ -52,8 +52,6 @@ class ProductService {
       `${this.PRODUCT_BASE_API}?${queryParams.toString()}`,
     );
 
-    console.log("get all products", response);
-
     return response.data;
   }
 

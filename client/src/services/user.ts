@@ -8,7 +8,6 @@ class UserService {
 
   async getAll() {
     const response = await updatedAxios.get<User[]>(`${this.USER_BASE_API}`);
-    console.log("get all users response", response);
 
     return response.data;
   }

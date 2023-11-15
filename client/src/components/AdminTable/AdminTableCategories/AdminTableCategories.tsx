@@ -37,10 +37,7 @@ const AdminTableCategories: FC<AdminTableCategoriesProps> = ({
               {category.slug}
             </div>
             <div className={styles["admin-table__categories-row-actions"]}>
-              <div
-                className={styles["admin-table__categories-action"]}
-                onClick={() => console.log(category.id)}
-              >
+              <div className={styles["admin-table__categories-action"]}>
                 <svg
                   width="25"
                   height="24"

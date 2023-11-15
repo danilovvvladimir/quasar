@@ -15,12 +15,6 @@ const Pagination: FC<PaginationProps> = ({
   currentPage,
   numberPages,
 }) => {
-  console.log("pagination", {
-    changePage,
-    currentPage,
-    numberPages,
-  });
-
   return (
     <div className={styles["pagination"]}>
       {Array.from({ length: numberPages > 1 ? numberPages : 1 }).map(

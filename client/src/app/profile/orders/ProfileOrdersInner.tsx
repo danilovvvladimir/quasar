@@ -32,17 +32,23 @@ const ProfileOrdersInner: FC<ProfileOrdersInnerProps> = () => {
 
   return (
     <div className={styles["profile-orders__wrapper"]}>
-      {orders.map((order) => (
-        <ProfileSingleOrder
-          key={order.id}
-          orderStatus={order.orderStatus}
-          orderDate={new Date(order.createdAt)}
-          orderItems={order.orderItems.map((oi) => ({
-            ...oi,
-            totalPrice: +oi.totalPrice,
-          }))}
-        />
-      ))}
+      {orders.length > 0 ? (
+        orders.map((order) => (
+          <ProfileSingleOrder
+            key={order.id}
+            orderStatus={order.orderStatus}
+            orderDate={new Date(order.createdAt)}
+            orderItems={order.orderItems.map((oi) => ({
+              ...oi,
+              totalPrice: +oi.totalPrice,
+            }))}
+          />
+        ))
+      ) : (
+        <div className={styles["profile-orders__empty"]}>
+          У вас ещё нет ни одного заказа :(
+        </div>
+      )}
     </div>
   );
 };

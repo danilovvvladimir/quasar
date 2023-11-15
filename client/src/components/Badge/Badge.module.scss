@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 
 .badge {
+  pointer-events: none;
   border-radius: 50%;
   width: 20px;
   height: 20px;

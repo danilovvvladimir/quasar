@@ -2,7 +2,10 @@ import axios from "axios";
 import { API_URL } from "./constants/api";
 import { IAuthResponse } from "./types/auth";
 import Cookies from "js-cookie";
-import { LOCALSTORAGE_ACCESS_TOKEN_KEY } from "./constants/localStorage";
+import {
+  COOKIES_REFRESH_TOKEN_KEY,
+  LOCALSTORAGE_ACCESS_TOKEN_KEY,
+} from "./constants/localStorage";
 
 const instance = axios.create({
   withCredentials: true,
@@ -33,16 +36,7 @@ instance.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        // const response = await axios.get<IAuthResponse>(
-        //   `${API_URL}/auth/refresh`,
-        //   {
-        //     withCredentials: true,
-        //     headers: {
-        //       Authorization: `Bearer ${Cookies.get("refreshToken")}`,
-        //     },
-        //   },
-        // );
-        const refreshToken = Cookies.get("refreshToken");
+        const refreshToken = Cookies.get(COOKIES_REFRESH_TOKEN_KEY);
 
         const response = await axios.post<IAuthResponse>(
           `${API_URL}/auth/refresh`,

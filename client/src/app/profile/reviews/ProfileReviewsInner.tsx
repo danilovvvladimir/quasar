@@ -28,9 +28,15 @@ const ProfileReviewsInner: FC<ProfileReviewsInnerProps> = () => {
 
   return (
     <div className={styles["profile-reviews__wrapper"]}>
-      {reviews.map((review) => (
-        <ProfileSingleReview key={review.id} review={review} />
-      ))}
+      {reviews.length > 0 ? (
+        reviews.map((review) => (
+          <ProfileSingleReview key={review.id} review={review} />
+        ))
+      ) : (
+        <div className={styles["profile-reviews__empty"]}>
+          У вас ещё нет ни одного оставленного отзыва :(
+        </div>
+      )}
     </div>
   );
 };

@@ -10,8 +10,6 @@ class ReviewService {
   async getAll() {
     const response = await updatedAxios.get(`${this.REVIEW_BASE_API}`);
 
-    console.log("review getAll response", response);
-
     return response.data;
   }
 
@@ -25,15 +23,11 @@ class ReviewService {
       userId,
     });
 
-    console.log("review create response", response);
-
     return response.data;
   }
 
   async delete(id: string) {
     const response = await updatedAxios.delete(`${this.REVIEW_BASE_API}/${id}`);
-
-    console.log("review delete response", response);
 
     return response.data;
   }
@@ -46,8 +40,6 @@ class ReviewService {
       text,
     });
 
-    console.log("review update response", response);
-
     return response.data;
   }
 
@@ -56,8 +48,6 @@ class ReviewService {
       `${this.REVIEW_BASE_API}/by-product/${productId}`,
     );
 
-    console.log("review getByProductId response", response);
-
     return response.data;
   }
 
@@ -65,8 +55,6 @@ class ReviewService {
     const response = await updatedAxios.get(
       `${this.REVIEW_BASE_API}/by-user/${userId}`,
     );
-
-    console.log("review getByUserId response", response);
 
     return response.data;
   }

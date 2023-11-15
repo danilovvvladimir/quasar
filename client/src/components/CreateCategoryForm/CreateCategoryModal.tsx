@@ -42,8 +42,6 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
       createNotify(CATEGORY_CREATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
       reset();
     } catch (error) {
-      console.log(error);
-
       createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
   };

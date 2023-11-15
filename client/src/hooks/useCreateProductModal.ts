@@ -35,8 +35,6 @@ const useCreateProductModal = (updateData: () => void) => {
 
   const onSubmit: SubmitHandler<ICreatingProduct> = async (values) => {
     try {
-      console.log("Create Product values", values);
-
       const responses: string[] = [];
 
       for (let i = 0; i < values.images.length; i++) {
@@ -63,8 +61,6 @@ const useCreateProductModal = (updateData: () => void) => {
       reset();
       resetCustomControllers();
     } catch (error) {
-      console.log(error);
-
       createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
   };
@@ -77,9 +73,8 @@ const useCreateProductModal = (updateData: () => void) => {
 
   const handleCreateSlug = (rawString: string) => {
     const slug = createSlug(rawString);
-    setValue("slug", slug);
 
-    console.log(getValues());
+    setValue("slug", slug);
   };
 
   return {

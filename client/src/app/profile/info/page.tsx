@@ -57,7 +57,6 @@ const ProfileInfoPage: FC = () => {
 
   const onSubmit: SubmitHandler<UpdateProfileValues> = async (values) => {
     try {
-      console.log(values);
       const { email, username, password } = values;
       const updatedUser = await userService.update({
         email,

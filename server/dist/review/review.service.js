@@ -25,7 +25,9 @@ let ReviewService = class ReviewService {
     async findAll() {
         const reviews = await this.prismaService.review.findMany({
             include: {
-                product: true,
+                product: {
+                    include: { productImages: true },
+                },
                 user: true,
             },
         });
@@ -47,6 +49,7 @@ let ReviewService = class ReviewService {
                 productId,
             },
             include: {
+                product: true,
                 user: true,
             },
         });

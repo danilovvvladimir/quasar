@@ -4,15 +4,19 @@ import Cookies from "js-cookie";
 import { ITokens } from "@/types/common";
 import { IAuthResponse } from "@/types/auth";
 import { API_URL } from "@/constants/api";
+import {
+  COOKIES_REFRESH_TOKEN_KEY,
+  LOCALSTORAGE_ACCESS_TOKEN_KEY,
+} from "@/constants/localStorage";
 
 export const saveTokensStorage = (data: ITokens) => {
-  localStorage.setItem("accessToken", data.accessToken);
-  Cookies.set("refreshToken", data.refreshToken);
+  localStorage.setItem(LOCALSTORAGE_ACCESS_TOKEN_KEY, data.accessToken);
+  Cookies.set(COOKIES_REFRESH_TOKEN_KEY, data.refreshToken);
 };
 
 export const removeTokensStorage = () => {
-  localStorage.removeItem("accessToken");
-  Cookies.remove("refreshToken");
+  localStorage.removeItem(LOCALSTORAGE_ACCESS_TOKEN_KEY);
+  Cookies.remove(COOKIES_REFRESH_TOKEN_KEY);
 };
 
 export const saveToStorage = (data: IAuthResponse) => {
@@ -30,8 +34,6 @@ export const AuthService = {
         password,
       },
     );
-
-    console.log("auth service register response", response);
 
     if (response.data.tokens.accessToken && response.data.tokens.refreshToken) {
       saveToStorage(response.data);
@@ -57,14 +59,12 @@ export const AuthService = {
   },
 
   async logout() {
-    // await updatedAxios.post(`${API_URL}/auth/logout`);
-
     removeTokensStorage();
     localStorage.removeItem("user");
   },
 
   async getNewTokens() {
-    const refreshToken = Cookies.get("refreshToken");
+    const refreshToken = Cookies.get(COOKIES_REFRESH_TOKEN_KEY);
 
     const response = await defaultAxios.post<IAuthResponse>(
       `${API_URL}/auth/refresh`,
@@ -76,7 +76,6 @@ export const AuthService = {
         },
       },
     );
-    console.log("getNewTokens response", response);
 
     if (response.data.tokens.accessToken && response.data.tokens.refreshToken) {
       saveToStorage(response.data);

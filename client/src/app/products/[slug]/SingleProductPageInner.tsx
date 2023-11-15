@@ -22,8 +22,6 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
   slug,
   product,
 }) => {
-  console.log("original product", product);
-
   const {
     selectedImage,
     setSelectedImage,
@@ -80,16 +78,18 @@ const SingleProductPageInner: FC<SingleProductPageInnerProps> = ({
                 />
               </div>
             </div>
-            <div className={styles["single-product__description"]}>
-              <h2
-                className={`title ${styles["single-product__description-title"]}`}
-              >
-                Описание
-              </h2>
-              <div className={styles["single-product__description-text"]}>
-                {product.description}
+            {product.description && (
+              <div className={styles["single-product__description"]}>
+                <h2
+                  className={`title ${styles["single-product__description-title"]}`}
+                >
+                  Описание
+                </h2>
+                <div className={styles["single-product__description-text"]}>
+                  {product.description}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className={styles["single-product__sizes"]}>

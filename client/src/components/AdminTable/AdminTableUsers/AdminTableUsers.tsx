@@ -24,12 +24,10 @@ const AdminTableUsers: FC<AdminTableUsersProps> = ({ users }) => {
 
   const setUserToAdmin = async (userId: string) => {
     await userService.toggleAdminRole(true, userId);
-    console.log("Now user with", userId, " is admin");
   };
 
   const setAdminToUser = async (userId: string) => {
     await userService.toggleAdminRole(false, userId);
-    console.log("Now admin with", userId, " is user");
   };
 
   return (

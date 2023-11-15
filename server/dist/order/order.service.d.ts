@@ -15,7 +15,24 @@ export declare class OrderService {
             updatedAt: Date;
             role: import(".prisma/client").$Enums.RoleName;
         };
-        orderItems: {
+        orderItems: ({
+            product: {
+                productImages: {
+                    id: string;
+                    imagePath: string;
+                    productId: string;
+                }[];
+            } & {
+                id: string;
+                name: string;
+                slug: string;
+                description: string;
+                oldPrice: import("@prisma/client/runtime/library").Decimal;
+                currentPrice: import("@prisma/client/runtime/library").Decimal;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
             id: string;
             quantity: number;
             size: number;
@@ -24,7 +41,7 @@ export declare class OrderService {
             productId: string;
             createdAt: Date;
             updatedAt: Date;
-        }[];
+        })[];
         id: string;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;
         createdAt: Date;

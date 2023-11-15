@@ -41,8 +41,6 @@ const useRegisterForm = () => {
         router.push("/");
       }
     } catch (error) {
-      console.log(error);
-
       createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
   };

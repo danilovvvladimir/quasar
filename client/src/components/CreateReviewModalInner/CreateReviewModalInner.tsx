@@ -37,7 +37,6 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
   review,
   closeModal,
 }) => {
-  console.log("review", review);
   const reviewService = new ReviewService();
   const user = useSelector((state: RootState) => state.auth.user);
   const {
@@ -58,8 +57,6 @@ const CreateReviewModalInner: FC<CreateReviewModalInnerProps> = ({
       if (!user) {
         return;
       }
-
-      console.log("Current values", values);
 
       if (!review) {
         await reviewService.create({

@@ -1,6 +1,5 @@
 import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
-import { Category } from "@/types/category";
 
 export interface AdminPanelStatistics {
   users: number;
@@ -16,8 +15,6 @@ class AdminService {
     const response = await updatedAxios.get<AdminPanelStatistics>(
       `${this.STATISTICS_BASE_API}`,
     );
-
-    console.log("getStatistics response", response);
 
     return response.data;
   }

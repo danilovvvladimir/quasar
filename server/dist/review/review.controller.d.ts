@@ -14,6 +14,12 @@ export declare class ReviewController {
             role: import(".prisma/client").$Enums.RoleName;
         };
         product: {
+            productImages: {
+                id: string;
+                imagePath: string;
+                productId: string;
+            }[];
+        } & {
             id: string;
             name: string;
             slug: string;
@@ -50,6 +56,16 @@ export declare class ReviewController {
             createdAt: Date;
             updatedAt: Date;
             role: import(".prisma/client").$Enums.RoleName;
+        };
+        product: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            oldPrice: import("@prisma/client/runtime/library").Decimal;
+            currentPrice: import("@prisma/client/runtime/library").Decimal;
+            createdAt: Date;
+            updatedAt: Date;
         };
     } & {
         id: string;

@@ -10,7 +10,6 @@ class OrderService {
     const response = await updatedAxios.get<AdminOrder[]>(
       `${this.ORDER_BASE_API}`,
     );
-    console.log("getAll orders response", response);
 
     return response.data;
   }
@@ -19,8 +18,6 @@ class OrderService {
     const response = await updatedAxios.get<any[]>(
       `${this.ORDER_BASE_API}/by-user/${userId}`,
     );
-
-    console.log("getByUser response", response);
 
     return response.data;
   }
@@ -31,8 +28,6 @@ class OrderService {
       userId,
       orderItems,
     });
-
-    console.log("response createorder", response);
 
     return response.data;
   }
@@ -45,8 +40,6 @@ class OrderService {
         id,
       },
     );
-
-    console.log("response changeUserOrderStatus", response);
 
     return response.data;
   }

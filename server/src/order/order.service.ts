@@ -35,7 +35,18 @@ export class OrderService {
 
   async findAll() {
     const orders = await this.prismaService.order.findMany({
-      include: { orderItems: true, user: true },
+      include: {
+        user: true,
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                productImages: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
 
@@ -122,7 +133,6 @@ export class OrderService {
         return createdOrder;
       });
     } catch (error) {
-      // Обработка ошибок транзакции
       throw new HttpException(
         ORDER_CREATE_ERROR_MESSAGE,
         HttpStatus.INTERNAL_SERVER_ERROR,
