@@ -5,7 +5,6 @@
     padding: $step * 13 0;
     display: flex;
     gap: $step * 9;
-    // justify-content: space-between;
   }
   &__top-filters {
     display: flex;
@@ -15,6 +14,6 @@
     margin-bottom: $step * 6;
   }
   &__content {
-    max-width: 924px;
+    width: 924px;
   }
 }

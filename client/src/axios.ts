@@ -7,6 +7,12 @@ import {
   LOCALSTORAGE_ACCESS_TOKEN_KEY,
 } from "./constants/localStorage";
 
+export interface AxiosErrorData {
+  error: string;
+  message: string;
+  statusCode: number;
+}
+
 const instance = axios.create({
   withCredentials: true,
   baseURL: API_URL,

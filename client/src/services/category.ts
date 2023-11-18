@@ -23,11 +23,28 @@ class CategoryService {
     }
   }
 
-  async createCategory(name: string, slug: string) {
-    const response = await updatedAxios.post<any>(`${this.CATEGORY_BASE_API}`, {
+  async create(name: string, slug: string) {
+    const response = await updatedAxios.post(`${this.CATEGORY_BASE_API}`, {
       name,
       slug,
     });
+
+    return response.data;
+  }
+
+  async update(name: string, slug: string, id: string) {
+    const response = await updatedAxios.put(`${this.CATEGORY_BASE_API}/${id}`, {
+      name,
+      slug,
+    });
+
+    return response.data;
+  }
+
+  async delete(id: string) {
+    const response = await updatedAxios.delete(
+      `${this.CATEGORY_BASE_API}/${id}`,
+    );
 
     return response.data;
   }

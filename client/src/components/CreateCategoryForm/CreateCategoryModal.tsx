@@ -12,6 +12,7 @@ import { SLUG_REGEX } from "@/constants/regex";
 import ErrorValidationText from "../ErrorValidationText/ErrorValidationText";
 import {
   CATEGORY_CREATE_NOTIFY_MESSAGE,
+  CATEGORY_UPDATE_NOTIFY_MESSAGE,
   ERROR_NOTIFY_MESSAGE,
 } from "@/constants/messages";
 import {
@@ -20,12 +21,14 @@ import {
   INVALID_SLUG_MESSAGE,
 } from "@/constants/validation";
 
-interface CreateCategoryModalProps {}
+interface CreateCategoryModalProps {
+  category?: Category;
+}
 
 interface ICreatingCategory
   extends Omit<Category, "id" | "createdAt" | "updatedAt"> {}
 
-const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
+const CreateCategoryModal: FC<CreateCategoryModalProps> = ({ category }) => {
   const categoryService = new CategoryService();
 
   const {
@@ -33,14 +36,25 @@ const CreateCategoryModal: FC<CreateCategoryModalProps> = () => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICreatingCategory>({ mode: "onChange" });
+  } = useForm<ICreatingCategory>({
+    mode: "onChange",
+    defaultValues: {
+      name: category?.name || "",
+      slug: category?.slug || "",
+    },
+  });
 
   const onSubmit: SubmitHandler<ICreatingCategory> = async (values) => {
     try {
-      await categoryService.createCategory(values.name, values.slug);
-
-      createNotify(CATEGORY_CREATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
-      reset();
+      if (category) {
+        await categoryService.update(values.name, values.slug, category.id);
+        createNotify(CATEGORY_UPDATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
+        reset({ name: values.name, slug: values.slug });
+      } else {
+        await categoryService.create(values.name, values.slug);
+        createNotify(CATEGORY_CREATE_NOTIFY_MESSAGE, notifyMode.SUCCESS);
+        reset();
+      }
     } catch (error) {
       createNotify(ERROR_NOTIFY_MESSAGE, notifyMode.ERROR);
     }
