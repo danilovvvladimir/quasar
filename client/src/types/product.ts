@@ -1,3 +1,4 @@
+import { Category } from "./category";
 import { Review } from "./review";
 
 export interface UploadedFile {
@@ -5,14 +6,14 @@ export interface UploadedFile {
   originalname: string;
 }
 
-export interface ICreatingProduct
+export interface CreatingProduct
   extends Omit<
     Product,
     "createdAt" | "updatedAt" | "productImages" | "productDetails"
   > {
   images: File[];
   details: CreatingProductDetails[];
-  categoryIds: ICategoryOption[];
+  categoryIds: CategoryOption[];
 }
 
 export interface Product {
@@ -24,6 +25,7 @@ export interface Product {
   oldPrice: number;
   createdAt: Date;
   updatedAt: Date;
+  categories: ProductCategory[];
   productImages: ProductImage[];
   productSizes: ProductDetails[];
   reviews: Review[];
@@ -49,21 +51,14 @@ export interface ProductDetails {
 }
 
 export interface ProductCart extends ProductDetails {
-  // selectedDetails: ProductDetails;
   product: Product;
   isSelected: boolean;
 }
 
 export interface ProductWishlist extends ProductDetails {
-  // selectedDetails: ProductDetails;
   product: Product;
   isSelected: boolean;
 }
-
-// export interface ProductCart extends Product {
-//   selectedDetails: ProductDetails;
-//   isSelected: boolean;
-// }
 
 export interface ProductCreateDTO {
   name: string;
@@ -83,10 +78,17 @@ export interface IProductDetail {
   productId: string;
 }
 
+export interface ProductCategory {
+  id: string;
+  productId: string;
+  categoryId: string;
+  category: Category;
+}
+
 export interface CreatingProductDetails
   extends Omit<IProductDetail, "productId"> {}
 
-export interface ICategoryOption {
+export interface CategoryOption {
   label: string;
   value: string;
   id: string;

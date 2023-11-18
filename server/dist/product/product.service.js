@@ -55,7 +55,7 @@ let ProductService = class ProductService {
         if (selectedCategories && selectedCategories.length > 0) {
             options = Object.assign(Object.assign({}, options), { categories: {
                     some: {
-                        Category: {
+                        category: {
                             name: {
                                 in: selectedCategories,
                             },
@@ -92,7 +92,16 @@ let ProductService = class ProductService {
             where: options,
         });
         const products = await this.prismaService.product.findMany({
-            include: { productImages: true, reviews: true, productSizes: true },
+            include: {
+                productImages: true,
+                reviews: true,
+                productSizes: true,
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
+            },
             where: options,
             orderBy: this.getProductOrderBy(sorting),
             skip: skip ? +skip : 0,
@@ -134,6 +143,11 @@ let ProductService = class ProductService {
                 productImages: true,
                 productSizes: true,
                 reviews: true,
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
             },
         });
         if (!product) {
@@ -144,7 +158,16 @@ let ProductService = class ProductService {
     async findBySlug(slug) {
         const product = await this.prismaService.product.findUnique({
             where: { slug },
-            include: { productImages: true, productSizes: true, reviews: true },
+            include: {
+                productImages: true,
+                productSizes: true,
+                reviews: true,
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
+            },
         });
         if (!product) {
             throw new common_1.NotFoundException(product_1.PRODUCT_NOT_FOUND_MESSAGE);
@@ -154,7 +177,16 @@ let ProductService = class ProductService {
     async findByCategoryId(categoryId) {
         await this.categoryService.findById(categoryId);
         const products = await this.prismaService.product.findMany({
-            include: { productImages: true, productSizes: true, reviews: true },
+            include: {
+                productImages: true,
+                productSizes: true,
+                reviews: true,
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
+            },
             where: {
                 categories: {
                     some: {

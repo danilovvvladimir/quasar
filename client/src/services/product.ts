@@ -113,6 +113,32 @@ class ProductService {
     return response.data;
   }
 
+  async update(id: string, dto: ProductCreateDTO) {
+    const {
+      currentPrice,
+      description,
+      imagePaths,
+      name,
+      slug,
+      details,
+      categoryIds,
+      oldPrice,
+    } = dto;
+
+    const response = await updatedAxios.put(`${this.PRODUCT_BASE_API}/${id}`, {
+      name,
+      currentPrice,
+      description,
+      imagePaths,
+      slug,
+      categoryIds,
+      details,
+      oldPrice,
+    });
+
+    return response.data;
+  }
+
   async getBySlug(slug: string) {
     const response = await defaultAxios.get<Product>(
       `${this.PRODUCT_BASE_API}/by-slug/${slug}`,

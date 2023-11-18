@@ -13,6 +13,19 @@ export declare class ProductService {
     }>;
     findAll(config: AllProductsConfig): Promise<{
         products: ({
+            categories: ({
+                category: {
+                    id: string;
+                    name: string;
+                    slug: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                };
+            } & {
+                id: string;
+                productId: string;
+                categoryId: string;
+            })[];
             productImages: {
                 id: string;
                 imagePath: string;
@@ -47,6 +60,19 @@ export declare class ProductService {
     }>;
     private getProductOrderBy;
     findById(id: string): Promise<{
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;
@@ -78,6 +104,19 @@ export declare class ProductService {
         updatedAt: Date;
     }>;
     findBySlug(slug: string): Promise<{
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;
@@ -109,6 +148,19 @@ export declare class ProductService {
         updatedAt: Date;
     }>;
     findByCategoryId(categoryId: string): Promise<({
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;

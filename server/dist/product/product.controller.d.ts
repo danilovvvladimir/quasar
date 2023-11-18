@@ -5,6 +5,19 @@ export declare class ProductController {
     constructor(productService: ProductService);
     findAll(searchTerm?: string, sorting?: string, currentMinPrice?: number, currentMaxPrice?: number, selectedCategories?: string, rating?: number, isDiscount?: string, take?: number, skip?: number): Promise<{
         products: ({
+            categories: ({
+                category: {
+                    id: string;
+                    name: string;
+                    slug: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                };
+            } & {
+                id: string;
+                productId: string;
+                categoryId: string;
+            })[];
             productImages: {
                 id: string;
                 imagePath: string;
@@ -38,6 +51,19 @@ export declare class ProductController {
         count: number;
     }>;
     findById(id: string): Promise<{
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;
@@ -73,6 +99,19 @@ export declare class ProductController {
         max: import("@prisma/client/runtime/library").Decimal;
     }>;
     findBySlug(slug: string): Promise<{
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;
@@ -104,6 +143,19 @@ export declare class ProductController {
         updatedAt: Date;
     }>;
     findByCategoryId(categoryId: string): Promise<({
+        categories: ({
+            category: {
+                id: string;
+                name: string;
+                slug: string;
+                createdAt: Date;
+                updatedAt: Date;
+            };
+        } & {
+            id: string;
+            productId: string;
+            categoryId: string;
+        })[];
         productImages: {
             id: string;
             imagePath: string;

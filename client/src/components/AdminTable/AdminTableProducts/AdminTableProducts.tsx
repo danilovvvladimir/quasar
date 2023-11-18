@@ -143,7 +143,7 @@ const AdminTableProducts: FC<AdminTableProductsProps> = ({
         </div>
       </div>
 
-      {currentProduct && (
+      {isModalVisible && currentProduct && (
         <Modal active={isModalVisible} setActive={setIsModalVisible}>
           <CreateProductModal
             categories={categories}

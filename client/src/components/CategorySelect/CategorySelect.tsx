@@ -4,13 +4,14 @@ import { FC, ChangeEventHandler, useState } from "react";
 import Select from "react-select";
 import { Category } from "@/types/category";
 import { SELECT_CATEGORY_PLACEHOLDER_MESSAGE } from "@/constants/messages";
+import { CategoryOption } from "@/types/product";
 
 interface CategorySelectProps {
   categories: Category[];
   name: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
-  selectedOptions: any[];
-  setSelectedOptions: (selectedOptions: any[]) => void;
+  selectedOptions: CategoryOption[];
+  setSelectedOptions: (CategoryOption: any[]) => void;
 }
 
 const CategorySelect: FC<CategorySelectProps> = ({

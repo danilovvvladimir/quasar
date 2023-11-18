@@ -87,7 +87,7 @@ export class ProductService {
         ...options,
         categories: {
           some: {
-            Category: {
+            category: {
               name: {
                 in: selectedCategories,
               },
@@ -136,7 +136,16 @@ export class ProductService {
     });
 
     const products = await this.prismaService.product.findMany({
-      include: { productImages: true, reviews: true, productSizes: true },
+      include: {
+        productImages: true,
+        reviews: true,
+        productSizes: true,
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+      },
       where: options,
       orderBy: this.getProductOrderBy(sorting),
       skip: skip ? +skip : 0,
@@ -179,6 +188,11 @@ export class ProductService {
         productImages: true,
         productSizes: true,
         reviews: true,
+        categories: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
 
@@ -192,7 +206,16 @@ export class ProductService {
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: { slug },
-      include: { productImages: true, productSizes: true, reviews: true },
+      include: {
+        productImages: true,
+        productSizes: true,
+        reviews: true,
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
 
     if (!product) {
@@ -206,7 +229,16 @@ export class ProductService {
     await this.categoryService.findById(categoryId);
 
     const products = await this.prismaService.product.findMany({
-      include: { productImages: true, productSizes: true, reviews: true },
+      include: {
+        productImages: true,
+        productSizes: true,
+        reviews: true,
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+      },
       where: {
         categories: {
           some: {

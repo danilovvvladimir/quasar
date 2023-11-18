@@ -18,8 +18,6 @@ const useDropZone = ({
 }) => {
   const MAX_FILES_QUANTITY: number = 4;
 
-  // const [files, setFiles] = useState<FileWithPreview[]>([]);
-
   const onDrop = useCallback(
     (acceptedFiles: any[]) => {
       if (files.length === MAX_FILES_QUANTITY) {
@@ -27,8 +25,7 @@ const useDropZone = ({
       }
 
       if (acceptedFiles?.length) {
-        setFiles((previousFiles) => [
-          ...previousFiles,
+        setFiles([
           ...acceptedFiles.map((file) =>
             Object.assign(file, { preview: URL.createObjectURL(file) }),
           ),
@@ -37,6 +34,8 @@ const useDropZone = ({
         const updatedFiles = [...files, ...acceptedFiles];
         onChange({ target: { name, value: updatedFiles } });
       }
+
+      console.log(files);
     },
     [files, name],
   );
@@ -55,9 +54,11 @@ const useDropZone = ({
   }, [files]);
 
   const removeFile = (name: string) => {
-    setFiles((files) => files.filter((file) => file.name !== name));
+    const filteredFiles = files.filter((file) => file.name !== name);
+
+    setFiles(filteredFiles);
     onChange({
-      target: { name, value: files.filter((item) => item.name !== name) },
+      target: { name, value: filteredFiles },
     });
   };
 
