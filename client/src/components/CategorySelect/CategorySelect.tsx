@@ -29,6 +29,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
 
   const handleSelectChange = (selectedOptions: any[]) => {
     setSelectedOptions(selectedOptions);
+    // @ts-ignore
     onChange(selectedOptions);
   };
 
@@ -38,6 +39,7 @@ const CategorySelect: FC<CategorySelectProps> = ({
       options={categoriesOptions}
       placeholder={SELECT_CATEGORY_PLACEHOLDER_MESSAGE}
       name={name}
+      // @ts-ignore
       onChange={handleSelectChange}
       value={selectedOptions}
     />

@@ -32,10 +32,9 @@ const useDropZone = ({
         ]);
 
         const updatedFiles = [...files, ...acceptedFiles];
+        // @ts-ignore
         onChange({ target: { name, value: updatedFiles } });
       }
-
-      console.log(files);
     },
     [files, name],
   );
@@ -58,6 +57,7 @@ const useDropZone = ({
 
     setFiles(filteredFiles);
     onChange({
+      // @ts-ignore
       target: { name, value: filteredFiles },
     });
   };

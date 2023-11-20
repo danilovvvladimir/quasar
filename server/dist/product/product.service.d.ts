@@ -12,53 +12,9 @@ export declare class ProductService {
         max: Prisma.Decimal;
     }>;
     findAll(config: AllProductsConfig): Promise<{
-        products: ({
-            categories: ({
-                category: {
-                    id: string;
-                    name: string;
-                    slug: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                };
-            } & {
-                id: string;
-                productId: string;
-                categoryId: string;
-            })[];
-            productImages: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
-            productSizes: {
-                id: string;
-                size: number;
-                quantity: number;
-                productId: string;
-            }[];
-            reviews: {
-                id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
-                userId: string;
-                productId: string;
-            }[];
-        } & {
-            id: string;
-            name: string;
-            slug: string;
-            description: string;
-            oldPrice: Prisma.Decimal;
-            currentPrice: Prisma.Decimal;
-            createdAt: Date;
-            updatedAt: Date;
-        })[];
+        products: any[];
         count: number;
     }>;
-    private getProductOrderBy;
     findById(id: string): Promise<{
         categories: ({
             category: {

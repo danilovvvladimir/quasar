@@ -10,7 +10,7 @@ import ProfileSingleOrder from "@/components/ProfileSingleOrder/ProfileSingleOrd
 
 const AdminOrdersPage: FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const orderService = new OrderService();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -35,7 +35,7 @@ const AdminOrdersPage: FC = () => {
           updateData={updateData}
         />
       </div>
-      {isModalVisible && (
+      {isModalVisible && selectedOrder && (
         <Modal active={isModalVisible} setActive={setIsModalVisible}>
           <ProfileSingleOrder
             orderDate={new Date(selectedOrder.createdAt)}

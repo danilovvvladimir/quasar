@@ -46,14 +46,16 @@ const HomePageInner: FC<HomePageInnerProps> = () => {
             isSearchable={false}
           />
         </div>
-        <ProductsList
-          products={products}
-          paginationConfig={{
-            numberPages: Math.ceil(allProductsCount / MAX_PRODUCTS_PER_PAGE),
-            currentPage: filters.skip / MAX_PRODUCTS_PER_PAGE + 1,
-            changePage: changePage,
-          }}
-        />
+        {
+          <ProductsList
+            products={products}
+            paginationConfig={{
+              numberPages: Math.ceil(allProductsCount / MAX_PRODUCTS_PER_PAGE),
+              currentPage: filters.skip / MAX_PRODUCTS_PER_PAGE + 1,
+              changePage: changePage,
+            }}
+          />
+        }
       </div>
     </div>
   );

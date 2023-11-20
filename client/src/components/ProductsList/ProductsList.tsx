@@ -1,13 +1,12 @@
 import { FC } from "react";
 import styles from "./ProductsList.module.scss";
-import Button from "../UI/Button/Button";
-import { Product } from "@/types/product";
+import { FullProduct } from "@/types/product";
 import ProductMedium from "../ProductMedium/ProductMedium";
-import Pagination, { IPagination } from "../Pagination/Pagination";
+import Pagination, { ConfigPagination } from "../Pagination/Pagination";
 
 interface ProductsListProps {
-  products: Product[];
-  paginationConfig: IPagination;
+  products: FullProduct[];
+  paginationConfig: ConfigPagination;
 }
 
 const ProductsList: FC<ProductsListProps> = ({

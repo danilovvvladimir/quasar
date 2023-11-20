@@ -1,13 +1,7 @@
 import { Product } from "./product";
 
-export interface AdminOrder {
-  id: string;
-  userId: string;
-  orderStatus: OrderStatus;
+export interface AdminOrder extends Order {
   totalPrice: number;
-  orderItems: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface Order {

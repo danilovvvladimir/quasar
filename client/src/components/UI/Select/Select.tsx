@@ -22,6 +22,7 @@ const Select: FC<SelectProps> = ({
       instanceId="1"
       components={{ IndicatorSeparator: () => null }}
       value={selectedOption}
+      // @ts-ignore
       onChange={setSelectedOption}
       options={options}
     />

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
+const client_1 = require("@prisma/client");
 const product_1 = require("../constants/product");
 const prisma_service_1 = require("../database/prisma.service");
 const category_service_1 = require("../category/category.service");
@@ -37,104 +38,89 @@ let ProductService = class ProductService {
     }
     async findAll(config) {
         const { currentMaxPrice, currentMinPrice, isDiscount, rating, selectedCategories, searchTerm, sorting, skip, take, } = config;
-        let options = {};
-        if (searchTerm) {
-            options = {
-                name: {
-                    contains: searchTerm,
-                    mode: "insensitive",
-                },
-            };
+        let allProductsLength = 0;
+        try {
+            const allProductsLengthResult = await this.prismaService.$queryRaw `
+      SELECT COUNT(*)::INTEGER as "count"
+      FROM "Product" P
+      WHERE
+        1=1
+        ${searchTerm
+                ? client_1.Prisma.sql `AND P.name ILIKE ${`%${searchTerm}%`}`
+                : client_1.Prisma.empty}
+        ${currentMinPrice && currentMaxPrice
+                ? client_1.Prisma.sql `AND P.current_price BETWEEN ${+currentMinPrice} AND ${+currentMaxPrice}`
+                : client_1.Prisma.empty}
+        ${isDiscount ? client_1.Prisma.sql `AND P.old_price > 0` : client_1.Prisma.empty}
+      `;
+            allProductsLength = allProductsLengthResult[0].count;
         }
-        if (currentMinPrice && currentMaxPrice) {
-            options = Object.assign(Object.assign({}, options), { currentPrice: {
-                    gte: currentMinPrice,
-                    lte: currentMaxPrice,
-                } });
+        catch (error) {
+            console.error("Error executing raw query count", error);
         }
-        if (selectedCategories && selectedCategories.length > 0) {
-            options = Object.assign(Object.assign({}, options), { categories: {
-                    some: {
-                        category: {
-                            name: {
-                                in: selectedCategories,
-                            },
-                        },
-                    },
-                } });
+        let result = [];
+        try {
+            result = await this.prismaService.$queryRaw `
+      SELECT
+        P.*,
+        P.current_price as "currentPrice",
+        P.old_price as "oldPrice",
+        COALESCE(AVG(R.rating), 0) AS "averageRating",
+        JSON_AGG(PI.*) AS "productImages",
+        CAST(COALESCE(reviews_count, 0) AS INTEGER) AS "reviewsCount"
+      FROM
+        "Product" P
+        LEFT JOIN "Review" R ON P.id = R.product_id
+        LEFT JOIN "ProductImage" PI ON P.id = PI.product_id
+        ${selectedCategories && selectedCategories.length > 0
+                ? client_1.Prisma.sql `
+            JOIN (
+        SELECT DISTINCT PC.product_id
+        FROM "ProductCategory" PC
+        JOIN "Category" C ON PC.category_id = C.id
+        WHERE C.name = ANY(${selectedCategories})
+      ) AS Subquery ON P.id = Subquery.product_id
+    `
+                : client_1.Prisma.empty}
+        LEFT JOIN (
+        SELECT product_id, COUNT(*) AS reviews_count
+        FROM "Review"
+        GROUP BY product_id
+        ) AS ReviewsCount ON P.id = ReviewsCount.product_id
+      WHERE
+        1=1
+        ${searchTerm
+                ? client_1.Prisma.sql `AND P.name ILIKE ${`%${searchTerm}%`}`
+                : client_1.Prisma.empty}
+        ${currentMinPrice && currentMaxPrice
+                ? client_1.Prisma.sql `AND P.current_price BETWEEN ${+currentMinPrice} AND ${+currentMaxPrice}`
+                : client_1.Prisma.empty}
+        ${isDiscount ? client_1.Prisma.sql `AND P.old_price > 0` : client_1.Prisma.empty}
+      GROUP BY
+      P.id, ReviewsCount.reviews_count
+      HAVING
+        ${rating >= 1
+                ? client_1.Prisma.sql `AVG(R.rating) >= ${+rating}`
+                : client_1.Prisma.sql `1=1`}
+      ORDER BY  
+        ${sorting === "by-rating"
+                ? client_1.Prisma.sql `"averageRating" DESC`
+                : sorting === "price-asc"
+                    ? client_1.Prisma.sql `current_price ASC`
+                    : sorting === "price-desc"
+                        ? client_1.Prisma.sql `current_price DESC`
+                        : sorting === "date-asc"
+                            ? client_1.Prisma.sql `P.created_at ASC`
+                            : sorting === "date-desc"
+                                ? client_1.Prisma.sql `P.created_at DESC`
+                                : client_1.Prisma.sql `P.id ASC`}
+      LIMIT ${take ? +take : allProductsLength} OFFSET ${skip ? +skip : 0}
+      `;
         }
-        if (isDiscount) {
-            options = Object.assign(Object.assign({}, options), { AND: {
-                    oldPrice: {
-                        gt: 0,
-                    },
-                } });
+        catch (error) {
+            console.error("Error executing raw query:", error);
         }
-        if (rating > 0 || sorting === "by-rating") {
-            const result = await this.prismaService.review.groupBy({
-                by: ["productId"],
-                _avg: { rating: true },
-                having: {
-                    rating: {
-                        _avg: {
-                            gte: +rating,
-                        },
-                    },
-                },
-            });
-            options = Object.assign(Object.assign({}, options), { AND: {
-                    id: {
-                        in: result.map((item) => item.productId),
-                    },
-                } });
-        }
-        const allProductsLength = await this.prismaService.product.count({
-            where: options,
-        });
-        const products = await this.prismaService.product.findMany({
-            include: {
-                productImages: true,
-                reviews: true,
-                productSizes: true,
-                categories: {
-                    include: {
-                        category: true,
-                    },
-                },
-            },
-            where: options,
-            orderBy: this.getProductOrderBy(sorting),
-            skip: skip ? +skip : 0,
-            take: take ? +take : allProductsLength,
-        });
-        return { products: products, count: allProductsLength };
-    }
-    getProductOrderBy(sorting) {
-        let orderBy = {};
-        if (sorting === "price-asc") {
-            orderBy = {
-                currentPrice: "asc",
-            };
-        }
-        else if (sorting === "price-desc") {
-            orderBy = {
-                currentPrice: "desc",
-            };
-        }
-        else if (sorting === "date-asc") {
-            orderBy = {
-                createdAt: "asc",
-            };
-        }
-        else if (sorting === "date-desc") {
-            orderBy = {
-                createdAt: "desc",
-            };
-        }
-        else {
-            orderBy = {};
-        }
-        return orderBy;
+        return { products: result, count: allProductsLength };
     }
     async findById(id) {
         const product = await this.prismaService.product.findUnique({

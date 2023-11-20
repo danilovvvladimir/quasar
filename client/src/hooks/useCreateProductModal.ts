@@ -50,8 +50,6 @@ const useCreateProductModal = (updateData: () => void, product?: Product) => {
 
   const onSubmit: SubmitHandler<CreatingProduct> = async (values) => {
     try {
-      console.log(values);
-
       const responses: string[] = [];
 
       for (let i = 0; i < values.images.length; i++) {
@@ -147,8 +145,6 @@ const useCreateProductModal = (updateData: () => void, product?: Product) => {
 
         setFiles(newFiles);
         setValue("images", newFiles);
-
-        console.log(getValues());
       }
     };
 

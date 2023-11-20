@@ -1,6 +1,6 @@
 import CategoryService from "@/services/category";
 import ProductService from "@/services/product";
-import { Product } from "@/types/product";
+import { FullProduct, Product } from "@/types/product";
 import { useEffect, useState } from "react";
 
 export interface IOption {
@@ -33,7 +33,7 @@ const useHomePageInner = () => {
   const categoryService = new CategoryService();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<FullProduct[]>([]);
   const [allProductsCount, setAllProductsCount] = useState<number>(0);
 
   const [filters, setFilters] = useState<IFilters>({
@@ -51,12 +51,13 @@ const useHomePageInner = () => {
 
   const [sorting, setSorting] = useState<ISorting>({
     options: [
+      { value: "by-rating", label: "По рейтингу" },
       { value: "price-asc", label: "По цене +" },
       { value: "price-desc", label: "По цене -" },
       { value: "date-asc", label: "По новизне +" },
       { value: "date-desc", label: "По новизне -" },
     ],
-    selectedOption: { value: "price-asc", label: "По цене +" },
+    selectedOption: { value: "by-rating", label: "По рейтингу" },
   });
 
   const [searchTerm, setSearchTerm] = useState<string>("");

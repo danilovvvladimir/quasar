@@ -8,7 +8,7 @@ interface PaginationProps {
   changePage: (page: number) => void;
 }
 
-export interface IPagination extends PaginationProps {}
+export interface ConfigPagination extends PaginationProps {}
 
 const Pagination: FC<PaginationProps> = ({
   changePage,

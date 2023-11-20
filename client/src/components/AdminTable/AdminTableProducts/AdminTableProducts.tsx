@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import styles from "../AdminTable.module.scss";
-import { AdminProduct, Product } from "@/types/product";
+import { AdminProduct, FullProduct, Product } from "@/types/product";
 import ProductService from "@/services/product";
 import { createNotify, notifyMode } from "@/utils/createNotify";
 import { calculateAverageRating } from "@/utils/calculateAverageRating";
@@ -13,7 +13,7 @@ import { Category } from "@/types/category";
 
 interface AdminTableProductsProps {
   categories: Category[];
-  products: Product[];
+  products: FullProduct[];
   updateData(): void;
 }
 
@@ -77,7 +77,7 @@ const AdminTableProducts: FC<AdminTableProductsProps> = ({
                 {product.slug}
               </div>
               <div className={styles["admin-table__products-row-rating"]}>
-                {calculateAverageRating(product.reviews).toFixed(2)}
+                {(+product.averageRating).toFixed(2)}
               </div>
               <div className={styles["admin-table__products-row-actions"]}>
                 <div

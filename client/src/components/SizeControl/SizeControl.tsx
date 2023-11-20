@@ -2,11 +2,11 @@
 
 import { FC } from "react";
 import styles from "./SizeControl.module.scss";
-import { ICreatingProductDetails } from "@/types/product";
+import { CreatingProductDetails } from "@/types/product";
 
 interface SizeControlProps {
-  detail: ICreatingProductDetails;
-  onChangeDetail: (updatedDetail: ICreatingProductDetails) => void;
+  detail: CreatingProductDetails;
+  onChangeDetail: (updatedDetail: CreatingProductDetails) => void;
 }
 
 const SizeControl: FC<SizeControlProps> = ({ detail, onChangeDetail }) => {

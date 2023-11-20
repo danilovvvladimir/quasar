@@ -2,7 +2,12 @@ import { API_URL } from "@/constants/api";
 import updatedAxios from "@/axios";
 import defaultAxios from "axios";
 import { IFilters, ISorting } from "@/hooks/useHomePageInner";
-import { ProductCreateDTO, Product, UploadedFile } from "@/types/product";
+import {
+  ProductCreateDTO,
+  Product,
+  UploadedFile,
+  FullProduct,
+} from "@/types/product";
 
 export interface AllProductsConfig {
   filters?: IFilters;
@@ -11,7 +16,7 @@ export interface AllProductsConfig {
 }
 
 export interface ProductsWithCount {
-  products: Product[];
+  products: FullProduct[];
   count: number;
 }
 

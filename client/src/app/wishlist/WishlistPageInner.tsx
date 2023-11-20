@@ -28,6 +28,8 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
     updateData();
   }, []);
 
+  console.log("wipage inner", wishlistItems);
+
   return (
     <>
       <div
@@ -41,7 +43,7 @@ const WishlistPageInner: FC<WishlistPageInnerProps> = () => {
       {wishlistItems.length > 0 ? (
         <div className={styles["wishlist__wrapper"]}>
           {wishlistItems.map((item) => (
-            <ProductMedium key={item.product.id} product={item.product} />
+            <ProductMedium key={item.id} product={item} />
           ))}
         </div>
       ) : (

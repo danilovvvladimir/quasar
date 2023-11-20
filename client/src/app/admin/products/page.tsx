@@ -2,7 +2,7 @@
 
 import { FC, useState, useEffect } from "react";
 import styles from "../AdminPage.module.scss";
-import { AdminProduct, Product } from "@/types/product";
+import { AdminProduct, FullProduct, Product } from "@/types/product";
 import Button from "@/components/UI/Button/Button";
 import SearchAdmin from "@/components/SearchAdmin/SearchAdmin";
 import AdminTableProducts from "@/components/AdminTable/AdminTableProducts/AdminTableProducts";
@@ -18,7 +18,7 @@ const AdminProductsPage: FC = () => {
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<FullProduct[]>([]);
 
   const [categories, setCategories] = useState<Category[]>([]);
 

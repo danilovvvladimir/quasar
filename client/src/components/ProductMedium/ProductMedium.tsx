@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { Product } from "@/types/product";
+import { FullProduct, Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import CustomLink from "@/components/CustomLink/CustomLink";
@@ -10,7 +10,6 @@ import styles from "./ProductMedium.module.scss";
 import OldPrice from "@/components/OldPrice/OldPrice";
 import DiscountBadge from "@/components/DiscountBadge/DiscountBadge";
 import { getDiscountPercent } from "@/utils/getDiscountPercent";
-import { calculateAverageRating } from "@/utils/calculateAverageRating";
 import { getFitProductName } from "@/utils/getFitProductName";
 import CurrentPrice from "@/components/CurrentPrice/CurrentPrice";
 import UserService from "@/services/user";
@@ -19,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "@/store/auth/auth.actions";
 
 interface ProductMediumProps {
-  product: Product;
+  product: FullProduct;
 }
 
 const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
@@ -28,8 +27,7 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { currentPrice, id, name, oldPrice, productImages, slug, reviews } =
-    product;
+  const { currentPrice, id, name, oldPrice, productImages, slug } = product;
 
   const onToggleFavorite = async () => {
     if (!user) {
@@ -110,11 +108,11 @@ const ProductMedium: FC<ProductMediumProps> = ({ product }) => {
               />
             </svg>
 
-            {calculateAverageRating(reviews).toFixed(2)}
+            {(+product.averageRating).toFixed(2)}
           </div>
           <div className={styles["product-medium__reviews"]}>
             {" "}
-            / {reviews.length} отзыва
+            / {product.reviewsCount} отзыва
           </div>
         </div>
       </div>

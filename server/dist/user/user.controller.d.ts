@@ -300,37 +300,7 @@ export declare class UserController {
         updatedAt: Date;
         userId: string;
     }[]>;
-    findWishlistItems(userId: string): Promise<({
-        product: {
-            productImages: {
-                id: string;
-                imagePath: string;
-                productId: string;
-            }[];
-            reviews: {
-                id: string;
-                text: string;
-                rating: number;
-                createdAt: Date;
-                updatedAt: Date;
-                userId: string;
-                productId: string;
-            }[];
-        } & {
-            id: string;
-            name: string;
-            slug: string;
-            description: string;
-            oldPrice: import("@prisma/client/runtime/library").Decimal;
-            currentPrice: import("@prisma/client/runtime/library").Decimal;
-            createdAt: Date;
-            updatedAt: Date;
-        };
-    } & {
-        id: string;
-        userId: string;
-        productId: string;
-    })[]>;
+    findWishlistItems(userId: string): Promise<unknown>;
     findCartItems(userId: string): Promise<({
         product: {
             productImages: {

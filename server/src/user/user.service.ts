@@ -148,17 +148,27 @@ export class UserService {
   async findWishlistItems(userId: string) {
     await this.findById(userId);
 
-    const wishlistItems = await this.prismaService.wishlistItem.findMany({
-      where: { userId },
-      include: {
-        product: {
-          include: {
-            productImages: true,
-            reviews: true,
-          },
-        },
-      },
-    });
+    const wishlistItems = await this.prismaService.$queryRaw`
+      SELECT        
+        P.*,
+        P.current_price as "currentPrice",
+        P.old_price as "oldPrice",
+        COALESCE(AVG(R.rating), 0) AS "averageRating",
+        JSON_AGG(PI.*) AS "productImages",
+        CAST(COALESCE(reviews_count, 0) AS INTEGER) AS "reviewsCount"
+      FROM "WishlistItem" WI
+	    LEFT JOIN "Product" P ON P.id = WI.product_id
+      LEFT JOIN "Review" R ON P.id = R.product_id
+      LEFT JOIN "ProductImage" PI ON P.id = PI.product_id
+      LEFT JOIN (
+        SELECT product_id, COUNT(*) AS reviews_count
+        FROM "Review"
+        GROUP BY product_id
+        ) AS ReviewsCount ON P.id = ReviewsCount.product_id
+        WHERE WI.user_id = ${userId}
+      GROUP BY P.id, ReviewsCount.reviews_count
+      ORDER BY P.id
+    `;
 
     return wishlistItems;
   }

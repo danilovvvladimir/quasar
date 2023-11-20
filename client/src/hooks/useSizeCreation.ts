@@ -32,16 +32,19 @@ const useSizeCreation = ({
 
   const clearDetails = () => {
     setProductDetails([]);
+    // @ts-ignore
     onChange({ target: { name, value: [] } });
   };
 
   const onChangeDetail = (updatedDetail: CreatingProductDetails) => {
+    // @ts-ignore
     setProductDetails((prevDetails) => {
       const updatedDetails = [
+        // @ts-ignore
         ...prevDetails.filter((item) => item.id !== updatedDetail.id),
         updatedDetail,
       ];
-
+      // @ts-ignore
       onChange({ target: { name, value: updatedDetails } });
 
       return updatedDetails;

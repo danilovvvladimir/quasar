@@ -16,6 +16,22 @@ export interface CreatingProduct
   categoryIds: CategoryOption[];
 }
 
+export interface FullProduct {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  currentPrice: number;
+  oldPrice: number;
+  createdAt: Date;
+  updatedAt: Date;
+  categories: ProductCategory[];
+  productImages: ProductImage[];
+  productSizes: ProductDetails[];
+  averageRating: number;
+  reviewsCount: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -55,8 +71,7 @@ export interface ProductCart extends ProductDetails {
   isSelected: boolean;
 }
 
-export interface ProductWishlist extends ProductDetails {
-  product: Product;
+export interface ProductWishlist extends FullProduct {
   isSelected: boolean;
 }
 
