@@ -5,7 +5,7 @@ export const getTotalAndSalesCartAmount = (cartItems: ProductCart[]) => {
   let salesAmount = 0;
 
   cartItems.forEach((item) => {
-    if (item.product.oldPrice) {
+    if (+item.product.oldPrice > +item.product.currentPrice) {
       totalAmount += +item.product.oldPrice;
       salesAmount += +item.product.oldPrice - +item.product.currentPrice;
     } else {

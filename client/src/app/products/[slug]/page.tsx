@@ -3,6 +3,7 @@ import SingleProductPageInner from "./SingleProductPageInner";
 import styles from "./SingleProductPage.module.scss";
 import ProductService from "@/services/product";
 import NotFoundPage from "@/app/not-found";
+import { redirect } from "next/navigation";
 
 interface SingleProductPageProps {
   params: {
@@ -12,11 +13,15 @@ interface SingleProductPageProps {
 
 export async function generateMetadata({ params }: SingleProductPageProps) {
   const productService = new ProductService();
-  const product = await productService.getBySlug(params.slug);
+  try {
+    const product = await productService.getBySlug(params.slug);
 
-  return {
-    title: `QUASAR | ${product.name}`,
-  };
+    return {
+      title: `QUASAR | ${product.name}`,
+    };
+  } catch (error) {
+    redirect("/not-found");
+  }
 }
 
 const SingleProductPage: FC<SingleProductPageProps> = async ({

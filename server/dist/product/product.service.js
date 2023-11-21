@@ -43,6 +43,16 @@ let ProductService = class ProductService {
             const allProductsLengthResult = await this.prismaService.$queryRaw `
       SELECT COUNT(*)::INTEGER as "count"
       FROM "Product" P
+      ${selectedCategories && selectedCategories.length > 0
+                ? client_1.Prisma.sql `
+            JOIN (
+        SELECT DISTINCT PC.product_id
+        FROM "ProductCategory" PC
+        JOIN "Category" C ON PC.category_id = C.id
+        WHERE C.name = ANY(${selectedCategories})
+      ) AS Subquery ON P.id = Subquery.product_id
+    `
+                : client_1.Prisma.empty}
       WHERE
         1=1
         ${searchTerm
@@ -268,7 +278,7 @@ let ProductService = class ProductService {
         return productCategoriesPromises;
     }
     async update(id, dto) {
-        const { categoryIds, details, imagePaths, description, name, currentPrice, slug, } = dto;
+        const { categoryIds, details, imagePaths, description, name, currentPrice, oldPrice, slug, } = dto;
         await this.findById(id);
         let product;
         try {
@@ -283,6 +293,7 @@ let ProductService = class ProductService {
                         slug,
                         description,
                         currentPrice,
+                        oldPrice,
                     },
                 });
                 this.createProductDetails(id, { details });
